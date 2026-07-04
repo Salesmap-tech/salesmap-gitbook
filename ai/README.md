@@ -10,7 +10,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-03.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
+> **문서 기준일: 2026-07-04.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
 >
 > * **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > * **To User:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
@@ -73,11 +73,12 @@ description: >-
 | 연결된 레코드 조회                  | `GET /v2/object/{type}/{id}/association/{toType}/primary` 또는 `/custom` |
 | 필드 정의(이름·타입·옵션) 조회          | `GET /v2/field/{type}`                                                 |
 | 이메일 발송 / 첨부 업로드             | `POST /v2/email` / `POST /v2/file`                                     |
+| 레코드에 파일 첨부 / 목록 / 삭제        | `POST /v2/file` (`objectType`·`objectId`) / `GET /v2/file` / `POST /v2/file/{fileId}/delete` |
 | 견적서 생성 / 딜·리드 견적 조회         | `POST /v2/quote` / \`GET /v2/{deal                                     |
 | 노트(메모) 생성                   | 레코드 생성·수정 시 body `memo` (전용 생성 API 없음. "노트 / 메모" 섹션 참조)                |
 | 노트 조회 / 유형 목록               | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list`                      |
 | 변경 이력 / 활동(타임라인) 조회         | `GET /v2/{type}/history` / `GET /v2/{type}/activity`                   |
-| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능)                                  |
+| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드·파일만 API 삭제 가능)                               |
 
 > **생성 순서 (연결된 상태로 만들 때):** 연결 대상 ID(`organizationId`·`peopleId`)는 생성 시 검증되어 **이미 존재해야** 하며, 없으면 `400`(`organizationId의 대상을 찾을 수 없습니다.` 등)을 반환합니다. 따라서 처음부터 연결된 상태로 만들려면 **회사 → 고객 → 딜·리드** 순으로 생성하세요(부모를 먼저 만들고, 반환된 `id`를 자식 생성 body의 `organizationId`·`peopleId`로 전달). 순서를 지키지 않아도 각 오브젝트를 독립적으로 만든 뒤 수정 API(`POST /v2/{type}/{id}`)로 나중에 연결할 수 있습니다.
 
@@ -323,7 +324,9 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 
 * `GET /v2/field/{type}` — 필드 정의 목록
 * `POST /v2/field/{type}` — 필드 생성
-* `POST /v2/file` — 파일 업로드
+* `POST /v2/file` — 파일 업로드 (+ `objectType`·`objectId`로 레코드 첨부)
+* `GET /v2/file` — 레코드 첨부 파일 목록 조회
+* `POST /v2/file/{fileId}/delete` — 파일 삭제
 * `POST /v2/email` — 이메일 발송
 * `GET /v2/email/{emailId}` — 발송 이메일 단건 조회
 
@@ -2754,28 +2757,39 @@ Primary와 Custom은 허용하는 `toTargetType`이 서로 다릅니다(아래 �
 
 ***
 
-이메일 첨부 전용입니다. 파일을 업로드해 `id`를 받고, 그 `id`를 `POST /v2/email`의 `attachmentIdList`에 넣어 첨부합니다.
+파일을 업로드해 `id`를 받는 API입니다. 용도는 두 가지입니다.
 
-> **참고:** 레코드(고객·딜)의 `multiAttachment` 필드를 채우는 용도가 아닙니다. 레코드의 `multiAttachment`는 읽기 전용입니다.
+1. **이메일 첨부**: 업로드로 받은 `id`를 `POST /v2/email`의 `attachmentIdList`에 넣어 첨부합니다.
+2. **레코드 첨부**: 업로드 시 `objectType`·`objectId`를 함께 보내면 해당 레코드의 첨부파일 탭에 파일이 첨부됩니다. 첨부된 파일은 `GET /v2/file`로 조회하고 `POST /v2/file/{fileId}/delete`로 삭제합니다.
 
-#### POST /v2/file — 파일 업로드
+> **참고:** 레코드(고객·딜)의 `multiAttachment` **필드**를 채우는 용도가 아닙니다. 레코드의 `multiAttachment` 필드는 읽기 전용이며, `objectType`·`objectId` 첨부는 레코드 상세의 "첨부파일" 탭에 표시됩니다.
 
-이메일 첨부용 파일을 업로드합니다.
+#### POST /v2/file — 파일 업로드 (+ 레코드 첨부)
+
+파일을 업로드합니다. `objectType`·`objectId`를 함께 보내면 해당 레코드에 첨부됩니다.
 
 **요청 파라미터**
 
 * Content-Type은 `multipart/form-data`입니다. JSON 바디로 보내면 400 `multipart 파싱 실패: Could not parse content as FormData.`를 반환합니다.
-* form 필드 `file`이 필수입니다. 누락 시 400 `file 필드가 필요합니다.`를 반환합니다.
+* form 필드 `file`이 필수입니다(요청당 1개). 누락 시 400 `file 필드가 필요합니다.`를 반환합니다.
+* form 필드 `objectType`·`objectId`는 옵션이며 반드시 **함께** 보내야 합니다. 한쪽만 보내면 400 `objectType 과 objectId 는 함께 전달해야 합니다.`를 반환합니다.
+* `objectType` 허용 값: `deal` `lead` `people` `organization` `product` `quote` `customObject` `memo`. 그 외 값은 400을 반환합니다. `customObject`의 `objectId`는 커스텀 오브젝트 **레코드**의 id입니다(정의 id 아님).
+* 존재하지 않거나 다른 워크스페이스의 레코드에는 첨부할 수 없습니다. 404 `첨부 대상 레코드를 찾을 수 없습니다. objectType: <type>, objectId: <id>`를 반환합니다.
 
 **제약**
 
 * 허용 MIME 타입: `image/jpeg` `image/png` `image/gif` `image/webp` `application/pdf` `application/zip` `application/msword`(doc) `…wordprocessingml.document`(docx) `…spreadsheetml.sheet`(xlsx) `…presentationml.presentation`(pptx) `application/vnd.ms-excel`(xls) `application/vnd.ms-powerpoint`(ppt) `text/plain` `text/csv`. 그 외 타입은 400 `허용되지 않는 MIME type 입니다: <type>. 허용 목록: …`를 반환합니다.
 * 크기 제한은 1개당 25MB입니다. 초과 시 400 `파일 크기가 25MB를 초과합니다.`를 반환합니다.
+* 파일 확장자와 MIME 타입이 일치해야 하며, 빈 파일(0 byte)은 업로드할 수 없습니다.
 
 **요청 예시**
 
 ```bash
+# 업로드만 (이메일 첨부용)
 curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" "https://salesmap.kr/api/v2/file"
+
+# 업로드 + 딜에 첨부
+curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" -F "objectType=deal" -F "objectId=<dealId>" "https://salesmap.kr/api/v2/file"
 ```
 
 **응답** `201 Created`
@@ -2784,16 +2798,48 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" "ht
 { "success": true, "data": { "id": "...", "name": "..." } }
 ```
 
-* `id`는 첨부용 파일 ID, `name`은 원본 파일명입니다.
+* `id`는 파일 ID, `name`은 원본 파일명입니다. 응답 형태는 첨부 여부와 무관하게 동일합니다.
 
 **에러**
 
 | 코드  | 조건                                                 |
 | --- | -------------------------------------------------- |
-| 400 | `file` 필드 누락 / JSON 바디 전송 / 허용 외 MIME 타입 / 25MB 초과 |
+| 400 | `file` 필드 누락 / JSON 바디 전송 / 허용 외 MIME 타입 / 25MB 초과 / `objectType`·`objectId` 한쪽만 전달 / 허용 외 `objectType` |
 | 401 | 인증 실패                                              |
+| 404 | 첨부 대상 레코드 미존재                                     |
 
-> **참고:** 파일 삭제·조회 API는 없습니다. `DELETE /v2/file/{id}`와 `GET /v2/file/{id}`는 404를 반환하며, 업로드는 되돌릴 수 없습니다.
+#### GET /v2/file — 레코드 첨부 파일 목록 조회
+
+특정 레코드에 첨부된 파일 목록을 조회합니다.
+
+**요청 파라미터** (query)
+
+| 이름           | 타입     |  필수 | 설명                                      |
+| ------------ | ------ | :-: | --------------------------------------- |
+| `objectType` | string |  필수 | 위 허용 값과 동일                              |
+| `objectId`   | string |  필수 | 대상 레코드 id                               |
+| `cursor`     | string |     | 이전 응답의 `nextCursor` 값 (페이지네이션)          |
+
+**응답** `200 OK`
+
+```json
+{ "success": true, "data": { "fileList": [ { "id": "...", "name": "...", "createdAt": "...", "owner": { "id": "...", "name": "..." } } ], "nextCursor": "..." } }
+```
+
+* 한 번에 최대 50개를 반환합니다.
+* `nextCursor`가 **있으면** 다음 페이지가 있다는 뜻이며, 그 값을 `cursor`로 넣어 이어서 조회합니다. **없으면** 마지막 페이지입니다(빈 페이지를 한 번 더 조회할 필요가 없습니다).
+* `cursor`는 불투명 토큰입니다. 직접 만들거나 해석하지 마세요. 잘못된 값은 400 `유효하지 않은 cursor 입니다: <cursor>`를 반환합니다.
+* `owner`는 업로드한 사용자이며 없을 수 있습니다(null).
+
+#### POST /v2/file/{fileId}/delete — 파일 삭제
+
+파일을 삭제합니다(body 없음). 요청한 워크스페이스에 속한 파일만 삭제할 수 있으며, 아니면 404 `파일을 찾을 수 없습니다. fileId: <id>`를 반환합니다.
+
+**응답** `200 OK`
+
+```json
+{ "success": true }
+```
 
 ***
 
@@ -3633,7 +3679,7 @@ app.post('/webhook/salesmap', (req, res) => {
 | 리드                 |  ✅  | `POST /v2/lead/{leadId}/delete` (body 없음)                                       |
 | 고객 / 회사 / 커스텀 오브젝트 |  ❌  | `POST /v2/{resource}/delete` 라우트는 존재하나 body 형식이 공개되지 않아 사용 불가 → GUI에서만 삭제       |
 | 필드                 |  ❌  | `DELETE /v2/field/{id}` → 405. GUI에서만                                           |
-| 파일                 |  ❌  | `DELETE /v2/file/{id}` → 404. 삭제 불가(비가역)                                        |
+| 파일                 |  ✅  | `POST /v2/file/{fileId}/delete` (body 없음). 워크스페이스 내 파일만 가능                    |
 
 > `DELETE` HTTP 메서드는 대부분 `405`/`404`를 반환합니다. 삭제는 `POST .../delete` 패턴을 사용합니다.
 
