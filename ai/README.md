@@ -2774,6 +2774,7 @@ Primary와 Custom은 허용하는 `toTargetType`이 서로 다릅니다(아래 �
 * form 필드 `file`이 필수입니다(요청당 1개). 누락 시 400 `file 필드가 필요합니다.`를 반환합니다.
 * form 필드 `objectType`·`objectId`는 옵션이며 반드시 **함께** 보내야 합니다. 한쪽만 보내면 400 `objectType 과 objectId 는 함께 전달해야 합니다.`를 반환합니다.
 * `objectType` 허용 값: `deal` `lead` `people` `organization` `product` `quote` `customObject` `memo`. 그 외 값은 400을 반환합니다. `customObject`의 `objectId`는 커스텀 오브젝트 **레코드**의 id입니다(정의 id 아님).
+* GUI 첨부와 동일하게, 딜·리드에 첨부하면 연결된 고객·회사, 고객에 첨부하면 연결된 회사의 첨부 탭에도 함께 표시됩니다(해당 FK 가 함께 저장됨).
 * 존재하지 않거나 다른 워크스페이스의 레코드에는 첨부할 수 없습니다. 404 `첨부 대상 레코드를 찾을 수 없습니다. objectType: <type>, objectId: <id>`를 반환합니다.
 
 **제약**
@@ -2833,7 +2834,7 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" -F 
 
 #### POST /v2/file/{fileId}/delete — 파일 삭제
 
-파일을 삭제합니다(body 없음). 요청한 워크스페이스에 속한 파일만 삭제할 수 있으며, 아니면 404 `파일을 찾을 수 없습니다. fileId: <id>`를 반환합니다.
+파일을 삭제합니다(body 없음). 요청한 워크스페이스에 속한 파일 중 **레코드에 첨부된 파일 또는 이 API로 업로드한 파일**만 삭제할 수 있습니다. 그 외의 파일(이메일 첨부, 문서, 커스텀 필드에 저장된 파일 등)은 워크스페이스가 같아도 404 `파일을 찾을 수 없습니다. fileId: <id>`를 반환합니다. 존재하지 않거나 다른 워크스페이스의 파일도 동일하게 404입니다.
 
 **응답** `200 OK`
 
@@ -3679,7 +3680,7 @@ app.post('/webhook/salesmap', (req, res) => {
 | 리드                 |  ✅  | `POST /v2/lead/{leadId}/delete` (body 없음)                                       |
 | 고객 / 회사 / 커스텀 오브젝트 |  ❌  | `POST /v2/{resource}/delete` 라우트는 존재하나 body 형식이 공개되지 않아 사용 불가 → GUI에서만 삭제       |
 | 필드                 |  ❌  | `DELETE /v2/field/{id}` → 405. GUI에서만                                           |
-| 파일                 |  ✅  | `POST /v2/file/{fileId}/delete` (body 없음). 워크스페이스 내 파일만 가능                    |
+| 파일                 |  ✅  | `POST /v2/file/{fileId}/delete` (body 없음). 레코드 첨부 또는 API 업로드 파일만 가능           |
 
 > `DELETE` HTTP 메서드는 대부분 `405`/`404`를 반환합니다. 삭제는 `POST .../delete` 패턴을 사용합니다.
 
