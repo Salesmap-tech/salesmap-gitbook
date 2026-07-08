@@ -3310,7 +3310,7 @@ TODO 목록을 조회합니다.
         "cursorId": "...",
         "htmlBody": "...",
         "text": "...",
-        "typeList": [ "회의록" ],
+        "typeList": [ { "_id": "...", "value": "회의록", "color": "blue" } ],
         "ownerId": "...",
         "parentId": null,
         "todoId": null,
@@ -3332,7 +3332,7 @@ TODO 목록을 조회합니다.
 | `cursorId`                                                                    | string(uuid)                  | 페이지네이션 커서값 (=id). 단건 응답에는 없습니다.                                                                                                               |
 | `htmlBody`                                                                    | string                        | 노트 본문(HTML)                                                                                                                                   |
 | `text`                                                                        | string                        | 노트 본문(plain text)                                                                                                                             |
-| `typeList`                                                                    | string[]                      | 노트 유형 이름 문자열 배열. 유형명(`value`)만 담습니다. 유형 미지정 시 `[]`. 유형 id는 `GET /v2/memo/type-list`로 조회합니다. |
+| `typeList` | object[] | 노트 유형 객체 배열. 각 객체: `_id`(uuid), `value`(유형명), `color`(색상명). 유형 미지정 시 `[]`. 유형 id는 `GET /v2/memo/type-list`로 조회합니다. |
 | `ownerId`                                                                     | string(uuid)                  | 작성자                                                                                                                                           |
 | `parentId`                                                                    | string\|null                  | 부모 노트(스레드)                                                                                                                                    |
 | `todoId`                                                                      | string\|null                  | 연결된 TODO                                                                                                                                      |
@@ -3371,7 +3371,7 @@ TODO 목록을 조회합니다.
       "id": "...",
       "htmlBody": "...",
       "text": "...",
-      "typeList": [ "회의록" ],
+      "typeList": [ { "_id": "...", "value": "회의록", "color": "blue" } ],
       "dealId": null,
       "leadId": null,
       "peopleId": null,

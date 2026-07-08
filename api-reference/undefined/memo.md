@@ -58,7 +58,13 @@ curl -X GET 'https://salesmap.kr/api/v2/memo?startDate=2026-01-01T00:00:00.000Z&
                 "cursorId": "<cursorId>",
                 "text": "메모 내용",
                 "htmlBody": "<p>메모 내용</p>",
-                "typeList": ["회의록"],
+                "typeList": [
+                {
+                    "_id": "<typeId>",
+                    "value": "회의록",
+                    "color": "blue"
+                }
+            ],
                 "dealId": "<dealId>",
                 "leadId": null,
                 "peopleId": null,
@@ -83,7 +89,7 @@ curl -X GET 'https://salesmap.kr/api/v2/memo?startDate=2026-01-01T00:00:00.000Z&
 | `cursorId` | string | 페이지네이션 커서값 |
 | `text` | string | 노트 본문 (plain text) |
 | `htmlBody` | string | 노트 본문 (HTML) |
-| `typeList` | string[] | 노트 유형 이름 문자열 배열. 유형 미지정 시 `[]` |
+| `typeList` | object[] | 노트 유형 객체 배열. 유형 미지정 시 `[]`. 각 객체: `_id`(UUID), `value`(유형명), `color`(색상명) |
 | `dealId` / `leadId` / `peopleId` / `organizationId` | string\|null | 연결된 딜/리드/고객/회사 ID |
 | `productId` / `quoteId` / `todoId` / `parentId` | string\|null | 연결된 상품/견적서/할 일/부모 노트 ID |
 | `ownerId` | string | 작성자 ID |
