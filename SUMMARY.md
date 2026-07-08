@@ -53,6 +53,7 @@
   * [노트](api-reference/undefined/README.md)
     * [노트 목록 조회](api-reference/undefined/memo.md)
     * [노트 단일 조회](api-reference/undefined/memo-1.md)
+    * [노트 유형 목록 조회](api-reference/undefined/memo-type-list.md)
   * [TODO 목록 조회](api-reference/todo.md)
   * [커스텀 오브젝트](api-reference/custom-object/README.md)
     * [커스텀 오브젝트 종류 조회](api-reference/custom-object/custom-object-definitions.md)

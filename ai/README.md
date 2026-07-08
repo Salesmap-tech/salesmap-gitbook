@@ -10,7 +10,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-06.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
+> **문서 기준일: 2026-07-08.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
 >
 > * **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > * **통합 담당자:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
@@ -3332,7 +3332,7 @@ TODO 목록을 조회합니다.
 | `cursorId`                                                                    | string(uuid)                  | 페이지네이션 커서값 (=id). 단건 응답에는 없습니다.                                                                                                               |
 | `htmlBody`                                                                    | string                        | 노트 본문(HTML)                                                                                                                                   |
 | `text`                                                                        | string                        | 노트 본문(plain text)                                                                                                                             |
-| `typeList`                                                                    | array `[{_id, value, color}]` | 노트 유형 객체 배열. `_id`=유형 id, `value`=유형명, `color`=색 이름(예: `blue`,`orange`,`lime`,`pink`). 유형 미지정 시 `[]`. 값은 `GET /v2/memo/type-list`의 항목과 동일합니다. |
+| `typeList` | object[] | 노트 유형 객체 배열. 각 객체: `_id`(uuid), `value`(유형명), `color`(색상명). 유형 미지정 시 `[]`. 유형 id는 `GET /v2/memo/type-list`로 조회합니다. |
 | `ownerId`                                                                     | string(uuid)                  | 작성자                                                                                                                                           |
 | `parentId`                                                                    | string\|null                  | 부모 노트(스레드)                                                                                                                                    |
 | `todoId`                                                                      | string\|null                  | 연결된 TODO                                                                                                                                      |
@@ -3427,7 +3427,7 @@ TODO 목록을 조회합니다.
 
 | 키       | 타입           | 설명                                                                |
 | ------- | ------------ | ----------------------------------------------------------------- |
-| `_id`   | string(uuid) | 유형 id. `GET /v2/memo?typeId=` 필터, 노트 레코드 `typeList[]._id`와 동일한 값. |
+| `_id`   | string(uuid) | 유형 id. `GET /v2/memo?typeId=` 필터에 사용합니다. |
 | `value` | string       | 유형명                                                               |
 | `color` | string       | 색 이름(예: `blue`, `orange`, `lime`, `pink`). hex 코드가 아닙니다.          |
 
