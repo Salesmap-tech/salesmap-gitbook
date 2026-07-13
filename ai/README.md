@@ -2846,32 +2846,38 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" -F 
 
 #### POST /v2/email — 이메일 발송
 
-워크스페이스에 연결된 메일 계정으로 이메일을 발송합니다. 발신자(`from`)는 토큰 소유자의 연결 계정입니다.
+워크스페이스에 연결된 메일 계정으로 이메일을 발송합니다. 발신자(`from`)는 `emailProvider`와 `fromAddress`에 따라 결정됩니다.
 
 **요청 파라미터** (body)
 
 | 이름                               | 타입        |  필수 | 설명                                      |
 | -------------------------------- | --------- | :-: | --------------------------------------- |
-| `emailProvider`                  | string    |  필수 | `gmail` 또는 `outlook` (대소문자 구분)          |
+| `emailProvider`                  | string    |  필수 | `gmail`, `outlook`, `marketingEmail`, `imap`, `pop3` 중 하나 |
+| `fromAddress`                    | object    |     | 발신자 표시 이름 또는 발신 이메일 지정 `{ name?, email? }` |
 | `toAddressList`                  | array     |  필수 | `[{ email(필수), name? }]` (문자열 배열이 아닙니다) |
 | `subject`                        | string    |  필수 | 제목                                      |
 | `htmlBody`                       | string    |  필수 | 본문(HTML)                                |
 | `ccAddressList`/`bccAddressList` | array     |     | 참조/숨은참조 (동일 형식)                         |
 | `attachmentIdList`               | string\[] |     | 첨부 파일 ID (`POST /v2/file`의 `id`)        |
+| `inlineAttachmentIdList`         | string\[] |     | inline 이미지 첨부 파일 ID                     |
+| `inReplyTo`                      | string    |     | 답장으로 묶을 원본 이메일의 Message-ID             |
 
-**헤더(선택)**
+**발신자 선택 규칙**
 
-* `Idempotency-Key: <키>` — 같은 키로 재전송하면 중복 발송 없이 같은 `id`를 반환합니다(멱등성).
+* `gmail`: 기본 Gmail 주소를 사용합니다. `fromAddress.email`을 지정하면 Gmail send-as alias에 등록된 주소여야 합니다.
+* `outlook`: Outlook 연동 주소를 사용합니다. `fromAddress.email`을 지정하면 연동 주소와 같아야 합니다.
+* `marketingEmail`: 보이는 From 주소는 항상 워크스페이스의 상위 마케팅 이메일 도메인(`marketingEmailDomain`)으로 계산됩니다. SES Custom MAIL FROM 서브도메인은 envelope-from 용도이며 보이는 From 주소에 사용되지 않습니다.
+* `imap`/`pop3`: 해당 IMAP/POP3 연동 주소를 사용합니다. `fromAddress.email`을 지정하면 연동 주소와 같아야 합니다.
 
 **첨부 용량**
 
-* 파일 1개당 25MB(업로드 시)이며, `attachmentIdList`의 합계도 25MB를 넘을 수 없습니다(발송 시). 합계 초과 시 400 `첨부 파일 합계가 25MB를 초과합니다 (N.NMB)`를 반환합니다.
+* 파일 1개당 25MB(업로드 시)이며, 발송 시 첨부 합계도 25MB를 넘을 수 없습니다. 합계 초과 시 400 `첨부 파일 합계가 25MB를 초과합니다 (N.NMB)`를 반환합니다.
 * 잘못된 file id는 400 `등록되지 않거나 권한이 없는 attachment 입니다: <id>`를 반환합니다.
 
 **요청 예시**
 
 ```json
-{ "emailProvider": "gmail", "toAddressList": [{ "email": "hong@example.com", "name": "홍길동" }], "subject": "제안서 안내", "htmlBody": "<p>안녕하세요, 제안서를 보내드립니다.</p>", "attachmentIdList": ["file_abc123"] }
+{ "emailProvider": "marketingEmail", "fromAddress": { "name": "Salesmap Team" }, "toAddressList": [{ "email": "hong@example.com", "name": "홍길동" }], "subject": "제안서 안내", "htmlBody": "<p>안녕하세요, 제안서를 보내드립니다.</p>" }
 ```
 
 **응답** `201 Created`
@@ -2880,17 +2886,16 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" -F 
 { "success": true, "data": { "id": "...", "messageId": "..." } }
 ```
 
-* `id`는 발송 이메일 ID(`GET /v2/email/{id}`에 사용), `messageId`는 RFC822 Message-ID입니다.
-
-> **참고:** 발송 API에는 답장(reply) 전용 파라미터가 없습니다.
+* `id`는 발송 이메일 ID(`GET /v2/email/{id}`에 사용), `messageId`는 RFC822 Message-ID입니다. 외부 메일 서비스 재조회가 지연되는 경우 `messageId`가 빈 문자열일 수 있습니다.
 
 **에러**
 
 | 코드  | 조건                                                           |
 | --- | ------------------------------------------------------------ |
-| 400 | 필수값 누락 / `emailProvider` 불일치 / `toAddressList` 형식 오류 / 첨부 오류 |
-| 401 | 인증 실패                                                        |
-| 429 | 레이트리밋 초과                                                     |
+| 400 | 필수값 누락 / `emailProvider` 불일치 / `toAddressList` 형식 오류 / provider에서 허용하지 않는 `fromAddress.email` / 첨부 오류 |
+| 401 | 인증 실패 또는 연동 토큰 무효                                           |
+| 404 | 발송 계정 연동 정보, 워크스페이스, 마케팅 이메일 도메인, 사용자 이메일 정보 없음       |
+| 429 | Gmail API 한도 또는 Gmail 일시 발송 거부                               |
 
 #### GET /v2/email/{emailId} — 발송 이메일 단건 조회
 

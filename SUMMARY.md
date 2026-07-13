@@ -65,7 +65,7 @@
   * [유저 목록 조회](api-reference/user.md)
   * [내 정보 조회](api-reference/user.me.md)
   * [팀 목록 조회](api-reference/team.md)
-  * [이메일 정보 조회](api-reference/email.md)
+  * [이메일 발송 및 조회](api-reference/email.md)
   * [파일](api-reference/file/README.md)
     * [파일 업로드 · 첨부](api-reference/file/upload.md)
     * [파일 목록 조회](api-reference/file/list.md)
