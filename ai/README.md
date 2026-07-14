@@ -10,7 +10,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-12.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
+> **문서 기준일: 2026-07-14.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
 >
 > * **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > * **To User:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
@@ -27,7 +27,7 @@ description: >-
 * 리드 (Lead)
 * 커스텀 오브젝트 (Custom Object)
 * 견적서 · 상품 · 파이프라인 (Quote / Product / Pipeline)
-* 통합 검색 · 연관관계 (Search & Association)
+* 통합 검색 · 연결관계 (Search & Association)
 * 필드 · 파일 · 이메일 (Field / File / Email)
 * 시퀀스 · 웹폼 · TODO · 메모 (Sequence / WebForm / Todo / Memo)
 * 사용자 · 팀 (User / Team)
@@ -63,21 +63,22 @@ description: >-
 
 사용자 요청을 보고 어떤 API를 쓸지 빠르게 고르는 표입니다.
 
-| 하려는 것                       | API                                                                    |
-| --------------------------- | ---------------------------------------------------------------------- |
-| 고객·회사·딜·리드 목록/단건 조회         | `GET /v2/{type}`, `GET /v2/{type}/{id}`                                |
-| 고객·회사·딜·리드 생성/수정            | `POST /v2/{type}`, `POST /v2/{type}/{id}`                              |
-| 커스텀 필드 값 넣기                 | 생성/수정 body의 `fieldList` ("필드 값 쓰기" 참조)                                 |
-| 고객을 회사에 연결 / 딜·리드에 고객·회사 연결 | 생성·수정 시 top-level `organizationId`·`peopleId`                          |
-| 복합 조건 검색                    | `POST /v2/object/{type}/search`                                        |
-| 연결된 레코드 조회                  | `GET /v2/object/{type}/{id}/association/{toType}/primary` 또는 `/custom` |
-| 필드 정의(이름·타입·옵션) 조회          | `GET /v2/field/{type}`                                                 |
-| 이메일 발송 / 첨부 업로드             | `POST /v2/email` / `POST /v2/file`                                     |
-| 견적서 생성 / 딜·리드 견적 조회         | `POST /v2/quote` / \`GET /v2/{deal                                     |
-| 노트(메모) 생성                   | 레코드 생성·수정 시 body `memo` (전용 생성 API 없음. "노트 / 메모" 섹션 참조)                |
-| 노트 조회 / 유형 목록               | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list`                      |
-| 변경 이력 / 활동(타임라인) 조회         | `GET /v2/{type}/history` / `GET /v2/{type}/activity`                   |
-| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능)                                  |
+| 하려는 것                       | API                                                                                           |
+| --------------------------- | --------------------------------------------------------------------------------------------- |
+| 고객·회사·딜·리드 목록/단건 조회         | `GET /v2/{type}`, `GET /v2/{type}/{id}`                                                       |
+| 고객·회사·딜·리드 생성/수정            | `POST /v2/{type}`, `POST /v2/{type}/{id}`                                                     |
+| 커스텀 필드 값 넣기                 | 생성/수정 body의 `fieldList` ("필드 값 쓰기" 참조)                                                        |
+| 고객을 회사에 연결 / 딜·리드에 고객·회사 연결 | 생성·수정 시 top-level `organizationId`·`peopleId`                                                 |
+| 복합 조건 검색                    | `POST /v2/object/{type}/search`                                                               |
+| 연결된 레코드 조회                  | `GET /v2/object/{type}/{id}/association/{toType}/primary` 또는 `/custom`                        |
+| 필드 정의(이름·타입·옵션) 조회          | `GET /v2/field/{type}`                                                                        |
+| 이메일 발송 / 이메일 첨부용 파일 업로드     | `POST /v2/email` / `POST /v2/file` (objectType·objectId 없이)                                   |
+| 레코드에 파일 첨부 / 첨부 조회 / 파일 삭제  | `POST /v2/file` (+`objectType`·`objectId`) / `GET /v2/file` / `POST /v2/file/{fileId}/delete` |
+| 견적서 생성 / 딜·리드 견적 조회         | `POST /v2/quote` / \`GET /v2/{deal                                                            |
+| 노트(메모) 생성                   | 레코드 생성·수정 시 body `memo` (전용 생성 API 없음. "노트 / 메모" 섹션 참조)                                       |
+| 노트 조회 / 유형 목록               | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list`                                             |
+| 변경 이력 / 활동(타임라인) 조회         | `GET /v2/{type}/history` / `GET /v2/{type}/activity`                                          |
+| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능)                                                         |
 
 > **생성 순서 (연결된 상태로 만들 때):** 연결 대상 ID(`organizationId`·`peopleId`)는 생성 시 검증되어 **이미 존재해야** 하며, 없으면 `400`(`organizationId의 대상을 찾을 수 없습니다.` 등)을 반환합니다. 따라서 처음부터 연결된 상태로 만들려면 **회사 → 고객 → 딜·리드** 순으로 생성하세요(부모를 먼저 만들고, 반환된 `id`를 자식 생성 body의 `organizationId`·`peopleId`로 전달). 순서를 지키지 않아도 각 오브젝트를 독립적으로 만든 뒤 수정 API(`POST /v2/{type}/{id}`)로 나중에 연결할 수 있습니다.
 
@@ -161,7 +162,7 @@ History·Activity 타임라인을 제공하는 레코드는 딜·리드·고객�
 | 히스토리 API(`GET .../history`) `fieldValue`의 관계형 객체 | `{ "_id", "name" }` (히스토리 API는 `_id`)                               |
 | 웹훅 `beforeField`/`afterField`의 관계형 객체            | `{ "id", "name" }` (웹훅은 히스토리 API와 달리 `id`)                          |
 | 필드 선택지 — 생성(POST) 응답 / 조회(GET) 응답                | `options` / `optionList` (둘 다 `[{id,value}]`)                       |
-| 연관관계 — primary / custom                          | `associationIdList`(문자열 배열) / `associationItemList`(`[{id,label}]`) |
+| 연결관계 — primary / custom                          | `associationIdList`(문자열 배열) / `associationItemList`(`[{id,label}]`) |
 | 웹훅 이벤트 종류 키                                      | `history` (`event` 아님)                                              |
 
 ### 페이지네이션
@@ -244,7 +245,7 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 | 시퀀스(단일/복수)   | `sequenceValueId` / `sequenceValueIdList`         | `{ "name": "시퀀스", "sequenceValueId": "<id>" }`             |
 | 웹폼           | `webformValueId`                                  | `{ "name": "유입 웹폼", "webformValueId": "<id>" }`            |
 
-> 커스텀 연결관계도 위 관계 키로 설정합니다. 예를 들어 딜의 커스텀 연결 필드(타입 `multiCustomObject`)에 `customObjectValueIdList`로 레코드를 연결하면, 연관관계 조회(`.../association/.../custom`)에 그 연결이 나타납니다.
+> 커스텀 연결관계도 위 관계 키로 설정합니다. 예를 들어 딜의 커스텀 연결 필드(타입 `multiCustomObject`)에 `customObjectValueIdList`로 레코드를 연결하면, 연결관계 조회(`.../association/.../custom`)에 그 연결이 나타납니다.
 
 > **참고(담당자):** 담당자/사용자 필드는 반드시 `userValueId`(ID)로 지정합니다. 사용자 이름을 `stringValue`로 보내면 `담당자에 userValueId가 없습니다`를 반환합니다.
 
@@ -333,17 +334,19 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 * `GET /v2/{deal|lead}/{id}/quote` — 딜/리드의 견적서 조회
 * `GET /v2/pipeline` — 파이프라인 목록 조회
 
-**통합 검색 · 연관관계 (Search & Association)**
+**통합 검색 · 연결관계 (Search & Association)**
 
 * `POST /v2/object/{targetType}/search` — 오브젝트 검색
-* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary` — 기본 연관관계 조회
-* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom` — 커스텀 연관관계 조회
+* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary` — 기본 연결관계 조회
+* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom` — 커스텀 연결관계 조회
 
 **필드 · 파일 · 이메일 (Field / File / Email)**
 
 * `GET /v2/field/{type}` — 필드 정의 목록
 * `POST /v2/field/{type}` — 필드 생성
-* `POST /v2/file` — 파일 업로드
+* `POST /v2/file` — 파일 업로드 · 레코드 첨부
+* `GET /v2/file` — 레코드 첨부파일 조회
+* `POST /v2/file/{fileId}/delete` — 파일 삭제
 * `POST /v2/email` — 이메일 발송
 * `GET /v2/email/{emailId}` — 발송 이메일 단건 조회
 
@@ -2505,7 +2508,7 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 ***
 
-### 통합 검색 · 연관관계 (Search & Association)
+### 통합 검색 · 연결관계 (Search & Association)
 
 > 모든 경로는 `/v2/...`이며, `Authorization: Bearer <token>` 헤더가 필수입니다. 쓰기 요청에는 `Content-Type: application/json`을 함께 보내야 합니다.
 
@@ -2611,9 +2614,9 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 ***
 
-#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary — 기본 연관관계 조회
+#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary — 기본 연결관계 조회
 
-#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom — 커스텀 연관관계 조회
+#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom — 커스텀 연결관계 조회
 
 오브젝트 간 연결 관계를 조회합니다. 예: "이 딜에 연결된 고객은?", "이 고객이 속한 회사는?". 세일즈맵의 연결관계는 두 종류이며, 각각 별도 엔드포인트로 조회합니다.
 
@@ -2624,7 +2627,7 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 Primary와 Custom은 허용하는 `toTargetType`이 서로 다릅니다(아래 참고).
 
-> **참고(연결 만들기·교체):** 연관관계 엔드포인트는 **조회 전용**입니다. 레코드를 실제로 연결하려면 **생성/수정 API에서 연결 대상 ID를 전달**합니다.
+> **참고(연결 만들기·교체):** 연결관계 엔드포인트는 **조회 전용**입니다. 레코드를 실제로 연결하려면 **생성/수정 API에서 연결 대상 ID를 전달**합니다.
 >
 > * **딜·리드 ↔ 고객/회사**: 생성/수정 시 top-level `peopleId`·`organizationId`를 보냅니다. 이미 연결이 있으면 **새 값으로 교체**되며(추가가 아님), 같은 값이면 변화가 없습니다. 연결 결과는 평탄 레코드 필드가 아니라 `.../association/{toTargetType}/primary`로 조회합니다.
 > * **고객 ↔ 회사**: 고객 수정 시 `organizationId`를 보내면 기존 회사 연결을 **덮어씁니다(교체)**.
@@ -2774,46 +2777,111 @@ Primary와 Custom은 허용하는 `toTargetType`이 서로 다릅니다(아래 �
 
 ***
 
-이메일 첨부 전용입니다. 파일을 업로드해 `id`를 받고, 그 `id`를 `POST /v2/email`의 `attachmentIdList`에 넣어 첨부합니다.
+파일을 업로드합니다. `objectType`·`objectId`를 함께 보내면 해당 레코드의 첨부파일로 등록되고, 없이 보내면 파일만 업로드됩니다(반환된 `id`를 `POST /v2/email`의 `attachmentIdList`에 넣어 이메일 첨부로 사용). 업로드한 파일은 조회(`GET /v2/file`)·삭제(`POST /v2/file/{fileId}/delete`)할 수 있습니다.
 
-> **참고:** 레코드(고객·딜)의 `multiAttachment` 필드를 채우는 용도가 아닙니다. 레코드의 `multiAttachment`는 읽기 전용입니다.
+#### POST /v2/file — 파일 업로드 · 레코드 첨부
 
-#### POST /v2/file — 파일 업로드
+**요청 파라미터** (`multipart/form-data`)
 
-이메일 첨부용 파일을 업로드합니다.
-
-**요청 파라미터**
+| 이름           | 타입     |  필수 | 설명                                                    |
+| ------------ | ------ | :-: | ----------------------------------------------------- |
+| `file`       | binary |  필수 | 업로드할 파일. 요청당 1개.                                      |
+| `objectType` | string | 조건부 | 첨부 대상 종류(아래 허용값). `objectId`와 **반드시 함께** 보냅니다.        |
+| `objectId`   | string | 조건부 | 첨부 대상 레코드의 ID(`RecordId`). `objectType`과 반드시 함께 보냅니다. |
 
 * Content-Type은 `multipart/form-data`입니다. JSON 바디로 보내면 400 `multipart 파싱 실패: Could not parse content as FormData.`를 반환합니다.
-* form 필드 `file`이 필수입니다. 누락 시 400 `file 필드가 필요합니다.`를 반환합니다.
+* `objectType`·`objectId`는 **둘 다 보내거나 둘 다 생략**합니다. 한쪽만 보내면 400 `objectType 과 objectId 는 함께 전달해야 합니다.`를 반환합니다. 둘 다 생략하면 레코드에 붙지 않고 파일만 업로드됩니다.
+
+**objectType 허용값**
+
+| 첨부 대상    | `objectType` 값 |
+| -------- | -------------- |
+| 딜        | `deal`         |
+| 리드       | `lead`         |
+| 고객       | `people`       |
+| 회사       | `organization` |
+| 상품       | `product`      |
+| 견적서      | `quote`        |
+| 커스텀 오브젝트 | `customObject` |
+| 노트       | `memo`         |
+
+> **참고:** 커스텀 오브젝트 값은 다른 API 경로에서 쓰는 `custom-object`가 아니라 **`customObject`(camelCase)** 입니다. 허용 외 값은 400 `허용되지 않는 objectType 입니다: <값>. 허용 목록: deal, lead, people, organization, product, quote, customObject, memo`를 반환합니다. 커스텀 오브젝트의 `objectId`에는 정의(definition) ID가 아니라 **레코드**의 ID를 넣습니다.
 
 **제약**
 
-* 허용 MIME 타입: `image/jpeg` `image/png` `image/gif` `image/webp` `application/pdf` `application/zip` `application/msword`(doc) `…wordprocessingml.document`(docx) `…spreadsheetml.sheet`(xlsx) `…presentationml.presentation`(pptx) `application/vnd.ms-excel`(xls) `application/vnd.ms-powerpoint`(ppt) `text/plain` `text/csv`. 그 외 타입은 400 `허용되지 않는 MIME type 입니다: <type>. 허용 목록: …`를 반환합니다.
-* 크기 제한은 1개당 25MB입니다. 초과 시 400 `파일 크기가 25MB를 초과합니다.`를 반환합니다.
+* 허용 MIME 타입: `image/jpeg` `image/png` `image/gif` `image/webp` `application/pdf` `application/zip` `application/msword`(doc) `…wordprocessingml.document`(docx) `…spreadsheetml.sheet`(xlsx) `…presentationml.presentation`(pptx) `application/vnd.ms-excel`(xls) `application/vnd.ms-powerpoint`(ppt) `text/plain` `text/csv`. 그 외는 400 `허용되지 않는 MIME type 입니다: <type>. 허용 목록: …`를 반환합니다. 확장자와 MIME 타입이 일치해야 합니다.
+* 크기는 1개당 25MB 이하입니다. 빈 파일(0byte)은 400 `빈 파일은 허용되지 않습니다.`를 반환합니다.
 
 **요청 예시**
 
 ```bash
-curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/file.pdf" "https://salesmap.kr/api/v2/file"
+# 파일만 업로드 (이메일 첨부용)
+curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/contract.pdf" "https://salesmap.kr/api/v2/file"
+
+# 딜에 첨부
+curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/contract.pdf" -F "objectType=deal" -F "objectId=<dealId>" "https://salesmap.kr/api/v2/file"
 ```
 
-**응답** `201 Created`
+**응답** `201 Created` (`objectType` 유무와 무관하게 동일)
 
 ```json
-{ "success": true, "data": { "id": "...", "name": "..." } }
+{ "success": true, "data": { "id": "<fileId>", "name": "contract.pdf" } }
 ```
 
-* `id`는 첨부용 파일 ID, `name`은 원본 파일명입니다.
+* `id`는 파일 ID(이메일 첨부·파일 삭제에 사용), `name`은 원본 파일명입니다.
 
 **에러**
 
-| 코드  | 조건                                                 |
-| --- | -------------------------------------------------- |
-| 400 | `file` 필드 누락 / JSON 바디 전송 / 허용 외 MIME 타입 / 25MB 초과 |
-| 401 | 인증 실패                                              |
+| 코드  | 조건                                                                                                 |
+| --- | -------------------------------------------------------------------------------------------------- |
+| 400 | `file` 누락 / JSON 바디 / 허용 외 MIME / 25MB 초과 / 빈 파일 / `objectType`·`objectId` 한쪽만 / 허용 외 `objectType` |
+| 401 | 인증 실패                                                                                              |
+| 404 | 첨부 대상 레코드 없음: `첨부 대상 레코드를 찾을 수 없습니다. objectType: <t>, objectId: <id>` (없거나 다른 워크스페이스)              |
+| 429 | 레이트리밋 초과                                                                                           |
 
-> **참고:** 파일 삭제·조회 API는 없습니다. `DELETE /v2/file/{id}`와 `GET /v2/file/{id}`는 404를 반환하며, 업로드는 되돌릴 수 없습니다.
+***
+
+#### GET /v2/file — 레코드 첨부파일 조회
+
+특정 레코드에 첨부된 파일 목록을 조회합니다. `objectType`·`objectId`가 **필수**이며, 생략하면 400 `objectType 과 objectId 는 필수입니다.`를 반환합니다.
+
+**요청 파라미터**
+
+| 이름           | 위치    | 타입     |  필수 | 설명                    |
+| ------------ | ----- | ------ | :-: | --------------------- |
+| `objectType` | query | string |  필수 | 위 objectType 허용값과 동일. |
+| `objectId`   | query | string |  필수 | 대상 레코드 ID.            |
+
+**응답** `200 OK`
+
+```json
+{
+  "success": true,
+  "data": {
+    "fileList": [
+      { "id": "<fileId>", "name": "contract.pdf", "createdAt": "...", "owner": { "id": "...", "name": "..." } }
+    ]
+  }
+}
+```
+
+***
+
+#### POST /v2/file/{fileId}/delete — 파일 삭제
+
+업로드된 파일을 삭제합니다.
+
+**요청 파라미터**
+
+| 이름       | 위치   | 타입     |  필수 | 설명                                   |
+| -------- | ---- | ------ | :-: | ------------------------------------ |
+| `fileId` | path | string |  필수 | 삭제할 파일 ID(`POST /v2/file` 응답의 `id`). |
+
+**응답** `200 OK`
+
+```json
+{ "success": true }
+```
 
 ***
 
@@ -3224,7 +3292,7 @@ TODO 목록을 조회합니다.
 | `참석자`            | null              | 참석자                  |
 | `팀`              | array             | `[{id, name}]`       |
 
-> **참고:** todo 그룹에는 단건 조회·생성·수정 v2 GET 엔드포인트가 없으며 목록 조회만 제공합니다. 단건이 필요하면 목록에서 필터링하거나 연관 레코드(people/deal)에서 접근합니다.
+> **참고:** todo 그룹에는 단건 조회·생성·수정 v2 GET 엔드포인트가 없으며 목록 조회만 제공합니다. 단건이 필요하면 목록에서 필터링하거나 연결된 레코드(people/deal)에서 접근합니다.
 
 **에러**
 
@@ -3661,7 +3729,7 @@ app.post('/webhook/salesmap', (req, res) => {
 | 리드                 |  ✅  | `POST /v2/lead/{leadId}/delete` (body 없음)                                       |
 | 고객 / 회사 / 커스텀 오브젝트 |  ❌  | `POST /v2/{resource}/delete` 라우트는 존재하나 body 형식이 공개되지 않아 사용 불가 → GUI에서만 삭제       |
 | 필드                 |  ❌  | `DELETE /v2/field/{id}` → 405. GUI에서만                                           |
-| 파일                 |  ❌  | `DELETE /v2/file/{id}` → 404. 삭제 불가(비가역)                                        |
+| 파일                 |  ✅  | `POST /v2/file/{fileId}/delete` (body 없음) → `{ "success": true }`               |
 
 > `DELETE` HTTP 메서드는 대부분 `405`/`404`를 반환합니다. 삭제는 `POST .../delete` 패턴을 사용합니다.
 
@@ -3686,7 +3754,7 @@ app.post('/webhook/salesmap', (req, res) => {
 7. **이메일 본문**: 이메일 메타는 액티비티의 `emailId`로 식별한 뒤 `GET /v2/email/{id}`로 개별 조회합니다.
 8. **시퀀스 분석**: 목록 → `step` → `enrollment` → `timeline` 순으로 드릴다운합니다.
 9. **웹훅 처리**: 10초 내 `200`을 응답하고 처리는 비동기로, 중복은 `eventId + objectId`로 감지합니다.
-10. **삭제**: 딜·리드는 `POST /v2/{type}/{id}/delete`로 삭제합니다. 고객·회사·필드·파일에는 삭제 API가 없습니다.
+10. **삭제**: 딜·리드는 `POST /v2/{type}/{id}/delete`, 파일은 `POST /v2/file/{fileId}/delete`로 삭제합니다. 고객·회사·필드에는 삭제 API가 없습니다(GUI에서만).
 
 ***
 
