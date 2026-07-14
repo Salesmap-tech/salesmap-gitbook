@@ -2,7 +2,7 @@
 
 <mark style="color:green;">`GET`</mark> `/v2/organization/history`
 
-고객의 히스토리 목록을 조회합니다.
+회사의 히스토리 목록을 조회합니다.
 
 **Headers**
 
@@ -29,8 +29,13 @@
         "organizationHistoryList": [
             {
                 "id": "<historyId>",
-                "organizationId":"<organizationId>",
+                "organizationId": "<organizationId>",
                 "type": "<type>",
+                "source": {
+                    "type": "field",
+                    "id": null,
+                    "name": null
+                },
                 "fieldName": "필드 이름",
                 "fieldValue": "필드 값",
                 "ownerId": "<ownerId>",
@@ -41,6 +46,13 @@
     }
 }
 ```
+
+| Path | Type | Description |
+| --- | --- | --- |
+| `data.organizationHistoryList[].source` | object | 히스토리를 생성한 주체 정보입니다. |
+| `data.organizationHistoryList[].source.type` | string | 생성 주체의 종류입니다. 예: `user`, `workflow`, `sequence`, `api`, `field` |
+| `data.organizationHistoryList[].source.id` | string\|null | 생성 주체의 식별자입니다. |
+| `data.organizationHistoryList[].source.name` | string\|null | 생성 주체의 이름 스냅샷입니다. |
 {% endtab %}
 
 {% tab title="40x" %}
