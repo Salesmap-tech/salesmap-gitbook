@@ -29,8 +29,13 @@
         "dealHistoryList": [
             {
                 "id": "<historyId>",
-                "dealId":"<dealId>",
+                "dealId": "<dealId>",
                 "type": "<type>",
+                "source": {
+                    "type": "user",
+                    "id": "<sourceId>",
+                    "name": "홍길동"
+                },
                 "people": null,
                 "organization": null,
                 "fieldName": "필드 이름",
@@ -43,6 +48,13 @@
     }
 }
 ```
+
+| Path | Type | Description |
+| --- | --- | --- |
+| `data.dealHistoryList[].source` | object | 히스토리를 생성한 주체 정보입니다. |
+| `data.dealHistoryList[].source.type` | string | 생성 주체의 종류입니다. 예: `user`, `workflow`, `sequence`, `api` |
+| `data.dealHistoryList[].source.id` | string\|null | 생성 주체의 식별자입니다. |
+| `data.dealHistoryList[].source.name` | string\|null | 생성 주체의 이름 스냅샷입니다. |
 {% endtab %}
 
 {% tab title="40x" %}
