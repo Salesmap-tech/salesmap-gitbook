@@ -29,8 +29,13 @@
         "peopleHistoryList": [
             {
                 "id": "<historyId>",
-                "peopleId":"<peopleId>",
+                "peopleId": "<peopleId>",
                 "type": "<type>",
+                "source": {
+                    "type": "user",
+                    "id": "<sourceId>",
+                    "name": "홍길동"
+                },
                 "organization": null,
                 "fieldName": "필드 이름",
                 "fieldValue": "필드 값",
@@ -42,6 +47,13 @@
     }
 }
 ```
+
+| Path | Type | Description |
+| --- | --- | --- |
+| `data.peopleHistoryList[].source` | object | 히스토리를 생성한 주체 정보입니다. |
+| `data.peopleHistoryList[].source.type` | string | 생성 주체의 종류입니다. 예: `user`, `workflow`, `sequence`, `api` |
+| `data.peopleHistoryList[].source.id` | string\|null | 생성 주체의 식별자입니다. |
+| `data.peopleHistoryList[].source.name` | string\|null | 생성 주체의 이름 스냅샷입니다. |
 {% endtab %}
 
 {% tab title="40x" %}

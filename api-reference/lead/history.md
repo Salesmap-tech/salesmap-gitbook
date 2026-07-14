@@ -29,8 +29,13 @@
         "leadHistoryList": [
             {
                 "id": "<historyId>",
-                "leadId":"<leadId>",
+                "leadId": "<leadId>",
                 "type": "<type>",
+                "source": {
+                    "type": "api",
+                    "id": "<sourceId>",
+                    "name": "홍길동"
+                },
                 "people": null,
                 "organization": null,
                 "fieldName": "필드 이름",
@@ -43,6 +48,13 @@
     }
 }
 ```
+
+| Path | Type | Description |
+| --- | --- | --- |
+| `data.leadHistoryList[].source` | object | 히스토리를 생성한 주체 정보입니다. |
+| `data.leadHistoryList[].source.type` | string | 생성 주체의 종류입니다. 예: `user`, `workflow`, `sequence`, `api` |
+| `data.leadHistoryList[].source.id` | string\|null | 생성 주체의 식별자입니다. |
+| `data.leadHistoryList[].source.name` | string\|null | 생성 주체의 이름 스냅샷입니다. |
 {% endtab %}
 
 {% tab title="40x" %}
