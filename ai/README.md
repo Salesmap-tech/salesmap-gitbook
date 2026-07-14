@@ -27,7 +27,7 @@ description: >-
 * 리드 (Lead)
 * 커스텀 오브젝트 (Custom Object)
 * 견적서 · 상품 · 파이프라인 (Quote / Product / Pipeline)
-* 통합 검색 · 연관관계 (Search & Association)
+* 통합 검색 · 연결관계 (Search & Association)
 * 필드 · 파일 · 이메일 (Field / File / Email)
 * 시퀀스 · 웹폼 · TODO · 메모 (Sequence / WebForm / Todo / Memo)
 * 사용자 · 팀 (User / Team)
@@ -162,7 +162,7 @@ History·Activity 타임라인을 제공하는 레코드는 딜·리드·고객�
 | 히스토리 API(`GET .../history`) `fieldValue`의 관계형 객체 | `{ "_id", "name" }` (히스토리 API는 `_id`)                               |
 | 웹훅 `beforeField`/`afterField`의 관계형 객체            | `{ "id", "name" }` (웹훅은 히스토리 API와 달리 `id`)                          |
 | 필드 선택지 — 생성(POST) 응답 / 조회(GET) 응답                | `options` / `optionList` (둘 다 `[{id,value}]`)                       |
-| 연관관계 — primary / custom                          | `associationIdList`(문자열 배열) / `associationItemList`(`[{id,label}]`) |
+| 연결관계 — primary / custom                          | `associationIdList`(문자열 배열) / `associationItemList`(`[{id,label}]`) |
 | 웹훅 이벤트 종류 키                                      | `history` (`event` 아님)                                              |
 
 ### 페이지네이션
@@ -245,7 +245,7 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 | 시퀀스(단일/복수)   | `sequenceValueId` / `sequenceValueIdList`         | `{ "name": "시퀀스", "sequenceValueId": "<id>" }`             |
 | 웹폼           | `webformValueId`                                  | `{ "name": "유입 웹폼", "webformValueId": "<id>" }`            |
 
-> 커스텀 연결관계도 위 관계 키로 설정합니다. 예를 들어 딜의 커스텀 연결 필드(타입 `multiCustomObject`)에 `customObjectValueIdList`로 레코드를 연결하면, 연관관계 조회(`.../association/.../custom`)에 그 연결이 나타납니다.
+> 커스텀 연결관계도 위 관계 키로 설정합니다. 예를 들어 딜의 커스텀 연결 필드(타입 `multiCustomObject`)에 `customObjectValueIdList`로 레코드를 연결하면, 연결관계 조회(`.../association/.../custom`)에 그 연결이 나타납니다.
 
 > **참고(담당자):** 담당자/사용자 필드는 반드시 `userValueId`(ID)로 지정합니다. 사용자 이름을 `stringValue`로 보내면 `담당자에 userValueId가 없습니다`를 반환합니다.
 
@@ -334,11 +334,11 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 * `GET /v2/{deal|lead}/{id}/quote` — 딜/리드의 견적서 조회
 * `GET /v2/pipeline` — 파이프라인 목록 조회
 
-**통합 검색 · 연관관계 (Search & Association)**
+**통합 검색 · 연결관계 (Search & Association)**
 
 * `POST /v2/object/{targetType}/search` — 오브젝트 검색
-* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary` — 기본 연관관계 조회
-* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom` — 커스텀 연관관계 조회
+* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary` — 기본 연결관계 조회
+* `GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom` — 커스텀 연결관계 조회
 
 **필드 · 파일 · 이메일 (Field / File / Email)**
 
@@ -2508,7 +2508,7 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 ***
 
-### 통합 검색 · 연관관계 (Search & Association)
+### 통합 검색 · 연결관계 (Search & Association)
 
 > 모든 경로는 `/v2/...`이며, `Authorization: Bearer <token>` 헤더가 필수입니다. 쓰기 요청에는 `Content-Type: application/json`을 함께 보내야 합니다.
 
@@ -2614,9 +2614,9 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 ***
 
-#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary — 기본 연관관계 조회
+#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/primary — 기본 연결관계 조회
 
-#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom — 커스텀 연관관계 조회
+#### GET /v2/object/{targetType}/{targetId}/association/{toTargetType}/custom — 커스텀 연결관계 조회
 
 오브젝트 간 연결 관계를 조회합니다. 예: "이 딜에 연결된 고객은?", "이 고객이 속한 회사는?". 세일즈맵의 연결관계는 두 종류이며, 각각 별도 엔드포인트로 조회합니다.
 
@@ -2627,7 +2627,7 @@ Content-Type: application/json   # 쓰기(POST)에만
 
 Primary와 Custom은 허용하는 `toTargetType`이 서로 다릅니다(아래 참고).
 
-> **참고(연결 만들기·교체):** 연관관계 엔드포인트는 **조회 전용**입니다. 레코드를 실제로 연결하려면 **생성/수정 API에서 연결 대상 ID를 전달**합니다.
+> **참고(연결 만들기·교체):** 연결관계 엔드포인트는 **조회 전용**입니다. 레코드를 실제로 연결하려면 **생성/수정 API에서 연결 대상 ID를 전달**합니다.
 >
 > * **딜·리드 ↔ 고객/회사**: 생성/수정 시 top-level `peopleId`·`organizationId`를 보냅니다. 이미 연결이 있으면 **새 값으로 교체**되며(추가가 아님), 같은 값이면 변화가 없습니다. 연결 결과는 평탄 레코드 필드가 아니라 `.../association/{toTargetType}/primary`로 조회합니다.
 > * **고객 ↔ 회사**: 고객 수정 시 `organizationId`를 보내면 기존 회사 연결을 **덮어씁니다(교체)**.
@@ -3292,7 +3292,7 @@ TODO 목록을 조회합니다.
 | `참석자`            | null              | 참석자                  |
 | `팀`              | array             | `[{id, name}]`       |
 
-> **참고:** todo 그룹에는 단건 조회·생성·수정 v2 GET 엔드포인트가 없으며 목록 조회만 제공합니다. 단건이 필요하면 목록에서 필터링하거나 연관 레코드(people/deal)에서 접근합니다.
+> **참고:** todo 그룹에는 단건 조회·생성·수정 v2 GET 엔드포인트가 없으며 목록 조회만 제공합니다. 단건이 필요하면 목록에서 필터링하거나 연결된 레코드(people/deal)에서 접근합니다.
 
 **에러**
 
