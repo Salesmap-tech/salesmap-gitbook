@@ -1,13 +1,8 @@
+---
+description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹니다.
+---
+
 # 시작하기
-
-세일즈맵을 AI에 연결하면, 대화만으로 CRM 조회·기록·분석을 할 수 있습니다. 사용하는 AI 서비스의 탭을 선택해 따라 하세요.
-
-> **연결에 필요한 것 단 2개**
->
-> 1. 서버 주소: `https://mcp.ai.salesmap.kr/mcp`
-> 2. 세일즈맵 API 토큰 (아래에서 준비)
-
-***
 
 ### 1단계: 세일즈맵 API 토큰 준비
 
@@ -15,14 +10,10 @@
 2. **개인 → 연동 → API** 메뉴로 이동
 3. **이미 토큰이 있다면 → 복사** / **토큰이 없다면 → 토큰 생성** 클릭 후 복사
 
-`[이미지 1: 세일즈맵 설정 > 개인 > 연동 > API 토큰 화면]`
-
 {% hint style="warning" %}
-**토큰을 재발급하면 기존 연동(웹훅·자동화·다른 AI 연결 등)이 전부 끊깁니다.** 이미 토큰이 있다면 새로 만들지 말고 복사해서 사용하세요.
-{% endhint %}
+**토큰을 재발급하면 기존 연동이 끊어질 수 있습니다.** 이미 토큰이 있다면 새로 만들지 말고 복사해서 사용하세요.
 
-{% hint style="info" %}
-API는 무료(Free) 또는 Professional 이상 플랜에서 제공됩니다 (Starter 플랜 제외). 토큰은 발급한 사용자의 권한을 따르며, 비밀번호와 같으니 다른 사람과 공유하지 마세요.
+토큰은 절대 다른 사람과 공유하지 마세요
 {% endhint %}
 
 ***
@@ -31,30 +22,28 @@ API는 무료(Free) 또는 Professional 이상 플랜에서 제공됩니다 (Sta
 
 {% tabs %}
 {% tab title="Claude" %}
-**요건**: Claude 유료 플랜 (Pro/Max/Team/Enterprise)
-
-1. [claude.ai](https://claude.ai) 접속 → 좌측 하단 프로필 → **설정** → **커넥터**
-2. **커스텀 커넥터 추가** 클릭
-
-`[이미지 2: Claude 설정 > 커넥터 > 커스텀 커넥터 추가 버튼]`
-
-3. 아래와 같이 입력 후 **추가**:
-   * 이름: `세일즈맵`
-   * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
-   * (고급 설정은 건드리지 않아도 됩니다)
-
-`[이미지 3: 커스텀 커넥터 추가 다이얼로그 입력 화면]`
-
-4. **연결** 클릭 → 브라우저에 세일즈맵 연결 페이지가 열립니다
-5. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
-
-`[이미지 4: 세일즈맵 MCP 연결 — 토큰 입력 페이지]`
-
-6. 끝! 대화창에서 커넥터가 켜져 있는지 확인하고 바로 사용하세요.
-
 {% hint style="info" %}
-데스크톱 앱에서도 동일하게 설정 → 커넥터에서 추가할 수 있습니다.
+요건: Claude 유료 플랜 (Pro/Max/Team/Enterprise)
 {% endhint %}
+
+1. [claude.ai](https://claude.ai) / Claude Desktop 접속 → 좌측 하단 프로필 → 설정 → **커넥터**
+2.  추가 → **커스텀 커넥터 추가** 클릭<br>
+
+    <figure><img src="../.gitbook/assets/image (14).png" alt="" width="563"><figcaption></figcaption></figure>
+3.  아래와 같이 입력 후 **추가**:
+
+    * 이름: `세일즈맵`
+    * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
+    * (고급 설정은 건드리지 않아도 됩니다)
+
+
+
+    <figure><img src="../.gitbook/assets/image (9).png" alt="" width="375"><figcaption></figcaption></figure>
+4. **연결** 클릭 → 브라우저에 세일즈맵 연결 페이지가 열립니다
+5.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
+
+    <figure><img src="../.gitbook/assets/image (16).png" alt=""><figcaption></figcaption></figure>
+6. 끝! 대화창에서 커넥터가 켜져 있는지 확인하고 바로 사용하세요.
 {% endtab %}
 
 {% tab title="ChatGPT" %}
@@ -166,6 +155,8 @@ HTTP 원격 미지원(stdio 전용) 구형 클라이언트는 mcp-remote 브리�
 (Node.js 20 이상 필요)
 {% endtab %}
 {% endtabs %}
+
+
 
 ***
 
