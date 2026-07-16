@@ -70,6 +70,6 @@ MCP(Model Context Protocol)는 AI 모델이 외부 서비스의 기능을 표준
 
 설치 방법에 대한 자세한 정보는 아래 문서를 참고해주세요.
 
-{% content-ref url="getting-started.md" %}
-[getting-started.md](getting-started.md)
+{% content-ref url="/broken/pages/4uCTI7R3EivYFnqFe1Tp" %}
+[Broken link](/broken/pages/4uCTI7R3EivYFnqFe1Tp)
 {% endcontent-ref %}
