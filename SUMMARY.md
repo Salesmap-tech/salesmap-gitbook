@@ -74,7 +74,7 @@
       * [파일 목록 조회](api-reference/file/list.md)
       * [파일 삭제](api-reference/file/delete.md)
   * [SeA (AI SDR)](api-reference/sea/README.md)
-* [웹훅(Webhook)](webhook/README.md)
+* [웹훅](webhook/README.md)
   * [웹훅 이벤트](webhook/event.md)
   * [웹훅 등록](webhook/setup.md)
   * [웹훅 형태](webhook/payload.md)
