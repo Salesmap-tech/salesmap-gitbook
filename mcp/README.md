@@ -18,7 +18,7 @@ MCP(Model Context Protocol)는 AI 모델이 외부 서비스의 기능을 표준
 
 
 
-이런 요청이 가능해집니다:
+**이런 요청이 가능해집니다:**
 
 "이번 주에 들어온 리드 중에 아직 연락 안 한 곳 정리해줘"
 
@@ -26,9 +26,7 @@ MCP(Model Context Protocol)는 AI 모델이 외부 서비스의 기능을 표준
 
 "지난달 파이프라인별 딜 현황 요약해줘"
 
-
-
-AI가 세일즈맵에서 직접 조회·기록하고 결과만 정리해서 답합니다.
+"이 엑셀 파일 세일즈맵에 업로드해줘"
 
 
 
@@ -46,7 +44,7 @@ AI가 세일즈맵에서 직접 조회·기록하고 결과만 정리해서 답�
 
 1. AI 클라이언트에서 세일즈맵 MCP 서버를 연결합니다
 2. 자연어로 요청하면 AI가 적절한 도구를 선택하여 실행합니다
-3. 세일즈맵 API를 통해 실제 CRM 데이터를 조회/생성/수정합니다
+3. 세일즈맵 API를 통해 실제 CRM 데이터를 조회/생성/수정/삭제합니다
 
 **모든 요청은 사용자 본인의 API 키로 처리되며**, 서버는 키를 저장하지 않습니다. 기존 세일즈맵 권한 체계가 그대로 적용됩니다.
 
@@ -54,12 +52,24 @@ AI가 세일즈맵에서 직접 조회·기록하고 결과만 정리해서 답�
 
 현재 MCP를 지원하는 주요 AI 클라이언트:
 
-* Claude&#x20;
-* **Claude Desktop** (권장) — Anthropic의 공식 데스크톱 앱
-* **Claude Code** — Anthropic의 CLI 도구
-* **Cursor** — AI 코드 에디터
-* 기타 MCP 프로토콜을 지원하는 클라이언트
+* Claude
+  * Claude 웹(claude.ai)
+  * Claude 데스크탑/모바일 앱
+  * Claude Code
+* ChatGPT
+  * ChatGPT 웹(chatgpt.com)
+  * Claude 데스크탑/모바일 앱
+  * Codex
+* Gemini
+  * Gemini 웹(gemini.google.com)
+  * Gemini 데스크탑/모바일 앱
+  * Antigravity
+* 기타
 
 
 
-자세한 내용은 아래 페이지에서 확인하세요.
+설치 방법에 대한 자세한 정보는 아래 문서를 참고해주세요.
+
+{% content-ref url="getting-started.md" %}
+[getting-started.md](getting-started.md)
+{% endcontent-ref %}
