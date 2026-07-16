@@ -79,7 +79,7 @@
   * [웹훅 등록](webhook/setup.md)
   * [웹훅 형태](webhook/payload.md)
   * [재전송 정책](webhook/retry.md)
-* [MCP (Beta)](mcp/README.md)
+* [MCP (AI 연결)](mcp/README.md)
   * [시작하기](mcp/getting-started.md)
   * [도구 목록](mcp/tools.md)
   * [활용 가이드](mcp/use-cases.md)
