@@ -1,5 +1,5 @@
 ---
-description: 세일즈맵 MCP 서버가 제공하는 26개 도구의 상세 스펙입니다.
+description: 세일즈맵 MCP 서버가 제공하는 29개 도구의 상세 스펙입니다.
 ---
 
 # 도구 목록
@@ -10,48 +10,65 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 
 ### 스키마 탐색
 
-#### salesmap-list-objects
+**salesmap-list-objects**
 
 오브젝트 목록을 조회합니다. 기본 오브젝트(고객·회사·리드·딜·상품·견적서)와 커스텀 오브젝트 모두를 포함합니다.
 
 **사용 예시**: "우리 워크스페이스에 어떤 커스텀 오브젝트가 있어?"
 
-#### salesmap-list-properties
+***
 
-오브젝트의 필드 스키마(이름·유형·옵션)을 조회합니다.
+**salesmap-list-properties**
 
-| 파라미터         | 타입   | 필수 | 설명                                                                             |
-| ------------ | ---- | -- | ------------------------------------------------------------------------------ |
-| `objectType` | enum | ✅  | `deal` `lead` `people` `organization` `product` `quote` `todo` `custom-object` |
+오브젝트의 필드 스키마(이름·유형·옵션)를 조회합니다.
 
-**사용 예시:** “딜 오브젝트에 어떤 필드가 있는지 알려줘”
+| 파라미터         | 타입   | 필수 | 설명                                                                                             |
+| ------------ | ---- | -- | ---------------------------------------------------------------------------------------------- |
+| `objectType` | enum | ✅  | `deal` `lead` `people` `organization` `product` `quote` `quote-product` `todo` `custom-object` |
 
-#### salesmap-create-property
+**사용 예시:** "딜 오브젝트에 어떤 필드가 있는지 알려줘"
+
+***
+
+**salesmap-list-associations**
+
+오브젝트에 어떤 연결 관계가 있는지 스키마를 조회합니다. `salesmap-batch-read-objects`의 `associationList`에 넣을 관계명을 확인하는 용도입니다.
+
+| 파라미터         | 타입     | 필수 | 설명                                                             |
+| ------------ | ------ | -- | -------------------------------------------------------------- |
+| `objectType` | string | ✅  | `deal` `lead` `people` `organization` 또는 커스텀 오브젝트 이름 (예: `티켓`) |
+
+**사용 예시:** "딜에는 어떤 오브젝트를 연결할 수 있어?"
+
+***
+
+**salesmap-create-property**
 
 필드를 생성합니다.
 
-| 파라미터                       | 타입      | 필수     | 설명                                                                                                           |
-| -------------------------- | ------- | ------ | ------------------------------------------------------------------------------------------------------------ |
-| `objectType`               | enum    | ✅      | `people` `organization` `deal` `lead` `product` `quote` `quote-product` `todo` `custom-object`               |
-| `customObjectDefinitionId` | string  | 조건부 필수 | `objectType`이 `custom-object` 일 경우 커스텀 오브젝트의 ID                                                              |
-| `name`                     | string  | ✅      | 필드 이름                                                                                                        |
-| `type`                     | enum    | ✅      | `string` `number` `date` `dateTime` `boolean` `singleSelect` `multiSelectmultiAttachment` `user` `multiUser` |
-| `options`                  | array   | 조건부 필수 | `type`이 `singleSelect`·`multiSelect`일 때의 선택지 목록                                                              |
-| `description`              | string  |        | 필드 설명                                                                                                        |
-| `preventDuplicates`        | boolean |        | 같은 값이 중복 등록되지 않도록 막는 유니크 필드로 설정. 사업자등록번호·전화번호·프로젝트ID처럼 값이 고유해야 하는 필드에 사용 (기본 false)                          |
-| `required`                 | boolean |        | 생성 모달 UI에서 입력 장제 여부 (기본 false)                                                                               |
-| `showInCreateForm`         | boolean |        | 생성 모달 UI에 표시 여부 (기본 false)                                                                                   |
-| `formula`                  | string  |        | 계산 수식. 입력 시 계산 유형 필드가 되며 `type`은 계산 결과의 타입이 됨                                                                |
+| 파라미터                         | 타입      | 필수     | 설명                                                                                                              |
+| ---------------------------- | ------- | ------ | --------------------------------------------------------------------------------------------------------------- |
+| `objectType`                 | enum    | ✅      | `people` `organization` `deal` `lead` `product` `quote` `quote-product` `todo` `custom-object`                  |
+| `name`                       | string  | ✅      | 필드 이름                                                                                                           |
+| `type`                       | enum    | ✅      | `string` `number` `date` `dateTime` `boolean` `singleSelect` `multiSelect` `multiAttachment` `user` `multiUser` |
+| `customObjectDefinitionName` | string  | 조건부 필수 | `objectType`이 `custom-object`일 때 대상 커스텀 오브젝트 이름 (ID 대신 사용 가능)                                                   |
+| `customObjectDefinitionId`   | string  | 조건부 필수 | `objectType`이 `custom-object`일 때 대상 커스텀 오브젝트 ID                                                                 |
+| `options`                    | array   | 조건부 필수 | `type`이 `singleSelect`(1개 이상)·`multiSelect`(2개 이상)일 때의 선택지 목록                                                   |
+| `description`                | string  |        | 필드 설명                                                                                                           |
+| `preventDuplicates`          | boolean |        | 같은 값이 중복 등록되지 않도록 막는 유니크 필드로 설정 (기본 false)                                                                      |
+| `required`                   | boolean |        | 생성 모달 UI에서 입력 강제 여부 (기본 false)                                                                                  |
+| `showInCreateForm`           | boolean |        | 생성 모달 UI에 표시 여부 (기본 false)                                                                                      |
+| `formula`                    | string  |        | 계산 수식. 입력 시 계산 유형 필드가 되며 `type`은 계산 결과의 타입이 됨                                                                   |
 
-**사용 예시:** “티켓 오브젝트에 중요도 필드 추가해줘"
+**사용 예시:** "티켓 오브젝트에 중요도 필드 추가해줘"
 
 ***
 
 ### 레코드 검색
 
-#### salesmap-search-objects
+**salesmap-search-objects**
 
-필터 조건으로 레코드를 검색합니다. 필터 그룹 간 OR, 그룹 내 필터 간 AND로 동작합니다.
+필터 조건으로 레코드를 검색합니다. 필터 그룹 간 OR, 그룹 내 필터 간 AND로 동작합니다. 결과는 id·name만 반환하며, 상세 필드는 `salesmap-batch-read-objects`로 이어서 조회합니다.
 
 | 파라미터           | 타입     | 필수 | 설명                                    |
 | -------------- | ------ | -- | ------------------------------------- |
@@ -96,7 +113,7 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 
 </details>
 
-**사용 예시:** “이번 달 생성된 딜 중 상태가 Won인 것 검색해줘”
+**사용 예시:** "이번 달 생성된 딜 중 상태가 Won인 것 검색해줘"
 
 ***
 
@@ -106,7 +123,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 
 고객, 회사, 리드, 딜 등 조회는 salesmap-search-objects를 사용합니다.
 
-#### salesmap-list-webforms
+
+
+**salesmap-list-webforms**
 
 웹 폼 목록을 조회합니다.
 
@@ -114,7 +133,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | ------- | ------------------- | --------- |
 | `after` | `string` (optional) | 페이지네이션 커서 |
 
-#### salesmap-list-sequences
+***
+
+**salesmap-list-sequences**
 
 시퀀스 목록을 조회합니다.
 
@@ -122,7 +143,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | ------- | ------------------- | --------- |
 | `after` | `string` (optional) | 페이지네이션 커서 |
 
-#### salesmap-list-product
+***
+
+**salesmap-list-products**
 
 상품 목록을 조회합니다.
 
@@ -130,37 +153,49 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | ------- | ------------------- | --------- |
 | `after` | `string` (optional) | 페이지네이션 커서 |
 
+***
+
 ### 레코드 CRUD
 
-#### salesmap-batch-read-objects
+**salesmap-batch-read-objects**
 
-여러 레코드를 한 번에 조회합니다 (최대 20개).
+여러 레코드를 한 번에 조회합니다 (최대 500개). 연결된 레코드도 함께 인라인으로 받을 수 있습니다.
 
-| 파라미터         | 타입        | 필수 | 설명                                                                                                                                             |
-| ------------ | --------- | -- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `objectType` | enum      | ✅  | <p><code>people</code> <code>organization</code> <code>deal</code> <code>lead</code> <code>custom-object</code></p><p><code>product</code></p> |
-| `objectIds`  | string\[] | ✅  | 레코드 ID 배열 (1\~20개)                                                                                                                             |
-| `properties` | string\[] |    | 반환할 필드 이름 목록. 생략 시 기본 필드 반환. 다건 조회 시 지정 권장.                                                                                                    |
+| 파라미터              | 타입        | 필수 | 설명                                                             |
+| ----------------- | --------- | -- | -------------------------------------------------------------- |
+| `objectType`      | string    | ✅  | `people` `organization` `deal` `lead` 또는 커스텀 오브젝트 이름 (예: `티켓`) |
+| `objectIds`       | string\[] | ✅  | 레코드 ID 배열 (1\~500개)                                            |
+| `fieldList`       | string\[] |    | 반환할 필드 이름 목록 (한글). 생략 시 전체 필드 반환                               |
+| `associationList` | string\[] |    | 인라인으로 포함할 연결 관계명 목록. 관계명은 `salesmap-list-associations`로 확인     |
 
-#### salesmap-create-object
+{% hint style="info" %}
+고객·회사 연결 같은 관계형 필드는 `fieldList`가 아닌 `associationList`로 조회합니다.
+{% endhint %}
+
+***
+
+**salesmap-create-object**
 
 새 레코드를 생성합니다.
 
-| 파라미터                       | 타입     | 필수     | 설명                                                                  |
-| -------------------------- | ------ | ------ | ------------------------------------------------------------------- |
-| `objectType`               | enum   | ✅      | `people` `organization` `deal` `lead` `custom-object` `product`     |
-| `properties`               | object |        | <p>필드 key-value<br>예: <code>{ "이름": "홍길동", "금액": 50000 }</code></p> |
-| `note`                     | string |        | 초기 메모                                                               |
-| `peopleId`                 | string | 조건부 필수 | 연결할 고객 ID                                                           |
-| `organizationId`           | string | 조건부 필수 | 연결할 회사 ID                                                           |
-| `customObjectDefinitionId` | string | 조건부 필수 | Definition ID (custom-object 필수)                                    |
+| 파라미터                         | 타입     | 필수     | 설명                                                                  |
+| ---------------------------- | ------ | ------ | ------------------------------------------------------------------- |
+| `objectType`                 | enum   | ✅      | `people` `organization` `deal` `lead` `custom-object` `product`     |
+| `properties`                 | object |        | <p>필드 key-value<br>예: <code>{ "이름": "홍길동", "금액": 50000 }</code></p> |
+| `note`                       | string |        | 초기 메모                                                               |
+| `peopleId`                   | string | 조건부 필수 | 연결할 고객 ID                                                           |
+| `organizationId`             | string | 조건부 필수 | 연결할 회사 ID                                                           |
+| `customObjectDefinitionName` | string | 조건부 필수 | 커스텀 오브젝트 이름 (custom-object일 때, ID 대신 사용 가능)                         |
+| `customObjectDefinitionId`   | string | 조건부 필수 | 커스텀 오브젝트 Definition ID (custom-object일 때, 이름과 둘 중 하나만)              |
 
 {% hint style="info" %}
 딜/리드 생성 시 `peopleId` 또는 `organizationId` 중 하나 이상 필요합니다.\
-딜 생성 시 `pipelineId`, `pipelineStageId`는 `salesmap_get_pipeline_ids`로 확인하세요.
+딜 생성 시 `pipelineId`, `pipelineStageId`는 `salesmap-get-pipelines`로 확인하세요.
 {% endhint %}
 
-#### salesmap-update-object
+***
+
+**salesmap-update-object**
 
 기존 레코드를 수정합니다.
 
@@ -172,7 +207,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `peopleId`       | string |    | 연결 고객 변경                                              |
 | `organizationId` | string |    | 연결 회사 변경                                              |
 
-#### salesmap-delete-object
+***
+
+**salesmap-delete-object**
 
 기존 레코드를 삭제합니다.
 
@@ -180,29 +217,31 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | ------------ | ------- | -- | ---------------------- |
 | `objectType` | enum    | ✅  | `deal` `lead`          |
 | `objectId`   | string  | ✅  | 레코드 ID                 |
-| `comfirmed`  | boolean |    | false=미리보기, true=실제 삭제 |
+| `confirmed`  | boolean |    | false=미리보기, true=실제 삭제 |
 
 ***
 
-### 관계 조회
-
-#### salesmap-list-associations
-
-레코드에 연결된 다른 레코드들을 조회합니다.
-
-| 파라미터           | 타입     | 필수 | 설명                                                           |
-| -------------- | ------ | -- | ------------------------------------------------------------ |
-| `objectType`   | enum   | ✅  | `people` `organization` `deal` `lead` `custom-object` `note` |
-| `objectId`     | string | ✅  | 출발 레코드 ID                                                    |
-| `toObjectType` | enum   | ✅  | 도착 레코드 ID                                                    |
-
-**사용 예시:** “이 회사에 연결된 딜 목록 보여줘”
-
 ### 활동 이력
 
-#### salesmap-list-changelog
+**salesmap-list-engagements**
 
-레코드의 필드 변경 이력을 조회합니다.
+레코드의 활동 타임라인을 조회합니다. 활동 유형별로 독립된 목록과 커서를 반환합니다.
+
+| 파라미터         | 타입      | 필수 | 설명                                                                                |
+| ------------ | ------- | -- | --------------------------------------------------------------------------------- |
+| `objectType` | string  | ✅  | `people` `organization` `deal` `lead` 또는 커스텀 오브젝트 이름                              |
+| `objectId`   | string  | ✅  | 레코드 ID                                                                            |
+| `types`      | enum\[] |    | 조회할 활동 유형. `todo` `note` `recording` `meeting` `email` `alimtalk` `sms` (생략 시 전체) |
+| `limit`      | number  |    | 유형별 반환 건수 (1\~50, 기본 5)                                                           |
+| `after`      | string  |    | 페이지네이션 커서 (`types`로 유형을 한정한 뒤 사용)                                                 |
+
+**사용 예시:** "이 고객과 주고받은 이메일 이력 보여줘"
+
+***
+
+**salesmap-list-changelog**
+
+레코드의 필드 변경 이력을 조회합니다 (누가·언제·무엇을 바꿨는지).
 
 | 파라미터         | 타입       | 필수 | 설명                                    |
 | ------------ | -------- | -- | ------------------------------------- |
@@ -210,9 +249,31 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `objectId`   | `string` | ✅  | 레코드 ID                                |
 | `after`      | `string` |    | 페이지네이션 커서                             |
 
-### 노트·견적서
+***
 
-#### salesmap-read-note
+#### 노트·견적서
+
+**salesmap-list-notes**
+
+노트 목록을 조회합니다. 담당자·유형·날짜·연결 레코드 기준으로 필터할 수 있습니다.
+
+| 파라미터             | 타입     | 필수 | 설명                         |
+| ---------------- | ------ | -- | -------------------------- |
+| `startDate`      | string |    | 작성일 시작 (예: 2026-01-01)     |
+| `endDate`        | string |    | 작성일 종료 (예: 2026-06-30)     |
+| `owner`          | string |    | 작성한 담당자 (사용자 이름 또는 userId) |
+| `type`           | string |    | 노트 유형 이름 (예: `미팅`, `콜`)    |
+| `leadId`         | string |    | 연결된 리드 ID                  |
+| `dealId`         | string |    | 연결된 딜 ID                   |
+| `peopleId`       | string |    | 연결된 고객 ID                  |
+| `organizationId` | string |    | 연결된 회사 ID                  |
+| `after`          | string |    | 페이지네이션 커서                  |
+
+**사용 예시:** "이번 주에 작성된 미팅 노트 모아줘"
+
+***
+
+**salesmap-read-note**
 
 노트(메모)의 상세 내용을 조회합니다.
 
@@ -220,7 +281,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | -------- | ------ | -- | ------- |
 | `noteId` | string | ✅  | 노트 UUID |
 
-#### salesmap-create-note
+***
+
+**salesmap-create-note**
 
 레코드에 노트(메모)를 추가합니다.
 
@@ -230,16 +293,20 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `objectId`   | string | ✅  | 대상 레코드 ID                                             |
 | `note`       | string | ✅  | 노트 내용                                                 |
 
-#### salesmap-get-quotes
+***
+
+**salesmap-get-quotes**
 
 딜/리드에 연결된 견적서 목록을 조회합니다.
 
-| 파라미터        | 타입     | 필수 | 설명            |
-| ----------- | ------ | -- | ------------- |
-| `obectType` | enum   | ✅  | `deal` `lead` |
-| `objectId`  | string | ✅  | 딜/리드 ID       |
+| 파라미터         | 타입     | 필수 | 설명            |
+| ------------ | ------ | -- | ------------- |
+| `objectType` | enum   | ✅  | `deal` `lead` |
+| `objectId`   | string | ✅  | 딜/리드 ID       |
 
-#### salesmap-create-quote
+***
+
+**salesmap-create-quote**
 
 견적서를 생성합니다. `dealId` 또는 `leadId` 중 하나를 지정해야 합니다.
 
@@ -253,23 +320,21 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `quoteProductList` | array   |        | 상품 목록     |
 | `properties`       | object  |        | 커스텀 필드    |
 
-#### salesmap-list-engagements
-
-레코드의 활동 타임라인을 조회합니다. (이메일·노트·TODO·웹폼·미팅 등)
-
-<table><thead><tr><th>파라미터</th><th width="249">타입</th><th>필수</th><th>설명</th></tr></thead><tbody><tr><td><code>objectType</code></td><td><code>enum</code> </td><td>✅</td><td><code>people</code> <code>organization</code> <code>deal</code> <code>lead</code></td></tr><tr><td><code>objectId</code></td><td><code>string</code></td><td>✅</td><td>레코드 ID</td></tr><tr><td><code>after</code></td><td><code>string</code></td><td></td><td>페이지네이션 커서</td></tr></tbody></table>
+***
 
 ### 파이프라인·분석
 
-#### salesmap-get-pipelines
+**salesmap-get-pipelines**
 
 파이프라인 목록과 각 단계의 ID를 조회합니다. 딜·리드 생성/검색 시 필요합니다.
 
-| 파라미터         | 타입   | 필수 | 설명            |
-| ------------ | ---- | -- | ------------- |
-| `objectType` | enum | ✅  | `deal` `lead` |
+| 파라미터         | 타입     | 필수 | 설명                                     |
+| ------------ | ------ | -- | -------------------------------------- |
+| `objectType` | string | ✅  | `deal` `lead` 또는 커스텀 오브젝트 이름 (예: `티켓`) |
 
-#### salesmap-get-lead-time
+***
+
+**salesmap-get-lead-time**
 
 딜/리드의 파이프라인 단계 별 체류 시간을 분석합니다.
 
@@ -278,15 +343,43 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `objectType` | enum   | ✅  | `deal` `lead` |
 | `objectId`   | string | ✅  | 레코드 ID        |
 
-**사용 예시:** “이 딜이 각 단계에서 며칠씩 걸렸는지 분석해줘”
+**사용 예시:** "이 딜이 각 단계에서 며칠씩 걸렸는지 분석해줘"
+
+***
+
+### 서버 스크립트
+
+**salesmap-run-script**
+
+AI가 작성한 JavaScript를 세일즈맵 서버에서 직접 실행합니다. 수백 건 레코드를 순회·집계하는 대량 작업을 도구 여러 번 호출 없이 단일 호출로 처리합니다 (최대 50초).
+
+| 파라미터     | 타입     | 필수 | 설명                                                         |
+| -------- | ------ | -- | ---------------------------------------------------------- |
+| `script` | string | ✅  | 실행할 JavaScript 코드. `salesmap.get/post/getAll`로 세일즈맵 API 호출 |
+
+**사용 예시:** "전체 딜을 담당자별로 집계해서 합계 금액 알려줘"
+
+{% hint style="info" %}
+단건 조회·생성 같은 일반 작업엔 전용 도구가 자동 선택되고, run-script는 대량 순회·집계가 필요할 때만 사용됩니다.
+{% endhint %}
+
+***
 
 ### 유틸리티
 
-#### salesmap-get-docs
+**salesmap-get-guide**
 
-세일즈맵 MCP의 도메인 지식을 조회합니다.
+세일즈맵 MCP 사용 가이드를 조회합니다. 오브젝트 모델·시나리오별 도구 조합·필드 입력 규칙·계산 수식 문법이 담겨 있어, AI가 세일즈맵 구조를 이해하는 데 사용합니다.
 
-#### salesmap-report-feedback
+***
+
+**salesmap-get-api-ref**
+
+세일즈맵 REST API 레퍼런스 전문을 조회합니다. 주로 `salesmap-run-script` 작성 전에 AI가 엔드포인트·요청 형식을 확인하는 용도입니다.
+
+***
+
+**salesmap-report-feedback**
 
 세일즈맵 MCP의 버그·부족한 기능·개선 요청을 개발팀에 전달합니다.
 
@@ -296,7 +389,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `summary`  | string | ✅  | 한 줄 요약                                                              |
 | `detail`   | string | ✅  | 무엇을 하려 했고 왜 막혔는지                                                    |
 
-#### salesmap-get-link
+***
+
+**salesmap-get-link**
 
 레코드의 세일즈맵 웹 URL을 생성합니다.
 
@@ -305,7 +400,9 @@ AI는 대화 맥락에 따라 적절한 도구를 자동으로 선택합니다. 
 | `objectType` | enum   | ✅  | `people` `organization` `deal` `lead` `custom-object` `product` `quote` |
 | `objectId`   | string | ✅  | 레코드 ID                                                                  |
 
-#### salesmap-list-users
+***
+
+**salesmap-list-users**
 
 CRM 사용자 목록을 조회합니다. 담당자 지정·변경 시 필요합니다.
 
@@ -313,7 +410,9 @@ CRM 사용자 목록을 조회합니다. 담당자 지정·변경 시 필요합�
 | ------- | ------ | -- | --------- |
 | `after` | string |    | 페이지네이션 커서 |
 
-#### salesmap-list-teams
+***
+
+**salesmap-list-teams**
 
 팀 목록 + 소속 멤버를 조회합니다.
 
@@ -321,7 +420,9 @@ CRM 사용자 목록을 조회합니다. 담당자 지정·변경 시 필요합�
 | ------- | ------ | -- | --------- |
 | `after` | string |    | 페이지네이션 커서 |
 
-#### salesmap-get-user-details
+***
+
+**salesmap-get-user-details**
 
 현재 API 키 소유자의 정보를 조회합니다.
 
@@ -329,8 +430,12 @@ CRM 사용자 목록을 조회합니다. 담당자 지정·변경 시 필요합�
 
 ### 도구 권한
 
-| 구분     | 도구 수 | 해당 도구                                                                                                                                                                                                                                                                                   |
-| ------ | ---- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **읽기** | 16개  | list-objects, list-properties, search-objects, batch-read-objects, list-associations, list-engagements, list-changelog, read-note, get-quotes, get-pipelines, get-lead-time, get-link, list-users, list-teams, get-user-details, get-docs, list-products, list-sequences, list-webforms |
-| **쓰기** | 6개   | salesmap-create-property, create-object, update-object, create-note, create-quote, report-feedback                                                                                                                                                                                      |
-| **삭제** | 1개   | delete-object                                                                                                                                                                                                                                                                           |
+| 구분     | 도구 수 | 해당 도구                                                                                                                                                                                                                                                                                                             |
+| ------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **읽기** | 21개  | list-objects, list-properties, list-associations, search-objects, batch-read-objects, list-engagements, list-changelog, list-notes, read-note, get-quotes, get-pipelines, get-lead-time, get-link, list-users, list-teams, get-user-details, get-guide, get-api-ref, list-products, list-sequences, list-webforms |
+| **쓰기** | 7개   | create-property, create-object, update-object, create-note, create-quote, run-script, report-feedback                                                                                                                                                                                                             |
+| **삭제** | 1개   | delete-object                                                                                                                                                                                                                                                                                                     |
+
+{% hint style="info" %}
+모든 도구는 API 토큰 소유자의 권한 범위 안에서만 동작합니다. 읽기 전용 사용자의 토큰으로는 쓰기·삭제 도구를 사용할 수 없습니다.
+{% endhint %}

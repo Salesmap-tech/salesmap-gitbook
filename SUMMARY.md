@@ -82,5 +82,4 @@
 * [MCP](mcp/README.md)
   * [시작하기](mcp/getting-started.md)
   * [도구 목록](mcp/tools.md)
-  * [도구 목록](mcp/undefined.md)
   * [활용 가이드](mcp/use-cases.md)
