@@ -6,21 +6,20 @@ description: 세일즈맵에서 구독 가능한 이벤트는 아래와 같습�
 
 ## 고객
 
-<figure><img src="../.gitbook/assets/스크린샷 2024-12-12 오후 2.09.51.png" alt=""><figcaption><p>웹훅 이벤트_고객</p></figcaption></figure>
+<table><thead><tr><th width="100.546875">이벤트</th><th>설명</th></tr></thead><tbody><tr><td>생성</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 고객이 생성되면 알림이 발송됩니다.</td></tr><tr><td>수정</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 고객의 필드가 수정되면 알림이 발송됩니다.<br>메모를 작성하거나, 웹 폼이 제출되는 등 특정한 행위로 시스템에서 관리하는 필드가 수정된 경우에도 알림이 발송됩니다.</td></tr><tr><td>삭제</td><td>API / 브라우저를 통해 고객이 삭제되면 알림이 발송됩니다.<br>다른 고객에 병합된 경우에도 삭제 알림이 발송됩니다.</td></tr><tr><td>병합</td><td>두 개 이상의 고객이 병합되면 알림이 발송됩니다.</td></tr></tbody></table>
 
 ## 회사
 
-<figure><img src="../.gitbook/assets/스크린샷 2024-12-12 오후 2.11.12.png" alt=""><figcaption><p>웹훅 이벤트_회사</p></figcaption></figure>
+<table><thead><tr><th width="100.03515625">이벤트</th><th>설명</th></tr></thead><tbody><tr><td>생성</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 회사가 생성되면 알림이 발송됩니다.</td></tr><tr><td>수정</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 회사의 필드가 수정되면 알림이 발송됩니다.<br>메모를 작성하거나, 웹 폼이 제출되는 등 특정한 행위로 시스템에서 관리하는 필드가 수정된 경우에도 알림이 발송됩니다.</td></tr><tr><td>삭제</td><td>API / 브라우저를 통해 회사가 삭제되면 알림이 발송됩니다.<br>다른 고객에 병합된 경우에도 삭제 알림이 발송됩니다.</td></tr><tr><td>병합</td><td>두 개 이상의 회사가 병합되면 알림이 발송됩니다.</td></tr></tbody></table>
 
 ## 리드
 
-<figure><img src="../.gitbook/assets/스크린샷 2025-01-21 오후 8.10.11.png" alt=""><figcaption><p>웹훅 이벤트_리드</p></figcaption></figure>
+<table><thead><tr><th width="99.79296875">이벤트</th><th>설명</th></tr></thead><tbody><tr><td>생성</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 리드가 생성되면 알림이 발송됩니다.</td></tr><tr><td>수정</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 리드의 필드가 수정되면 알림이 발송됩니다.<br>메모를 작성하거나, 웹 폼이 제출되는 등 특정한 행위로 시스템에서 관리하는 필드가 수정된 경우에도 알림이 발송됩니다.</td></tr><tr><td>삭제</td><td>API / 브라우저를 통해 리드가 삭제되면 알림이 발송됩니다.<br>다른 리드에 병합된 경우에도 삭제 알림이 발송됩니다.</td></tr><tr><td>병합</td><td>두 개 이상의 리드가 병합되면 알림이 발송됩니다.</td></tr></tbody></table>
 
 ## 딜
 
-<figure><img src="../.gitbook/assets/스크린샷 2025-01-21 오후 8.11.09.png" alt=""><figcaption><p>웹훅 이벤트_딜</p></figcaption></figure>
+<table><thead><tr><th width="100.3046875">이벤트</th><th>설명</th></tr></thead><tbody><tr><td>딜 생성</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 딜이 생성되면 알림이 발송됩니다.</td></tr><tr><td>딜 수정</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 딜의 필드가 수정되면 알림이 발송됩니다.<br>파이프라인이 변경되거나, 파이프라인 단계가 변경된 경우에도 알림이 발송됩니다.<br>메모를 작성하거나, 웹 폼이 제출되는 등 특정한 행위로 시스템에서 관리하는 필드가 수정된 경우에도 알림이 발송됩니다.</td></tr><tr><td>딜 삭제</td><td>API / 브라우저를 통해 딜이 삭제되면 알림이 발송됩니다.<br>다른 딜에 병합된 경우에도 삭제 알림이 발송됩니다.</td></tr><tr><td>딜 병합</td><td>두 개 이상의 딜이 병합되면 알림이 발송됩니다.</td></tr></tbody></table>
 
 ## 커스텀 오브젝트
 
-<figure><img src="../.gitbook/assets/image (6).png" alt=""><figcaption><p>웹훅 이벤트_커스텀 오브젝트</p></figcaption></figure>
-
+<table><thead><tr><th width="99.78125">이벤트</th><th>설명</th></tr></thead><tbody><tr><td>생성</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 커스텀 오브젝트가 생성되면 알림이 발송됩니다.</td></tr><tr><td>수정</td><td>API / 브라우저 / 데이터 가져오기 등을 통해 커스텀 오브젝트의 필드가 수정되면 알림이 발송됩니다.<br>파이프라인이 변경되거나, 파이프라인 단계가 변경된 경우에도 알림이 발송됩니다.<br>메모를 작성하는 등 특정한 행위로 시스템에서 관리하는 필드가 수정된 경우에도 알림이 발송됩니다.</td></tr><tr><td>삭제</td><td>API / 브라우저를 통해 커스텀 오브젝트가 삭제되면 알림이 발송됩니다.</td></tr></tbody></table>
