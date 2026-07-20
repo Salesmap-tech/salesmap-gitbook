@@ -52,24 +52,20 @@ MCP(Model Context Protocol)는 AI 모델이 외부 서비스의 기능을 표준
 
 ### 지원 AI 클라이언트
 
-* Claude
-  * Claude 웹(claude.ai)
-  * Claude 데스크탑/모바일 앱
-  * Claude Code
-* ChatGPT
-  * ChatGPT 웹(chatgpt.com)
-  * Claude 데스크탑/모바일 앱
-  * Codex
-* Gemini
-  * Gemini 웹(gemini.google.com)
-  * Gemini 데스크탑/모바일 앱
-  * Antigravity
-* 기타
+주요 AI 클라이언트를 모두 지원합니다.
+
+| 클라이언트   | 웹                 | 데스크탑/모바일 앱 | 코드/개발 도구    |
+| ------- | ----------------- | ---------- | ----------- |
+| Claude  | claude.ai         | ✓          | Claude Code |
+| ChatGPT | chatgpt.com       | ✓          | Codex       |
+| Gemini  | gemini.google.com | ✓          | Antigravity |
+
+이 외에도 Cursor 등 MCP를 지원하는 대부분의 도구에서 사용할 수 있습니다.
 
 
 
 설치 방법에 대한 자세한 정보는 아래 문서를 참고해주세요.
 
-{% content-ref url="/broken/pages/4uCTI7R3EivYFnqFe1Tp" %}
-[Broken link](/broken/pages/4uCTI7R3EivYFnqFe1Tp)
+{% content-ref url="getting-started.md" %}
+[getting-started.md](getting-started.md)
 {% endcontent-ref %}
