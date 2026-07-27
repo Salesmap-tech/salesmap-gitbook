@@ -10,7 +10,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-14.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
+> **문서 기준일: 2026-07-27.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
 >
 > * **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > * **To User:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
@@ -3335,11 +3335,16 @@ TODO 목록을 조회합니다.
 | `typeId`                                            | query | string(uuid) |     | 노트 유형 id로 필터합니다(`GET /v2/memo/type-list`의 `_id`). UUID 형식이 아니거나 잘못된 값은 `500`을 반환하므로 유효한 id만 전달합니다. |
 | `dealId` / `leadId` / `peopleId` / `organizationId` | query | string(uuid) |     | 연결된 딜/리드/고객/회사로 필터합니다.                                                                             |
 
-> **참고:** 연결 대상 필터(`dealId`·`leadId`·`peopleId`·`organizationId`)는 Activity 레코드 기준으로 조회되므로, 한 노트가 여러 대상에 연결돼 있어도 각 대상 id로 정상 조회됩니다.
+> **참고(연결 전파 · 필터 혼입):** 딜·리드에 남긴 노트에는 그 딜·리드가 **연결된 고객·회사 id까지 함께** 기록됩니다. 딜 노트 = `dealId` + (연결 시) `peopleId` + `organizationId`, 리드 노트 = `leadId` + (연결 시) `peopleId` + `organizationId`.
+>
+> * 따라서 `peopleId`(또는 `organizationId`)로 필터하면 그 고객·회사에 **직접** 남긴 노트뿐 아니라, 그 고객·회사가 연결된 **상위 딜·리드의 노트까지 함께** 반환됩니다.
+> * 특정 고객·회사에 **직접 남긴 노트만** 뽑으려면, 결과에서 상위 id가 채워진 항목을 걸러냅니다. 예: `peopleId`로 조회한 뒤 `dealId`와 `leadId`가 모두 `null`인 노트만 취합니다.
 
 **응답** `200 OK`
 
 `data.memoList`는 노트 레코드 배열이며, `data.nextCursor`로 다음 페이지를 조회합니다. 마지막 페이지에서는 `memoList`가 빈 배열을 반환합니다.
+
+> **정렬 순서:** `data.memoList`는 `createdAt` **오름차순(오래된 것부터)** 으로 반환됩니다. 즉 **첫 페이지가 가장 오래된 노트**이고 **최신 노트는 마지막 페이지**에 있습니다. 최신 노트가 필요하면 `nextCursor`가 없어질 때까지 끝 페이지까지 넘기세요(정렬 방향을 바꾸는 파라미터는 없습니다).
 
 ```json
 {
