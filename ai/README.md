@@ -2532,7 +2532,7 @@ Content-Type: application/json   # 쓰기(POST)에만
 | `…filters[].operator`       | body  | enum                                 | 필수  | 아래 연산자표 참고. 필드 타입과 맞아야 합니다.                                                                                                                                                       |
 | `…filters[].value`          | body  | string \| number \| boolean \| array | 조건부 | `EXISTS`/`NOT_EXISTS`에서만 생략할 수 있고, 그 외 연산자에서는 필수입니다. 빈 문자열 `""`은 허용되지 않습니다. `IN`/`NOT_IN`/`DATE_BETWEEN`은 배열로 전달합니다. boolean 필드는 따옴표 없는 `true`/`false`로 전달합니다(문자열 `"true"`는 400). |
 
-> **참고:** 딜의 이름 필드는 `이름`입니다(`딜 이름`이 아니며, `딜 이름`을 전달하면 400 `Invalid fieldName: 딜 이름`을 반환합니다). 정확한 이름은 `GET /v2/field/{type}`로 확인합니다.
+> **참고:** 고객·회사·딜·리드의 이름 필드는 모두 `이름`입니다. `고객 이름`·`회사 이름`·`딜 이름`·`리드 이름`처럼 타입명을 붙이면 400 `Invalid fieldName: <이름>`을 반환합니다. 정확한 필드 이름은 `GET /v2/field/{type}`로 확인합니다.
 
 **연산자표 (operator)**
 
