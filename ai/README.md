@@ -10,7 +10,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-29.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
+> **문서 기준일: 2026-07-30.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 [https://docs.salesmap.kr/developers/api-reference/ai#api](https://docs.salesmap.kr/developers/api-reference/ai#api) 에 게시됩니다.
 >
 > * **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > * **To User:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
@@ -63,22 +63,23 @@ description: >-
 
 사용자 요청을 보고 어떤 API를 쓸지 빠르게 고르는 표입니다.
 
-| 하려는 것                       | API                                                                                           |
-| --------------------------- | --------------------------------------------------------------------------------------------- |
-| 고객·회사·딜·리드 목록/단건 조회         | `GET /v2/{type}`, `GET /v2/{type}/{id}`                                                       |
-| 고객·회사·딜·리드 생성/수정            | `POST /v2/{type}`, `POST /v2/{type}/{id}`                                                     |
-| 커스텀 필드 값 넣기                 | 생성/수정 body의 `fieldList` ("필드 값 쓰기" 참조)                                                        |
-| 고객을 회사에 연결 / 딜·리드에 고객·회사 연결 | 생성·수정 시 top-level `organizationId`·`peopleId`                                                 |
-| 복합 조건 검색                    | `POST /v2/object/{type}/search`                                                               |
-| 연결된 레코드 조회                  | `GET /v2/object/{type}/{id}/association/{toType}/primary` 또는 `/custom`                        |
-| 필드 정의(이름·타입·옵션) 조회          | `GET /v2/field/{type}`                                                                        |
-| 이메일 발송 / 이메일 첨부용 파일 업로드     | `POST /v2/email` / `POST /v2/file` (objectType·objectId 없이)                                   |
-| 레코드에 파일 첨부 / 첨부 조회 / 파일 삭제  | `POST /v2/file` (+`objectType`·`objectId`) / `GET /v2/file` / `POST /v2/file/{fileId}/delete` |
-| 견적서 생성 / 딜·리드 견적 조회         | `POST /v2/quote` / \`GET /v2/{deal                                                            |
-| 노트(메모) 생성                   | 레코드 생성·수정 시 body `memo` (전용 생성 API 없음. "노트 / 메모" 섹션 참조)                                       |
-| 노트 조회 / 유형 목록               | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list`                                             |
-| 변경 이력 / 활동(타임라인) 조회         | `GET /v2/{type}/history` / `GET /v2/{type}/activity`                                          |
-| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능)                                                         |
+| 하려는 것                       | API                                                                                            |
+| --------------------------- | ---------------------------------------------------------------------------------------------- |
+| 고객·회사·딜·리드 목록/단건 조회         | `GET /v2/{type}`, `GET /v2/{type}/{id}`                                                        |
+| 고객·회사·딜·리드 생성/수정            | `POST /v2/{type}`, `POST /v2/{type}/{id}`                                                      |
+| 커스텀 필드 값 넣기                 | 생성/수정 body의 `fieldList` ("필드 값 쓰기" 참조)                                                         |
+| 고객을 회사에 연결 / 딜·리드에 고객·회사 연결 | 생성·수정 시 top-level `organizationId`·`peopleId`                                                  |
+| 복합 조건 검색                    | `POST /v2/object/{type}/search`                                                                |
+| 연결된 레코드 조회                  | `GET /v2/object/{type}/{id}/association/{toType}/primary` 또는 `/custom`                         |
+| 필드 정의(이름·타입·옵션) 조회          | `GET /v2/field/{type}`                                                                         |
+| 이메일 발송 / 이메일 첨부용 파일 업로드     | `POST /v2/email` / `POST /v2/file` (objectType·objectId 없이)                                    |
+| 레코드에 파일 첨부 / 첨부 조회 / 파일 삭제  | `POST /v2/file` (+`objectType`·`objectId`) / `GET /v2/file` / `POST /v2/file/{fileId}/delete`  |
+| 견적서 생성 / 딜·리드 견적 조회         | `POST /v2/quote` / \`GET /v2/{deal                                                             |
+| 노트(메모) 생성                   | 레코드 생성·수정 시 body `memo` (전용 생성 API 없음. "노트 / 메모" 섹션 참조)                                        |
+| 노트 조회 / 유형 목록               | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list`                                              |
+| 변경 이력 / 활동(타임라인) 조회         | `GET /v2/{type}/history` / `GET /v2/{type}/activity` (활동은 `types`·`startDate`·`endDate` 필터 지원) |
+| 이메일 본문 조회                   | `GET /v2/email/{emailId}` (활동의 `emailId`로 제목·수신자·본문 조회)                                        |
+| 삭제                          | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능)                                                          |
 
 > **생성 순서 (연결된 상태로 만들 때):** 연결 대상 ID(`organizationId`·`peopleId`)는 생성 시 검증되어 **이미 존재해야** 하며, 없으면 `400`(`organizationId의 대상을 찾을 수 없습니다.` 등)을 반환합니다. 따라서 처음부터 연결된 상태로 만들려면 **회사 → 고객 → 딜·리드** 순으로 생성하세요(부모를 먼저 만들고, 반환된 `id`를 자식 생성 body의 `organizationId`·`peopleId`로 전달). 순서를 지키지 않아도 각 오브젝트를 독립적으로 만든 뒤 수정 API(`POST /v2/{type}/{id}`)로 나중에 연결할 수 있습니다.
 
@@ -111,6 +112,17 @@ History·Activity 타임라인을 제공하는 레코드는 딜·리드·고객�
 * "지원" 레코드만 `GET /v2/{type}/history`, `GET /v2/{type}/activity`로 조회됩니다.
 * "미지원" 레코드로 호출하면 엔드포인트가 없어 `404`(노트는 라우팅상 `400`)를 반환합니다.
 * 견적서·상품·노트·TODO의 활동은 자체 타임라인이 아니라 연결된 딜·고객 등 상위 오브젝트의 activity에 기록됩니다.
+
+**활동(activity) 공통 필터 · 필드** (5개 `…/activity` 조회 API 공통, query 파라미터)
+
+| 파라미터                    | 설명                                                                                                                                                                                                                            |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `types`                 | 조회할 활동 유형(쉼표 구분). 유효값: `create`·`email`·`emailOpen`·`memoCreate`·`todoCreate`·`meeting`·`webFormSubmit`·`recordingCreate`·`smsSend`·`kakaoAlimtalkSend`. 활동 레코드의 `type` 값과 동일해야 하며, 그 외 값은 400 `[<i>]: 유효하지 않은 값입니다.`를 반환합니다. |
+| `startDate` / `endDate` | 활동 발생 시점(레코드의 `date` 필드) 범위(ISO8601, 예 `2026-07-01T00:00:00+09:00`). `startDate`가 `endDate`보다 늦으면 400 `startDate는 endDate보다 늦을 수 없습니다.`                                                                                       |
+
+* 이 필터(`types`·`startDate`·`endDate`)는 **`…/activity`에만** 적용됩니다. **`…/history`는 이 파라미터를 무시하고 전체를 반환**하므로(에러 없이), 히스토리 증분 수집은 cursor(`cursorId`)로 합니다.
+* 유형값 주의: 통화 녹음은 `recordingCreate`, SMS는 `smsSend`, 카카오 알림톡은 `kakaoAlimtalkSend`입니다. 단순 `recording`·`call`·`sms`는 유효하지 않습니다.
+* 각 활동 레코드에는 `recordingId`가 포함됩니다(통화/녹음 활동이면 녹음 식별자, 아니면 `null`). 이메일 활동의 `emailId`로 `GET /v2/email/{emailId}`(본문 조회)로, `recordingId`로 녹음 상세로 이어서 조회할 수 있습니다.
 
 ### 기본 정보
 
@@ -348,7 +360,7 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 * `GET /v2/file` — 레코드 첨부파일 조회
 * `POST /v2/file/{fileId}/delete` — 파일 삭제
 * `POST /v2/email` — 이메일 발송
-* `GET /v2/email/{emailId}` — 발송 이메일 단건 조회
+* `GET /v2/email/{emailId}` — 이메일 상세 조회 (본문 포함)
 
 **시퀀스 · 웹폼 · TODO · 메모 (Sequence / WebForm / Todo / Memo)**
 
@@ -624,10 +636,12 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 
 **요청 파라미터**
 
-| 이름         | 위치    | 타입           |  필수 | 설명                                       |
-| ---------- | ----- | ------------ | :-: | ---------------------------------------- |
-| `peopleId` | query | string(UUID) |  선택 | 특정 고객으로 필터링합니다. 생략 시 전체 고객의 액티비티를 반환합니다. |
-| `cursor`   | query | string(UUID) |  선택 | 페이지네이션 커서                                |
+| 이름                      | 위치    | 타입              |  필수 | 설명                                                  |
+| ----------------------- | ----- | --------------- | :-: | --------------------------------------------------- |
+| `peopleId`              | query | string(UUID)    |  선택 | 특정 고객으로 필터링합니다. 생략 시 전체 고객의 액티비티를 반환합니다.            |
+| `types`                 | query | string          |  선택 | 활동 유형 필터(쉼표 구분). 유효값은 "히스토리 vs 액티비티 > 활동 공통 필터" 참조. |
+| `startDate` / `endDate` | query | string(ISO8601) |  선택 | 활동 발생 시점 범위. `startDate`가 `endDate`보다 늦으면 400.      |
+| `cursor`                | query | string(UUID)    |  선택 | 페이지네이션 커서                                           |
 
 **응답** `200 OK`
 
@@ -652,7 +666,8 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
         "memoId": null,
         "todoId": null,
         "documentId": null,
-        "documentName": null
+        "documentName": null,
+        "recordingId": null
       }
     ],
     "nextCursor": null
@@ -853,10 +868,12 @@ id, RecordId, 이름, 주소, 웹 주소, 전화, 업종, 직원수, 프로필 �
 
 **요청 파라미터**
 
-| 이름               | 위치    | 타입           |  필수 | 설명                                      |
-| ---------------- | ----- | ------------ | :-: | --------------------------------------- |
-| `organizationId` | query | string(UUID) | 아니오 | 특정 회사로 필터합니다. 생략하면 워크스페이스 전체 활동을 반환합니다. |
-| `cursor`         | query | string       | 아니오 | 페이지네이션 커서(페이지당 50건).                    |
+| 이름                      | 위치    | 타입              |  필수 | 설명                                                  |
+| ----------------------- | ----- | --------------- | :-: | --------------------------------------------------- |
+| `organizationId`        | query | string(UUID)    | 아니오 | 특정 회사로 필터합니다. 생략하면 워크스페이스 전체 활동을 반환합니다.             |
+| `types`                 | query | string          | 아니오 | 활동 유형 필터(쉼표 구분). 유효값은 "히스토리 vs 액티비티 > 활동 공통 필터" 참조. |
+| `startDate` / `endDate` | query | string(ISO8601) | 아니오 | 활동 발생 시점 범위. `startDate`가 `endDate`보다 늦으면 400.      |
+| `cursor`                | query | string          | 아니오 | 페이지네이션 커서(페이지당 50건).                                |
 
 **응답** `200 OK`
 
@@ -1168,10 +1185,12 @@ Base `https://salesmap.kr/api` · 버전 **v2** · 인증 `Authorization: Bearer
 
 **요청 파라미터**
 
-| 이름     | 위치    | 타입           |  필수 | 설명                                              |
-| ------ | ----- | ------------ | :-: | ----------------------------------------------- |
-| dealId | query | string(uuid) |  선택 | 특정 딜로 필터합니다. 미지정 시 워크스페이스 전체 액티비티를 최신순으로 반환합니다. |
-| cursor | query | string       |  선택 | 페이지네이션 커서                                       |
+| 이름                  | 위치    | 타입              |  필수 | 설명                                                  |
+| ------------------- | ----- | --------------- | :-: | --------------------------------------------------- |
+| dealId              | query | string(uuid)    |  선택 | 특정 딜로 필터합니다. 미지정 시 워크스페이스 전체 액티비티를 최신순으로 반환합니다.     |
+| types               | query | string          |  선택 | 활동 유형 필터(쉼표 구분). 유효값은 "히스토리 vs 액티비티 > 활동 공통 필터" 참조. |
+| startDate / endDate | query | string(ISO8601) |  선택 | 활동 발생 시점 범위. `startDate`가 `endDate`보다 늦으면 400.      |
+| cursor              | query | string          |  선택 | 페이지네이션 커서                                           |
 
 **응답** `200 OK`
 
@@ -1526,10 +1545,12 @@ Base `https://salesmap.kr/api` · 버전 **v2** · 인증 `Authorization: Bearer
 
 **요청 파라미터**
 
-| 이름     | 위치    | 타입           |  필수 | 설명                                     |
-| ------ | ----- | ------------ | :-: | -------------------------------------- |
-| leadId | query | string(uuid) |     | 특정 리드로 필터링합니다. 생략 시 전체 리드 액티비티를 반환합니다. |
-| cursor | query | string       |     | 페이지네이션 커서                              |
+| 이름                  | 위치    | 타입              |  필수 | 설명                                                  |
+| ------------------- | ----- | --------------- | :-: | --------------------------------------------------- |
+| leadId              | query | string(uuid)    |     | 특정 리드로 필터링합니다. 생략 시 전체 리드 액티비티를 반환합니다.              |
+| types               | query | string          |     | 활동 유형 필터(쉼표 구분). 유효값은 "히스토리 vs 액티비티 > 활동 공통 필터" 참조. |
+| startDate / endDate | query | string(ISO8601) |     | 활동 발생 시점 범위. `startDate`가 `endDate`보다 늦으면 400.      |
+| cursor              | query | string          |     | 페이지네이션 커서                                           |
 
 **응답** `200 OK`
 
@@ -2106,10 +2127,12 @@ Content-Type: application/json          # 쓰기(POST) 시 필수
 
 **요청 파라미터**
 
-| 이름               | 위치    | 타입     |  필수 | 설명                  |
-| ---------------- | ----- | ------ | :-: | ------------------- |
-| `customObjectId` | query | string |     | 특정 레코드로 필터. 생략 시 전체 |
-| `cursor`         | query | string |     | 페이지네이션 커서           |
+| 이름                      | 위치    | 타입              |  필수 | 설명                                                  |
+| ----------------------- | ----- | --------------- | :-: | --------------------------------------------------- |
+| `customObjectId`        | query | string          |     | 특정 레코드로 필터. 생략 시 전체                                 |
+| `types`                 | query | string          |     | 활동 유형 필터(쉼표 구분). 유효값은 "히스토리 vs 액티비티 > 활동 공통 필터" 참조. |
+| `startDate` / `endDate` | query | string(ISO8601) |     | 활동 발생 시점 범위. `startDate`가 `endDate`보다 늦으면 400.      |
+| `cursor`                | query | string          |     | 페이지네이션 커서                                           |
 
 **응답 `200 OK`**
 
@@ -2953,25 +2976,40 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/contract.pdf"
 | 401 | 인증 실패                                                        |
 | 429 | 레이트리밋 초과                                                     |
 
-#### GET /v2/email/{emailId} — 발송 이메일 단건 조회
+#### GET /v2/email/{emailId} — 이메일 상세 조회
 
-발송한 이메일 1건의 상세 정보를 조회합니다.
-
-> **참고:** 응답에는 이메일 **본문(`body`/`htmlBody`)이 포함되지 않습니다.** 메타데이터(제목·발신/수신·상태·날짜)만 조회됩니다.
+이메일 1건의 상세(제목·발신/수신·상태·본문)를 조회합니다. 활동(activity)의 `emailId`로 본문까지 이어서 조회할 때 사용합니다.
 
 **요청 파라미터**
 
-| 이름        | 위치   | 타입           |  필수 | 설명                                     |
-| --------- | ---- | ------------ | :-: | -------------------------------------- |
-| `emailId` | path | string(uuid) |  필수 | 조회할 이메일 ID (`POST /v2/email` 응답의 `id`) |
+| 이름        | 위치   | 타입           |  필수 | 설명                                                      |
+| --------- | ---- | ------------ | :-: | ------------------------------------------------------- |
+| `emailId` | path | string(uuid) |  필수 | 조회할 이메일 ID (활동의 `emailId` 또는 `POST /v2/email` 응답의 `id`) |
 
 **응답** `200 OK`
 
 ```json
-{ "success": true, "data": { "email": { "id": "...", "subject": "...", "from": "...", "to": "...", "cc": "...", "bcc": "...", "status": "...", "messageId": "...", "date": "..." } } }
+{ "success": true, "data": { "email": {
+  "id": "...", "subject": "...", "from": "user@example.com",
+  "to": [ ... ], "cc": [ ], "bcc": [ ],
+  "status": "...", "messageId": "...", "date": "...",
+  "snippet": "...", "htmlBody": "<div>...</div>", "text": "..." } } }
 ```
 
-* 응답 키는 `id`입니다.
+| 키                   | 타입              | 설명                |
+| ------------------- | --------------- | ----------------- |
+| `id`                | string(uuid)    | 이메일 ID            |
+| `subject`           | string          | 제목                |
+| `from`              | string          | 발신자               |
+| `to` / `cc` / `bcc` | array           | 수신 / 참조 / 숨은참조 목록 |
+| `status`            | string          | 발송 상태             |
+| `date`              | string(ISO8601) | 발송 시각             |
+| `snippet`           | string          | 미리보기 텍스트          |
+| `htmlBody`          | string          | HTML 본문           |
+| `text`              | string          | 텍스트 본문            |
+| `messageId`         | string          | 메일 스레드 식별자        |
+
+> **참고(본문 이미지):** 이미지 전용 필드는 없습니다. 본문 이미지는 `htmlBody` 안에 외부 URL(`https://image.salesmap.kr/...`)로 들어 있어 `<img src>`를 파싱해 받습니다. 이 이미지 URL은 **인증 없이 접근 가능한 공개 URL**이며(응답 `content-type`이 `text/plain`이어도 실제 바이트는 이미지), `https://salesmap.kr/email-notification/pixel?code=...`는 콘텐츠가 아니라 **열람 추적 픽셀**이므로 제외합니다.
 
 **에러**
 
