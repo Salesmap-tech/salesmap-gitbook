@@ -95,7 +95,7 @@ description: >-
 
 **레코드 종류별 History / Activity 지원**
 
-History·Activity 타임라인을 제공하는 레코드는 딜·리드·고객·회사·커스텀 오브젝트 5종입니다. 견적서·상품·노트(memo)·TODO는 제공하지 않습니다.
+**전용** History·Activity 조회 엔드포인트(`GET /v2/{type}/history`·`/activity`)를 가진 레코드는 딜·리드·고객·회사·커스텀 오브젝트 5종입니다. 아래 "미지원"은 **그 타입 전용 엔드포인트가 없다**는 뜻이며, 노트·TODO 활동이 어디에도 안 보인다는 뜻은 아닙니다(아래 참고).
 
 | 레코드      | `{type}` 경로값    | History | Activity |
 | -------- | --------------- | ------- | -------- |
@@ -110,8 +110,9 @@ History·Activity 타임라인을 제공하는 레코드는 딜·리드·고객�
 | TODO     | `todo`          | 미지원     | 미지원      |
 
 * "지원" 레코드만 `GET /v2/{type}/history`, `GET /v2/{type}/activity`로 조회됩니다.
-* "미지원" 레코드로 호출하면 엔드포인트가 없어 `404`(노트는 라우팅상 `400`)를 반환합니다.
-* 견적서·상품·노트·TODO의 활동은 자체 타임라인이 아니라 연결된 딜·고객 등 상위 오브젝트의 activity에 기록됩니다.
+* "미지원" 레코드로 그 경로를 호출하면 엔드포인트가 없어 `404`(노트는 라우팅상 `400`)를 반환합니다.
+* **노트·TODO는 전용 엔드포인트는 없지만, 상위 오브젝트(딜·고객 등)의 activity 타임라인에 `memoCreate`·`todoCreate` 유형으로 나타납니다**(각 항목의 `memoId`·`todoId`로 식별). 상위 activity를 `types=memoCreate` 등으로 필터해 조회합니다.
+* **견적서·상품은 전용 엔드포인트도 없고, 상위 activity의 활동 유형으로도 나타나지 않습니다**(`quoteCreate`·`productCreate` 등은 유효한 `types` 값이 아님).
 
 **활동(activity) 공통 필터 · 필드** (5개 `…/activity` 조회 API 공통, query 파라미터)
 
