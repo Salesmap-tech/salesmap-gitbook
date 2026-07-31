@@ -32,11 +32,11 @@
 
 * 공통: `EQ`, `NEQ`, `EXISTS`, `NOT_EXISTS`
 * 문자열: `CONTAINS`, `NOT_CONTAINS`
-* 숫자: `LT`, `LTE`, `GT`, `GTE`
-* 선택값: `IN`, `NOT_IN`, `LIST_CONTAIN`, `LIST_NOT_CONTAIN`. `IN`, `NOT_IN`은 문자열 또는 비어 있지 않은 문자열 배열을 사용하고 `LIST_CONTAIN`, `LIST_NOT_CONTAIN`은 단일 문자열을 사용합니다.
+* 숫자: `LT`, `LTE`, `GT`, `GTE`. JSON number 외에 십진수·지수·16진수(`0x`)·2진수(`0b`)·8진수(`0o`) 문자열도 사용할 수 있습니다.
+* 선택·관계: `IN`, `NOT_IN`, `LIST_CONTAIN`, `LIST_NOT_CONTAIN`. `IN`, `NOT_IN`은 문자열 또는 비어 있지 않은 문자열 배열을 사용합니다. `LIST_CONTAIN`, `LIST_NOT_CONTAIN`은 다중 선택 및 관계 필드에서 단일 문자열을 사용하며, 관계 필드에는 UUID 또는 레거시 ObjectId 형식의 단일 RecordId를 전달합니다.
 * 날짜: `DATE_ON_OR_AFTER`, `DATE_ON_OR_BEFORE`, `DATE_IS_SPECIFIC_DAY`, `DATE_BETWEEN`, `DATE_MORE_THAN_DAYS_AGO`, `DATE_LESS_THAN_DAYS_AGO`, `DATE_LESS_THAN_DAYS_LATER`, `DATE_MORE_THAN_DAYS_LATER`, `DATE_AGO`, `DATE_LATER`
 
-`DATE_BETWEEN`은 ISO 8601 날짜 문자열 두 개로 이루어진 배열을 사용합니다. 나머지 지정일 연산자는 ISO 8601 날짜 문자열 하나를, 오늘 기준 경과일 연산자는 숫자를 사용합니다. `EQ`, `NEQ`의 값 타입은 대상 필드에 따라 문자열, 숫자 또는 boolean입니다.
+`DATE_BETWEEN`은 유효한 날짜 문자열 두 개로 이루어진 배열을 사용합니다. 나머지 지정일 연산자는 날짜 문자열 하나를, 오늘 기준 경과일 연산자는 숫자를 사용합니다. 날짜시간은 `T` 또는 공백으로 날짜와 시간을 구분할 수 있고 타임존은 선택 사항입니다(예: `2026-01-01T09:30:00`, `2026-01-01 09:30`). `EQ`, `NEQ`의 값 타입은 대상 필드에 따라 문자열, 숫자 또는 boolean입니다.
 
 **Request**
 
