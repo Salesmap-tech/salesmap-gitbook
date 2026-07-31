@@ -50,7 +50,7 @@ SeA 프로필 API 토큰이 속한 SDR 프로필의 방문자를 최신 생성�
 ### Request
 
 ```bash
-curl -X GET 'https://app.salesmap.kr/api/v2/sdr/lead' \
+curl -X GET 'https://salesmap.kr/api/v2/sdr/lead' \
   -H 'Authorization: Bearer <sea-profile-token>'
 ```
 
