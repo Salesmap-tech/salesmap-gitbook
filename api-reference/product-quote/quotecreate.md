@@ -26,7 +26,7 @@
 | `quoteProductList[].productId` | string | 견적서 상품의 ID<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `quoteProductList[].price` | number | 견적서 상품의 가격. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `quoteProductList[].amount` | number | 견적서 상품의 수량. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
-| `quoteProductList[].paymentCount` | number | 결제 횟수. 구독형 상품에서는 `paymentStartAt`과 함께 필요하며 일반 상품에서는 사용하지 않습니다. |
+| `quoteProductList[].paymentCount` | integer | 1 이상의 결제 횟수. 구독형 상품에서는 `paymentStartAt`과 함께 필요하며 일반 상품에서는 사용하지 않습니다. |
 | `quoteProductList[].paymentStartAt` | string (date-time) | 시작 결제일. 구독형 상품에서는 `paymentCount`와 함께 필요하며 일반 상품에서는 사용하지 않습니다. |
 | `quoteProductList[].fieldList` | array | 견적서 상품의 데이터 필드 |
 
