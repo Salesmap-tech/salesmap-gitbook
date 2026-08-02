@@ -27,20 +27,17 @@
                     {
                         "id": "<pipelineStageId>",
                         "name": "파이프라인 스테이지 이름 1",
-                        "index": 1,
-                        "description": "파이프라인 스테이지1의 설명"
-                    }, 
+                        "index": 1
+                    },
                     {
                         "id": "<pipelineStageId>",
                         "name": "파이프라인 스테이지 이름 2",
-                        "index": 2,
-                        "description": "파이프라인 스테이지2의 설명"
-                    },
-                    ,...  
-                  ]
-            },
-            ,...
-            ]
+                        "index": 2
+                    }
+                ]
+            }
+        ]
+    }
 }
 ```
 {% endtab %}
