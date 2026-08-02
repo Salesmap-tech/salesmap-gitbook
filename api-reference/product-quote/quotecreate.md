@@ -1,23 +1,79 @@
 # 견적서 생성
 
-&#x20;<mark style="color:yellow;">`POST`</mark>  `/v2/quote`
+<mark style="color:yellow;">`POST`</mark> `/v2/quote`
 
-특정 딜 또는 리드의 견적서를 생성합니다.
+딜 또는 리드에 연결된 견적서를 생성합니다. `dealId`와 `leadId` 중 정확히 하나를 입력해야 합니다.
 
 **Headers**
 
-| Name          | Value              |
-| ------------- | ------------------ |
-| Content-Type  | `application/json` |
-| Authorization | `Bearer <token>`   |
+| Name | Value |
+| --- | --- |
+| Content-Type | `application/json` |
+| Authorization | `Bearer <token>` |
 
 **Body parameters**
 
-<table><thead><tr><th width="360">Name</th><th width="98">Type</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td><p>생성할 견적서의 이름</p><p><mark style="color:red;"><strong>Required</strong></mark></p></td></tr><tr><td><code>dealId</code></td><td>string</td><td>생성할 견적서의 딜 Id. dealId와 leadId 중 정확히 하나 필요</td></tr><tr><td><code>leadId</code></td><td>string</td><td>생성할 견적서의 리드 Id. dealId와 leadId 중 정확히 하나 필요</td></tr><tr><td><code>memo</code></td><td>string</td><td>견적서 생성 시 작성할 메모</td></tr><tr><td><code>fieldList</code></td><td>array</td><td>견적서의 데이터 필드</td></tr><tr><td><code>isMainQuote</code></td><td>boolean</td><td>메인 견적으로 설정할 지 여부</td></tr><tr><td><code>quoteProductList</code></td><td>array</td><td>견적서의 상품 목록</td></tr><tr><td><code>quoteProductList[].name</code></td><td>string</td><td>견적서 상품의 이름<br><mark style="color:red;"><strong>Required</strong></mark></td></tr><tr><td><code>quoteProductList[].productId</code></td><td>string</td><td>견적서 상품의 id<br><mark style="color:red;"><strong>Required</strong></mark> (quoteProductList 항목마다)</td></tr><tr><td><code>quoteProductList[].price</code></td><td>number</td><td>견적서 상품의 가격. 0 이상<br><mark style="color:red;"><strong>Required</strong></mark> (quoteProductList 항목마다)</td></tr><tr><td><code>quoteProductList[].amount</code></td><td>number</td><td>견적서 상품의 수량. 0 이상<br><mark style="color:red;"><strong>Required</strong></mark> (quoteProductList 항목마다)</td></tr><tr><td><code>quoteProductList[].paymentCount</code></td><td>number</td><td>견적서 상품의 결제 횟수</td></tr><tr><td><code>quoteProductList[].paymentStartAt</code></td><td>date</td><td>견적서 상품의 시작 결제일</td></tr><tr><td><code>quoteProductList[].fieldList</code></td><td>array</td><td>견적서 상품의 데이터 필드</td></tr></tbody></table>
+| Name | Type | Description |
+| --- | --- | --- |
+| `name` | string | 생성할 견적서의 이름. 공백이 아닌 문자열이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `dealId` | string | 견적서를 연결할 딜 ID. `leadId`와 동시에 입력할 수 없습니다. |
+| `leadId` | string | 견적서를 연결할 리드 ID. `dealId`와 동시에 입력할 수 없습니다. |
+| `memo` | string | 견적서 생성 시 함께 작성할 메모 |
+| `fieldList` | array | 견적서의 데이터 필드 |
+| `isMainQuote` | boolean | 메인 견적으로 설정할지 여부 |
+| `quoteProductList` | array | 견적서의 상품 목록 |
+| `quoteProductList[].name` | string | 견적서 상품의 이름<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `quoteProductList[].productId` | string | 견적서 상품의 ID<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `quoteProductList[].price` | number | 견적서 상품의 가격. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `quoteProductList[].amount` | number | 견적서 상품의 수량. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `quoteProductList[].paymentCount` | integer | 결제 횟수. 1 이상이어야 하며 구독형 상품에서는 `paymentStartAt`과 함께 필수입니다. 일반 상품에는 입력할 수 없습니다. |
+| `quoteProductList[].paymentStartAt` | string (date-time) | 시작 결제일. 구독형 상품에서는 `paymentCount`와 함께 필수입니다. 일반 상품에는 입력할 수 없습니다. |
+| `quoteProductList[].fieldList` | array | 견적서 상품의 데이터 필드 |
 
 {% hint style="info" %}
-`dealId`와 `leadId` 중 정확히 하나를 입력해야 합니다. 견적 상품을 추가할 때는 `quoteProductList`를 사용하며, 각 항목의 `name`, `productId`, `price`, `amount`는 필수입니다. 구독형 상품은 1 이상의 `paymentCount`와 `paymentStartAt`을 함께 입력해야 하며, 일반 상품에는 두 값을 입력할 수 없습니다.
+`paymentCount`와 `paymentStartAt`은 항상 함께 입력해야 합니다. 둘 중 하나만 입력하면 400 오류가 반환됩니다.
 {% endhint %}
+
+**Request**
+
+{% tabs %}
+{% tab title="Deal quote" %}
+```json
+{
+  "name": "견적서 이름",
+  "dealId": "<dealId>",
+  "isMainQuote": true,
+  "quoteProductList": [
+    {
+      "name": "상품 이름",
+      "productId": "<productId>",
+      "price": 10000,
+      "amount": 1
+    }
+  ]
+}
+```
+{% endtab %}
+
+{% tab title="Subscription product" %}
+```json
+{
+  "name": "구독 견적서",
+  "leadId": "<leadId>",
+  "quoteProductList": [
+    {
+      "name": "구독 상품",
+      "productId": "<productId>",
+      "price": 10000,
+      "amount": 1,
+      "paymentCount": 12,
+      "paymentStartAt": "2026-08-02T00:00:00.000Z"
+    }
+  ]
+}
+```
+{% endtab %}
+{% endtabs %}
 
 **Response**
 
@@ -25,14 +81,14 @@
 {% tab title="201" %}
 ```json
 {
-    "success": true,
-    "data": {
-        "quote": {
-            "id": "<quoteId>",
-             "name": "견적서 이름",
-             "createdAt": "2024-04-16T07:18:17.516Z"
-        }
+  "success": true,
+  "data": {
+    "quote": {
+      "id": "<quoteId>",
+      "name": "견적서 이름",
+      "createdAt": "2024-04-16T07:18:17.516Z"
     }
+  }
 }
 ```
 {% endtab %}
@@ -40,8 +96,8 @@
 {% tab title="40x" %}
 ```json
 {
-    "success": false,
-    "message": "에러 메세지"
+  "success": false,
+  "message": "에러 메세지"
 }
 ```
 {% endtab %}
