@@ -19,36 +19,30 @@
 
 {% tabs %}
 {% tab title="201" %}
-<pre class="language-json"><code class="lang-json"><strong>//성공시
-</strong><strong>{
-</strong>    "success": true,
-    "data": {
-        "people":
-            {
-                "id": "&#x3C;peopleId>",
-                "name": "생성한 고객의 이름",
-                "createdAt": "2024-04-08T05:25:26.020Z"
-            }
-}
-//중복(고객 이메일 동일)
-{
-    "success": false,
-    "message": "Bad Request",
-    "reason": "동일한 이메일을 가진 고객이 존재합니다.",
-    "data": {
-      "id": "&#x3C;peopleId>",
-      "name": "생성시도한 고객 이름"
-            }
-}
-
-</code></pre>
-{% endtab %}
-
-{% tab title="40x" %}
 ```json
 {
-    "success": false,
-    "message": "에러 메세지"
+  "success": true,
+  "data": {
+    "people": {
+      "id": "<peopleId>",
+      "name": "생성한 고객의 이름",
+      "createdAt": "2024-04-08T05:25:26.020Z"
+    }
+  }
+}
+```
+{% endtab %}
+
+{% tab title="400" %}
+```json
+{
+  "success": false,
+  "message": "Bad Request",
+  "reason": "이미 존재하는 이메일입니다",
+  "data": {
+    "id": "<peopleId>",
+    "name": "기존 고객의 이름"
+  }
 }
 ```
 {% endtab %}

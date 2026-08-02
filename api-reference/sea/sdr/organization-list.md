@@ -45,7 +45,7 @@ SeA 프로필 API 토큰이 속한 SDR 프로필의 회사를 최신 생성순�
 ### Request
 
 ```bash
-curl -X GET 'https://app.salesmap.kr/api/v2/sdr/organization' \
+curl -X GET 'https://salesmap.kr/api/v2/sdr/organization' \
   -H 'Authorization: Bearer <sea-profile-token>'
 ```
 

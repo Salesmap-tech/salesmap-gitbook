@@ -2,7 +2,7 @@
 
 <mark style="color:yellow;">`POST`</mark> `/v2/organization`
 
-고객을 생성합니다.
+회사를 생성합니다.
 
 **Headers**
 
@@ -20,41 +20,30 @@
 {% tabs %}
 {% tab title="201" %}
 ```json
-//성공시
 {
-    "success": true,
-    "data": {
-        "organization":
-            {
-                "id": "<organizationId>",
-                "name": "생성한 회사의 이름",
-                "createdAt": "2024-04-08T05:25:26.020Z"
-            }
-}
-
-//중복시(회사 이름 중복)
-{
-    "success": false,
-    "message": "Bad Request",
-    "reason": "중복되는 이름을 가진 기업이 존재합니다.",
-    "data": {
+  "success": true,
+  "data": {
+    "organization": {
       "id": "<organizationId>",
-      "name": "생성 시도한 회사의 이름"
-            }
+      "name": "생성한 회사의 이름",
+      "createdAt": "2024-04-08T05:25:26.020Z"
+    }
+  }
 }
 ```
 {% endtab %}
 
-{% tab title="40x" %}
+{% tab title="400" %}
 ```json
 {
-    "success": false,
-    "message": "에러 메세지"
+  "success": false,
+  "message": "Bad Request",
+  "reason": "이미 존재하는 이름입니다",
+  "data": {
+    "id": "<organizationId>",
+    "name": "기존 회사의 이름"
+  }
 }
 ```
-{% endtab %}
-
-{% tab title="" %}
-
 {% endtab %}
 {% endtabs %}

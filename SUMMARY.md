@@ -66,6 +66,7 @@
     * [파이프라인](api-reference/undefined-1/README.md)
       * [딜 파이프라인 목록 조회](api-reference/undefined-1/pipeline.md)
       * [리드 파이프라인 목록 조회](api-reference/undefined-1/pipeline-1.md)
+    * [오브젝트 검색](api-reference/object-search.md)
     * [유저 목록 조회](api-reference/user.md)
     * [내 정보 조회](api-reference/user.me.md)
     * [팀 목록 조회](api-reference/team.md)
