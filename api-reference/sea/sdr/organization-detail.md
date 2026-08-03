@@ -43,7 +43,7 @@ SeA 프로필 API 토큰이 속한 SDR 프로필의 특정 회사를 조회합�
 ### Request
 
 ```bash
-curl -X GET 'https://app.salesmap.kr/api/v2/sdr/organization/<organizationId>' \
+curl -X GET 'https://salesmap.kr/api/v2/sdr/organization/<organizationId>' \
   -H 'Authorization: Bearer <sea-profile-token>'
 ```
 

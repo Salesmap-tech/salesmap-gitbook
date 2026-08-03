@@ -41,7 +41,7 @@ SeA 프로필 API 토큰이 속한 SDR 프로필의 대화를 생성일 역순�
 ### Request
 
 ```bash
-curl -X GET 'https://app.salesmap.kr/api/v2/sdr/conversation' \
+curl -X GET 'https://salesmap.kr/api/v2/sdr/conversation' \
   -H 'Authorization: Bearer <sea-profile-token>'
 ```
 

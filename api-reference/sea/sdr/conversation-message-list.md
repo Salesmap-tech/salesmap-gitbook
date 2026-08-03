@@ -41,7 +41,7 @@
 ### Request
 
 ```bash
-curl -X GET 'https://app.salesmap.kr/api/v2/sdr/conversation/<conversationId>/message' \
+curl -X GET 'https://salesmap.kr/api/v2/sdr/conversation/<conversationId>/message' \
   -H 'Authorization: Bearer <sea-profile-token>'
 ```
 

@@ -26,6 +26,7 @@
   "peopleId": "<고객 ID>",
   "pipelineId": "<파이프라인 ID>",
   "pipelineStageId": "<파이프라인 단계 ID>",
+  "status": "In progress",
   "fieldList": [
     {
       "name" : "<필드 이름>",
@@ -51,6 +52,7 @@
                 "name": "생성한 딜의 이름",
                 "createdAt": "2024-04-08T05:25:26.020Z"
             }
+    }
 }
 ```
 {% endtab %}
