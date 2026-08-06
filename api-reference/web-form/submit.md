@@ -15,7 +15,7 @@
 
 | Name        | Type   | Description  |
 | ----------- | ------ | ------------ |
-| `webFormId` | string | 조회하려는 웹폼의 id |
+| `webFormId` | string | 조회하려는 웹폼의 id. 인증된 API 키의 워크스페이스에 속한 웹폼만 조회할 수 있습니다. |
 
 **Query parameters**
 
@@ -76,8 +76,10 @@
 {% tab title="400" %}
 ```json
 {
-  "error": "Invalid request"
+  "error": "웹 폼을 찾을 수 없습니다."
 }
 ```
+
+존재하지 않는 `webFormId`이거나 인증된 API 키의 워크스페이스에 속하지 않는 웹폼을 조회하면 동일하게 `400 Bad Request`가 반환됩니다.
 {% endtab %}
 {% endtabs %}
