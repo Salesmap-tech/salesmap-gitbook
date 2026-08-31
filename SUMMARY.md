@@ -1,8 +1,7 @@
 # Table of contents
 
 * [👋 세일즈맵 개발자 센터입니다](README.md)
-* [AI용 문서](ai/README.md)
-  * [CLAUDE.md](ai/claude-md.md)
+* [AI용 문서](ai.md)
 * [API 레퍼런스](api-reference/README.md)
   * [시작하기](api-reference/undefined/README.md)
     * [개요](api-reference/README.md)

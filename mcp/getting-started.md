@@ -28,18 +28,18 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 1. [claude.ai](https://claude.ai) / Claude Desktop 접속 → 좌측 하단 프로필 → 설정 → **커넥터**
 2.  추가 → **커스텀 커넥터 추가** 클릭<br>
 
-    <figure><img src="../.gitbook/assets/image (14).png" alt="" width="563"><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
 3.  아래와 같이 입력 후 **추가**:
 
     * 이름: `세일즈맵`
     * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
     * (고급 설정은 건드리지 않아도 됩니다)
 
-    <figure><img src="../.gitbook/assets/image (9).png" alt="" width="375"><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (8).png" alt="" width="375"><figcaption></figcaption></figure>
 4. **연결** 클릭
 5.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
 
-    <figure><img src="../.gitbook/assets/image (16).png" alt="" width="413"><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (15).png" alt="" width="413"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="ChatGPT" %}
