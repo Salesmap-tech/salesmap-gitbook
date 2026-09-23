@@ -30,23 +30,19 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 
     <figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
 3. 아래와 같이 입력합니다.
-
    * 이름: `세일즈맵`
    * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
+4.  **인증**, **OAuth 클라이언트**, **전송 방식** 항목은 기본값 그대로 둔 뒤 **추가**를 클릭합니다.
 
-4. **인증**, **OAuth 클라이언트**, **전송 방식** 항목은 기본값 그대로 둔 뒤 **추가**를 클릭합니다.
+    * 인증: **지금 로그인**
+    * OAuth 클라이언트: **자동으로 등록**
+    * 전송 방식: **스트리밍 HTTP**
 
-   * 인증: **지금 로그인**
-   * OAuth 클라이언트: **자동으로 등록**
-   * 전송 방식: **스트리밍 HTTP**
-
-   <figure><img src="../.gitbook/assets/mcp-claude-custom-connector-auth-options.jpg" alt="Claude 커스텀 커넥터 추가 화면에서 이름, 서버 URL, 인증, OAuth 클라이언트 옵션을 설정하는 예시" width="375"><figcaption></figcaption></figure>
-
-   <figure><img src="../.gitbook/assets/mcp-claude-custom-connector-advanced-transport.jpg" alt="Claude 커스텀 커넥터 고급 설정에서 전송 방식이 스트리밍 HTTP로 선택된 화면" width="375"><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/스크린샷 2026-09-23 오후 6.07.26.png" alt="Claude 커스텀 커넥터 추가 화면에서 이름, 서버 URL, 인증, OAuth 클라이언트 옵션을 설정하는 예시"><figcaption></figcaption></figure>
 5. **연결** 클릭
-6. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
+6.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
 
-   <figure><img src="../.gitbook/assets/image (15).png" alt="" width="413"><figcaption></figcaption></figure>
+    <figure><img src="../.gitbook/assets/image (15).png" alt="" width="413"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="ChatGPT" %}
