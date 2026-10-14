@@ -20,6 +20,7 @@
       * [고객 수정](api-reference/people/edit.md)
       * [고객 히스토리 목록 조회](api-reference/people/history.md)
       * [고객 액티비티 목록 조회](api-reference/people/undefined.md)
+    * [모두싸인 계약서 연결 딜 조회](api-reference/modusign/document-deals.md)
     * [딜](api-reference/deal/README.md)
       * [딜 목록 조회](api-reference/deal/lists.md)
       * [딜 단일 조회](api-reference/deal/one.md)

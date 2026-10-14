@@ -2,7 +2,7 @@
 
 <mark style="color:green;">`GET`</mark> `/v2/deal/<dealId>`
 
-dealId에 해당하는 딜을 조회합니다.
+dealId에 해당하는 딜을 조회합니다. 응답의 `data.deal`은 배열이며 첫 항목에서 값을 읽습니다. 필드 값은 현재 워크스페이스의 필드명을 키로 반환하고, 값이 없으면 `null`입니다. 담당자 필드는 `{id, name}` 또는 `null`이며 `ownerId`, `ownerName`, `customFieldList` 형식으로 반환하지 않습니다. 필드명을 변경하면 연동 코드의 필드명도 함께 변경해야 합니다.
 
 **Headers**
 
@@ -88,9 +88,13 @@ dealId에 해당하는 딜을 조회합니다.
 {% endtab %}
 
 {% tab title="400" %}
+존재하지 않거나 삭제된 딜은 `400`으로 응답합니다.
+
 ```json
 {
-  "error": "Invalid request"
+  "success": false,
+  "message": "Bad Request",
+  "reason": "딜을 찾을 수 없습니다."
 }
 ```
 {% endtab %}
