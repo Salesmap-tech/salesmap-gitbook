@@ -19,7 +19,7 @@
 
 **Body parameters**
 
-<table><thead><tr><th width="235">Name</th><th width="98">Type</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>수정할 회사의 이름</td></tr><tr><td><code>memo</code></td><td>string</td><td>회사 수정 시 작성할 메모</td></tr><tr><td><code>fieldList</code></td><td>array</td><td>수정할 회사의 데이터필드</td></tr></tbody></table>
+<table><thead><tr><th width="235">Name</th><th width="98">Type</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>수정할 회사의 이름</td></tr><tr><td><code>memo</code></td><td>string</td><td>회사 수정 시 작성할 메모 (평문 또는 HTML 문자열). <a href="../memo/input.md">노트 입력·미리보기 처리</a> 참고</td></tr><tr><td><code>fieldList</code></td><td>array</td><td>수정할 회사의 데이터필드</td></tr></tbody></table>
 
 **Response**
 
