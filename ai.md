@@ -11,7 +11,7 @@ description: >-
 
 세일즈맵은 B2B 영업 CRM입니다. 이 문서는 세일즈맵 v2 REST API의 엔드포인트, 요청·응답 형식, 에러를 설명합니다.
 
-> **문서 기준일: 2026-07-31.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 <https://docs.salesmap.kr/developers/api-reference/ai#api> 에 게시됩니다.
+> **문서 기준일: 2026-10-15.** 이 레퍼런스는 세일즈맵 개발팀이 API를 개발·수정할 때 갱신되며, 최신본은 <https://docs.salesmap.kr/developers/api-reference/ai#api> 에 게시됩니다.
 > - **AI 에이전트:** 호출 결과(키·값·에러)가 이 문서와 다르면 API가 변경된 것일 수 있습니다. 그 경우 위 최신본을 확인하고, 문서보다 **실제 응답을 우선**하세요.
 > - **To User:** 주기적으로(예: 분기마다) 위 링크에서 변경 사항을 확인해 통합을 갱신하길 권장합니다.
 
@@ -77,6 +77,7 @@ description: >-
 | 노트 조회 / 유형 목록 | `GET /v2/memo` (필터 가능) / `GET /v2/memo/type-list` |
 | 변경 이력 / 활동(타임라인) 조회 | `GET /v2/{type}/history` / `GET /v2/{type}/activity` (활동은 `types`·`startDate`·`endDate` 필터 지원) |
 | 이메일 본문 조회 | `GET /v2/email/{emailId}` (활동의 `emailId`로 제목·수신자·본문 조회) |
+| 녹음 상세 / 전사 조회 | `GET /v2/recording/{recordingId}` / `.../transcript` (활동의 `recordingId`로) |
 | 삭제 | "부록 > 삭제 API 요약" 참조 (딜·리드만 API 삭제 가능) |
 
 > **생성 순서 (연결된 상태로 만들 때):** 연결 대상 ID(`organizationId`·`peopleId`)는 생성 시 검증되어 **이미 존재해야** 하며, 없으면 `400`(`organizationId의 대상을 찾을 수 없습니다.` 등)을 반환합니다. 따라서 처음부터 연결된 상태로 만들려면 **회사 → 고객 → 딜·리드** 순으로 생성하세요(부모를 먼저 만들고, 반환된 `id`를 자식 생성 body의 `organizationId`·`peopleId`로 전달). 순서를 지키지 않아도 각 오브젝트를 독립적으로 만든 뒤 수정 API(`POST /v2/{type}/{id}`)로 나중에 연결할 수 있습니다.
@@ -116,12 +117,44 @@ description: >-
 
 | 파라미터 | 설명 |
 |---|---|
-| `types` | 조회할 활동 유형(쉼표 구분). 유효값: `create`·`email`·`emailOpen`·`memoCreate`·`todoCreate`·`meeting`·`webFormSubmit`·`recordingCreate`·`smsSend`·`kakaoAlimtalkSend`. 활동 레코드의 `type` 값과 동일해야 하며, 그 외 값은 400 `[<i>]: 유효하지 않은 값입니다.`를 반환합니다. |
-| `startDate` / `endDate` | 활동 발생 시점(레코드의 `date` 필드) 범위(ISO8601, 예 `2026-07-01T00:00:00+09:00`). `startDate`가 `endDate`보다 늦으면 400 `startDate는 endDate보다 늦을 수 없습니다.` |
+| `types` | 조회할 활동 유형(쉼표 구분). 아래 "유효한 `types` 값" 참조. 활동 레코드의 `type` 값과 동일해야 하며, 그 외 값은 400 `[<i>]: 유효하지 않은 값입니다.`를 반환합니다. |
+| `startDate` / `endDate` | 활동 발생 시점(레코드의 `date` 필드) 범위(ISO8601, 예 `2026-07-01T00:00:00+09:00`, KST 달력일). `startDate`가 `endDate`보다 늦으면 400 `startDate는 endDate보다 늦을 수 없습니다.` |
 
 - 이 필터(`types`·`startDate`·`endDate`)는 **`…/activity`에만** 적용됩니다. **`…/history`는 이 파라미터를 무시하고 전체를 반환**하므로(에러 없이), 히스토리 증분 수집은 cursor(`cursorId`)로 합니다.
-- 유형값 주의: 통화 녹음은 `recordingCreate`, SMS는 `smsSend`, 카카오 알림톡은 `kakaoAlimtalkSend`입니다. 단순 `recording`·`call`·`sms`는 유효하지 않습니다.
-- 각 활동 레코드에는 `recordingId`가 포함됩니다(통화/녹음 활동이면 녹음 식별자, 아니면 `null`). 이메일 활동의 `emailId`로 `GET /v2/email/{emailId}`(본문 조회)로, `recordingId`로 녹음 상세로 이어서 조회할 수 있습니다.
+- **정렬:** `date` **오름차순(오래된 것부터)** 고정입니다. 정렬 방향 파라미터는 없습니다. "최근 활동"을 보려면 `nextCursor`가 없어질 때까지 끝 페이지까지 넘기거나 `startDate`/`endDate`로 범위를 좁혀야 합니다.
+- **`limit` 미지원:** `limit` 파라미터는 **검증 없이 무시**되고 항상 50건이 반환됩니다(`?limit=5`·`?limit=abc` 모두 50건, 400 아님). 페이지 크기는 항상 50입니다.
+
+**유효한 `types` 값** — 각 유형이 채우는 식별자:
+
+| `types` 값 | 채우는 id | 의미 |
+|---|---|---|
+| `create` | — | 레코드 생성 |
+| `email` / `emailOpen` | `emailId`(+`messageId`·`threadId`) | 이메일 발송 / 열람 |
+| `emailLinkClick` | `emailId` | 이메일 링크 클릭 |
+| `documentView` | `documentId`·`documentName` | 문서 열람(고객 활동에만 채워짐) |
+| `webFormSubmit` / `webFormView` | `webFormId`·`webFormName` | 웹폼 제출 / 조회 |
+| `memoCreate` | `memoId` | 노트 생성 |
+| `todoCreate` | `todoId` | TODO 생성 |
+| `meeting` | (커스텀오브젝트 활동의 `meetingId`) | 미팅 |
+| `recordingCreate` | `recordingId` | 통화/녹음 |
+| `smsSend` | `smsId` | SMS |
+| `kakaoAlimtalkSend` | (커스텀오브젝트 활동의 `kakaoAlimtalkId`) | 카카오 알림톡 |
+| `merge` | — | 레코드 병합 |
+| `modusignContractCreated` | — | 모두싸인 계약 생성 |
+
+- 유형값 주의: 통화 녹음은 `recordingCreate`, SMS는 `smsSend`, 알림톡은 `kakaoAlimtalkSend`입니다. 단순 `recording`·`call`·`sms`는 유효하지 않습니다.
+
+**오브젝트별 활동 레코드 필드 차이** (문서 상단 예시는 고객 기준이며 타입마다 다름):
+
+| 오브젝트 | 공통 키 외 특이점 |
+|---|---|
+| 고객(people) | `documentId`·`documentName` 포함 (문서 열람은 고객 활동에만) |
+| 딜(deal) | `documentId`·`documentName` **없음**, **`dealStatus` 추가** |
+| 리드·회사 | `documentId`·`documentName` **없음** |
+| 커스텀 오브젝트 | 위 대신 `customObjectId`·`meetingId`·`kakaoAlimtalkId`·`emailLinkId` |
+
+- 공통 키: `id`, `type`, `date`, `<부모>Id`(peopleId/dealId 등), `emailId`, `messageId`, `threadId`, `webFormId`, `webFormName`, `smsId`, `memoId`, `todoId`, `recordingId`.
+- 각 활동 레코드에는 `recordingId`가 포함됩니다(통화/녹음 활동이면 녹음 식별자, 아니면 `null`). 이메일 활동의 `emailId`로 `GET /v2/email/{emailId}`(본문), `recordingId`로 `GET /v2/recording/{recordingId}`(녹음 상세)로 이어서 조회합니다.
 
 ## 기본 정보
 
@@ -178,7 +211,9 @@ description: >-
 
 ## 페이지네이션
 
-목록 조회는 커서 기반입니다. 응답의 `data.nextCursor` 값을 다음 요청의 `cursor` 쿼리 파라미터로 전달합니다. 결과가 더 없으면 `nextCursor`는 `null`이거나 응답에서 생략됩니다. 페이지 크기는 기본 50건입니다.
+목록 조회는 커서 기반입니다. 응답의 `data.nextCursor` 값을 다음 요청의 `cursor` 쿼리 파라미터로 전달합니다. 페이지 크기는 50건 고정입니다.
+
+> **다음 페이지가 없으면 `nextCursor` 키가 응답에서 생략됩니다(값이 `null`이 아니라 키 자체가 없음).** 종료 판단은 `"nextCursor" in data` 여부로 하세요. (문서 곳곳의 JSON 예시에 보이는 `"nextCursor": null`은 편의 표기이며, 실제로는 키가 없을 수 있습니다.)
 
 ```
 GET /v2/people?cursor=<직전 응답의 nextCursor>
@@ -349,6 +384,8 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 - `POST /v2/file/{fileId}/delete` — 파일 삭제
 - `POST /v2/email` — 이메일 발송
 - `GET /v2/email/{emailId}` — 이메일 상세 조회 (본문 포함)
+- `GET /v2/recording/{recordingId}` — 녹음 상세 조회
+- `GET /v2/recording/{recordingId}/transcript` — 녹음 전사 조회
 
 **시퀀스 · 웹폼 · TODO · 메모 (Sequence / WebForm / Todo / Memo)**
 - `GET /v2/sequence` — 시퀀스 목록 조회
@@ -367,6 +404,9 @@ GET /v2/people?cursor=<직전 응답의 nextCursor>
 - `GET /v2/user` — 사용자 목록 조회
 - `GET /v2/user/me` — 현재 사용자 조회
 - `GET /v2/team` — 팀 목록 조회
+
+**모두싸인 (ModuSign)**
+- `GET /v2/modusign/document/{documentId}/deal` — 모두싸인 계약서 연결 딜 조회
 
 ---
 
@@ -2922,6 +2962,69 @@ curl -X POST -H "Authorization: Bearer <token>" -F "file=@/path/to/contract.pdf"
 | 400 | 존재하지 않는 id — `이메일을 찾을 수 없습니다.` |
 | 401 | 인증 실패 |
 
+---
+
+### GET /v2/recording/{recordingId} — 녹음 상세 조회
+
+통화/녹음 활동의 녹음 1건 상세를 조회합니다. `recordingId`는 **활동 조회(`…/activity`)에서만** 얻을 수 있습니다(녹음 목록 엔드포인트는 없음).
+
+**요청 파라미터**
+
+| 이름 | 위치 | 타입 | 필수 | 설명 |
+|------|------|------|:--:|------|
+| `recordingId` | path | string(uuid) | 필수 | 조회할 녹음 ID (활동 레코드의 `recordingId`). |
+
+**응답** `200 OK`
+
+```json
+{ "success": true, "data": { "recording": {
+  "id": "...", "title": "...", "duration": 3540, "source": "realtime",
+  "coreSummary": "...", "createdAt": "...", "owner": { "id": "...", "name": "..." } } } }
+```
+
+| 키 | 타입 | 설명 |
+|----|------|------|
+| `id` | string(uuid) | 녹음 ID |
+| `title` | string | 제목 |
+| `duration` | number | 길이(초) |
+| `source` | string | `upload` \| `realtime` |
+| `coreSummary` | string | 핵심 요약 |
+| `createdAt` | string(ISO8601) | 생성 시각 |
+| `owner` | {id,name} | 소유자 |
+
+> **참고:** 단건 응답에 **연결 레코드 정보가 없습니다** — 어느 딜·리드·고객의 녹음인지 이 응답만으로는 알 수 없습니다(활동 조회의 부모 id로 역추적). 없는 id는 `404` `녹음을 찾을 수 없습니다.`
+
+---
+
+### GET /v2/recording/{recordingId}/transcript — 녹음 전사 조회
+
+녹음의 전사(transcript)를 조회합니다.
+
+**요청 파라미터**
+
+| 이름 | 위치 | 타입 | 필수 | 설명 |
+|------|------|------|:--:|------|
+| `recordingId` | path | string(uuid) | 필수 | 녹음 ID |
+
+**응답** `200 OK`
+
+세그먼트·화자 목록은 `data.recordingTranscript` **아래에** 있습니다(한 겹 더 감쌈).
+
+```json
+{ "success": true, "data": { "recordingTranscript": {
+  "transcriptSegmentList": [ { "startTime": 0, "endTime": 6845, "text": "...", "speakerId": "1", "confidence": 0.887 } ],
+  "speakerInfoList": [ { "speakerId": "1", "label": "..." } ] } } }
+```
+
+| 키 | 타입 | 설명 |
+|----|------|------|
+| `recordingTranscript.transcriptSegmentList[].startTime` / `endTime` | number | 구간 시작/끝(ms) |
+| `recordingTranscript.transcriptSegmentList[].text` | string | 발화 텍스트 |
+| `recordingTranscript.transcriptSegmentList[].speakerId` | string | 화자 id |
+| `recordingTranscript.transcriptSegmentList[].confidence` | number | 신뢰도(0~1) |
+| `recordingTranscript.speakerInfoList[]` | {speakerId, label} | 화자 정보 |
+
+> **참고:** 전사는 **전체를 한 번에 반환**하며 상한·페이지네이션이 없습니다(실측: 약 82분 통화 = 세그먼트 705개·화자 5명·약 100KB). 응답 크기를 고려해 호출하세요. 없는 id는 `404`.
 
 ---
 
@@ -3291,10 +3394,12 @@ TODO 목록을 조회합니다.
 | 이름 | 위치 | 타입 | 필수 | 설명 |
 |------|------|------|:--:|------|
 | `cursor` | query | string | | 페이지네이션. 응답 `data.nextCursor`를 `?cursor=`로 전달합니다. exclusive(해당 id 다음부터). |
-| `startDate` / `endDate` | query | string(date) | | 작성일 범위로 필터합니다(예: `2026-06-01`). |
+| `startDate` / `endDate` | query | string(date) | | 작성일(`createdAt`) 범위로 필터합니다(예: `2026-06-01`). ⚠️ **이 두 값은 UTC로 해석됩니다**(아래 참고). |
 | `ownerId` | query | string(uuid) | | 작성자(유저)로 필터합니다. |
 | `typeId` | query | string(uuid) | | 노트 유형 id로 필터합니다(`GET /v2/memo/type-list`의 `_id`). UUID 형식이 아니거나 잘못된 값은 `500`을 반환하므로 유효한 id만 전달합니다. |
 | `dealId` / `leadId` / `peopleId` / `organizationId` | query | string(uuid) | | 연결된 딜/리드/고객/회사로 필터합니다. |
+
+> ⚠️ **참고(날짜 필터는 UTC — 주의):** `GET /v2/memo`의 `startDate`·`endDate`는 **UTC 기준**으로 해석됩니다. `endDate=D`는 `D T00:00:00Z`(= KST 오전 9시)까지만 포함하므로, **한국 업무시간에 작성된 당일 노트가 대부분 잘려 나갑니다**(응답은 `200`이라 누락 신호가 없음). 다른 조회의 날짜 파라미터와 규칙이 다릅니다: 활동(`…/activity`)의 `startDate`·`endDate`와 검색(`POST /v2/object/{type}/search`)의 `DATE_*`는 **KST 달력일**, 쓰기(`fieldList`의 `dateValue`)는 KST 자정 기준입니다. 노트를 당일까지 포함하려면 `endDate`를 **다음 날**로 주거나 필요 시 클라이언트에서 재확인하세요.
 
 > **참고(연결 전파 · 필터 혼입):** 딜·리드에 남긴 노트에는 그 딜·리드가 **연결된 고객·회사 id까지 함께** 기록됩니다. 딜 노트 = `dealId` + (연결 시) `peopleId` + `organizationId`, 리드 노트 = `leadId` + (연결 시) `peopleId` + `organizationId`.
 > - 따라서 `peopleId`(또는 `organizationId`)로 필터하면 그 고객·회사에 **직접** 남긴 노트뿐 아니라, 그 고객·회사가 연결된 **상위 딜·리드의 노트까지 함께** 반환됩니다.
@@ -3587,6 +3692,45 @@ CRM 사용자(영업 담당자)입니다. 고객·딜의 "담당자"로 할당�
 
 ---
 
+## 모두싸인 (ModuSign)
+
+### GET /v2/modusign/document/{documentId}/deal — 모두싸인 계약서 연결 딜 조회
+
+세일즈맵에 저장된 모두싸인 계약서에 연결된 딜 ID 전체를 조회합니다. 모두싸인 서명 완료 이벤트를 받은 뒤 연결 딜을 찾아 딜 상세에 따라 후속 자동화를 실행할 때 사용합니다.
+
+**요청 파라미터**
+
+| 이름 | 위치 | 타입 | 필수 | 설명 |
+|------|------|------|:--:|------|
+| `documentId` | path | string | 필수 | 모두싸인 **외부** 계약서 ID(모두싸인 웹훅의 `document.id`). 세일즈맵 내부 계약서 ID가 아닙니다. |
+
+**응답** `200 OK`
+
+```json
+{ "success": true, "data": { "dealIds": ["deal-id-1", "deal-id-2"] } }
+```
+
+| 경로 | 타입 | 설명 |
+|------|------|------|
+| `data.dealIds` | string[] | 같은 워크스페이스의 삭제되지 않은 연결 딜 ID. **중복 없이 ID 오름차순**으로 반환합니다. |
+
+- 정상 동기화된 계약서라도 연결 딜이 없으면 `dealIds: []`를 반환합니다(정상 미연결). 다른 워크스페이스·삭제된 딜은 결과에 포함하지 않습니다.
+- 반환된 `dealIds`로 `GET /v2/deal/{dealId}`를 호출해 딜 상세를 읽습니다.
+
+**에러**
+
+| 코드 | message | reason | 조건 |
+|------|---------|--------|------|
+| 404 | Not Found | `계약서를 찾을 수 없습니다.` | 없는 계약서 ID·다른 워크스페이스·삭제된 계약서(동일 사유). 자동 재시도하지 않고 계약서 ID와 토큰의 워크스페이스를 확인합니다. |
+| 503 | Service Unavailable | `sync_pending` | 최초 동기화 중. `Retry-After`(초) 헤더 뒤 같은 요청을 재조회합니다(완료 보장·예상 시간 아님). |
+| 409 | Conflict | `sync_failed` | 최초 동기화 최종 실패. `Retry-After` 없음 → 자동 재시도 중단, 상태 확인·수동 처리. 이 조회 API는 동기화를 복구하지 않습니다. |
+| 401 / 403 | Unauthorized / Forbidden | — | 인증·권한 오류 |
+| 429 | Too Many Requests | — | 요청 한도 초과 |
+| 500 (또는 `sync_pending`이 아닌 503) | Internal Server Error | — | 서버 오류. 동기화 상태로 해석하지 말고 별도 장애로 처리합니다. |
+
+> **참고(후속 자동화 흐름):** 모두싸인 이벤트와 `documentId`를 저장하고 **웹훅에는 즉시 2xx로 응답**합니다(웹훅 요청 안에서 대기 금지). 이후 별도 worker/예약 작업에서 이 API를 호출하고, `503 sync_pending`이면 `Retry-After` 이후 재시도를 예약합니다. 최초 대기 시작 시각과 대기 상한을 보존하고 재시도마다 상한을 초기화하지 않습니다. 빈 `dealIds`는 정상 미연결이므로 알림 대상에서 제외합니다.
+
+> **참고:** 딜 상세 조회 전에 딜이 삭제되면 `GET /v2/deal/{dealId}`는 `400`과 `딜을 찾을 수 없습니다.`를 반환합니다 — 신규 계약서 조회의 `404`와 구분하세요.
 
 ---
 
@@ -3749,4 +3893,5 @@ npx -y mcp-remote https://salesmap-mcp.vercel.app/api/mcp --header "Authorizatio
 ```
 
 토큰은 REST와 동일합니다(설정 > 개인 > 연동 > API > 토큰 생성).
+
 ````
