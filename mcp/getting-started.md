@@ -28,40 +28,75 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 1. [claude.ai](https://claude.ai) / Claude Desktop 접속 → 좌측 하단 프로필 → 설정 → **커넥터**
 2.  추가 → **커스텀 커넥터 추가** 클릭<br>
 
-    <figure><img src="../.gitbook/assets/image (7).png" alt="" width="563"><figcaption></figcaption></figure>
-3. 아래와 같이 입력합니다.
-   * 이름: `세일즈맵`
-   * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
-4.  **인증**, **OAuth 클라이언트**, **전송 방식** 항목은 기본값 그대로 둔 뒤 **추가**를 클릭합니다.
+    <figure><img src="../.gitbook/assets/image (7) (1).png" alt="" width="563"><figcaption></figcaption></figure>
+3.  아래와 같이 입력합니다.
 
-    * 인증: **지금 로그인**
-    * OAuth 클라이언트: **자동으로 등록**
-    * 전송 방식: **스트리밍 HTTP**
+    * 이름: `세일즈맵`
+    * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
+    * 인증, OAuth 클라이언트, 전송 방식 항목은 아래 기본값 그대로 둔 뒤 추가를 클릭합니다.\
+      인증: 지금 로그인\
+      OAuth 클라이언트: 자동으로 등록\
+      전송 방식: 스트리밍 HTTP
 
-    <figure><img src="../.gitbook/assets/스크린샷 2026-09-23 오후 6.07.26.png" alt="Claude 커스텀 커넥터 추가 화면에서 이름, 서버 URL, 인증, OAuth 클라이언트 옵션을 설정하는 예시"><figcaption></figcaption></figure>
-5. **연결** 클릭
-6.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
+    <figure><img src="../.gitbook/assets/image (8) (1).png" alt="" width="375"><figcaption></figcaption></figure>
+4. **연결** 클릭
+5.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
 
     <figure><img src="../.gitbook/assets/image (15).png" alt="" width="413"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="ChatGPT" %}
 {% hint style="info" %}
-요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise) + 개발자 모드
+요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
 {% endhint %}
 
-1. [chatgpt.com](https://chatgpt.com) / chatGPT 앱 접속 → 프로필 → **설정**
-2. 보안 및 로그인 → **개발자 모드 켜기**
-3. 플러그인 → 추가
-4. 커넥터 목록에서 **만들기(Create)** 클릭 후 입력:
-   * 이름: `세일즈맵`
-   * 연결: `https://mcp.ai.salesmap.kr/mcp`
-   * 인증: **OAuth**
+chatGPT App 설정은 다른 Tab에 있습니다.
+
+1. [chatgpt.com](https://chatgpt.com) → 프로필 → **설정**
+2. 플러그인 → 디렉토리 둘러보기
+3. 추가 버튼 -> 사용자 지정 mcp 서버 추가 클릭 후 입력
+
+* 이름: `세일즈맵`
+* 연결: `https://mcp.ai.salesmap.kr/mcp`
+* 인증: **OAuth**
 
 <figure><img src="../.gitbook/assets/image (18).png" alt="" width="345"><figcaption></figcaption></figure>
 
 4. 만들기 클릭 → **세일즈맵 계정으로 로그인**
 5. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
+
+<figure><img src="../.gitbook/assets/image (19).png" alt="" width="413"><figcaption></figcaption></figure>
+{% endtab %}
+
+{% tab title="chatGPT App" %}
+{% hint style="info" %}
+요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
+{% endhint %}
+
+1.  chatGPT app -> 프로필 -> 설정
+
+    \- chatGPT 앱은 chatGPT classic, chatGPT로 2가지의 버전이 있습니다. 이 중 classic 버전은 mcp를 지원하지 않으니 [chatGPT 버전](https://chatgpt.com/ko-KR/download/)을 사용해주세요)
+
+    * chatGPT classic
+
+    <figure><img src="../.gitbook/assets/스크린샷 2026-10-15 오후 5.15.22.png" alt="" width="159"><figcaption></figcaption></figure>
+
+    * chatGPT
+
+    <figure><img src="../.gitbook/assets/스크린샷 2026-10-15 오후 5.15.27.png" alt="" width="109"><figcaption></figcaption></figure>
+2. 플러그인-> 추가 버튼 -> mcp 서버 추가 클릭 후 입력<br>
+
+* 이름: `세일즈맵`&#x20;
+* 유형: `스트리밍 가능한 HTTP`&#x20;
+* 연결: `https://mcp.ai.salesmap.kr/mcp`
+
+<figure><img src="../.gitbook/assets/image (5).png" alt="" width="563"><figcaption></figcaption></figure>
+
+3. 저장 클릭 후 인증 버튼 클릭
+
+<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
+
+4. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
 
 <figure><img src="../.gitbook/assets/image (19).png" alt="" width="413"><figcaption></figcaption></figure>
 {% endtab %}
@@ -120,6 +155,12 @@ Antigravity 설정 → **Customizations 탭 → Open MCP Config** 클릭\
 ```
 {% endtab %}
 {% endtabs %}
+
+
+
+
+
+
 
 ***
 
