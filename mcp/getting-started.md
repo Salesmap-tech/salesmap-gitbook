@@ -50,7 +50,7 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
 {% endhint %}
 
-chatGPT App 설정은 다른 Tab에 있습니다.
+[chatGPT App 설정](https://docs.salesmap.kr/developers/mcp/getting-started#chatgpt-app)은 바로 오른쪽 탭에 있습니다.
 
 1. [chatgpt.com](https://chatgpt.com) → 프로필 → **설정**
 2. 플러그인 → 디렉토리 둘러보기
