@@ -30,7 +30,7 @@
 | `fieldList`                  | array  | 커스텀 오브젝트의 필드 값 목록. 생성하려면 대표 필드 값을 포함해야 합니다. |
 | `pipelineId`                 | string | 파이프라인 단계와 함께 지정할 파이프라인 ID                   |
 | `pipelineStageId`            | string | 파이프라인과 함께 지정할 파이프라인 단계 ID                   |
-| `memo`                       | string | 데이터 생성과 함께 남길 메모                            |
+| `memo`                       | string | 데이터 생성과 함께 남길 메모 (평문 또는 HTML 문자열). [노트 입력·미리보기 처리](../memo/input.md) 참고 |
 
 `customObjectDefinitionId`와 `customObjectDefinitionName` 중 하나만 입력해도 됩니다. 둘 다 입력하면 두 값이 같은 커스텀 오브젝트 종류를 가리켜야 합니다.
 
