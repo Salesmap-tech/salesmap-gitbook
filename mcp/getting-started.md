@@ -65,10 +65,10 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 4. 만들기 클릭 → **세일즈맵 계정으로 로그인**
 5. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
 
-<figure><img src="../.gitbook/assets/image (19).png" alt="" width="413"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/스크린샷 2026-10-16 오전 9.21.50.png" alt="" width="375"><figcaption></figcaption></figure>
 {% endtab %}
 
-{% tab title="chatGPT App" %}
+{% tab title="chatGPT App(codex App)" %}
 {% hint style="info" %}
 요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
 {% endhint %}
@@ -98,7 +98,7 @@ description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹
 
 4. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
 
-<figure><img src="../.gitbook/assets/image (19).png" alt="" width="413"><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/스크린샷 2026-10-16 오전 9.20.43.png" alt="" width="375"><figcaption></figcaption></figure>
 {% endtab %}
 
 {% tab title="Gemini" %}
