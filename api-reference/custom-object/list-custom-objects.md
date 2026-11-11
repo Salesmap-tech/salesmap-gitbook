@@ -12,7 +12,9 @@
 
 특정 커스텀 오브젝트 종류에 등록된 데이터를 외부 시스템에서 가져올 때 사용합니다.
 
-`customObjectDefinitionId` 또는 `customObjectDefinitionName`을 입력하면 특정 커스텀 오브젝트 종류의 데이터만 조회합니다. 둘 다 생략하면 워크스페이스의 전체 커스텀 오브젝트 데이터를 조회합니다.
+`customObjectDefinitionId` 또는 `customObjectDefinitionName`을 입력하면 특정 커스텀 오브젝트 종류의 데이터만 조회합니다. 둘 다 생략하면 토큰 소유자에게 조회 권한이 있는 종류의 데이터만 조회합니다.
+
+조회 권한이 없는 종류를 지정하거나 조회 가능한 종류가 하나도 없으면 `403 Forbidden`을 반환합니다. 자세한 내용은 [CRM API v2 조회·쓰기 권한](../authentication.md#crm-api-v2-조회쓰기-권한)을 참고하세요.
 
 커스텀 오브젝트 종류의 `id`와 `name`은 `GET /v2/custom-object-definitions`에서 확인할 수 있습니다.
 
