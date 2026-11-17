@@ -13,7 +13,7 @@
 
 **Body parameters**
 
-<table><thead><tr><th width="212">Name</th><th width="98">Type</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>생성하려는 고객의 이름<br><mark style="color:red;"><strong>Required</strong></mark></td></tr><tr><td><code>organizationId</code></td><td>string</td><td>고객와 연결된 회사의 Id</td></tr><tr><td><code>memo</code></td><td>string</td><td>고객 생성 시 작성할 메모</td></tr><tr><td><code>fieldList</code></td><td>array</td><td>생성할 고객의 데이터필드</td></tr></tbody></table>
+<table><thead><tr><th width="212">Name</th><th width="98">Type</th><th>Description</th></tr></thead><tbody><tr><td><code>name</code></td><td>string</td><td>생성하려는 고객의 이름<br><mark style="color:red;"><strong>Required</strong></mark></td></tr><tr><td><code>organizationId</code></td><td>string</td><td>고객와 연결된 회사의 Id</td></tr><tr><td><code>memo</code></td><td>string</td><td>고객 생성 시 작성할 메모 (평문 또는 HTML 문자열). <a href="../memo/input.md">노트 입력·미리보기 처리</a> 참고</td></tr><tr><td><code>fieldList</code></td><td>array</td><td>생성할 고객의 데이터필드</td></tr></tbody></table>
 
 **Response**
 

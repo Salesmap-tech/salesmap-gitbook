@@ -59,6 +59,7 @@
       * [노트 목록 조회](api-reference/memo/memolist.md)
       * [노트 단일 조회](api-reference/memo/memo.md)
       * [노트 유형 목록 조회](api-reference/memo/memo-type-list.md)
+      * [함께 작성할 노트 입력](api-reference/memo/input.md)
     * [TODO 목록 조회](api-reference/todo.md)
     * [커스텀 오브젝트](api-reference/custom-object/README.md)
       * [커스텀 오브젝트 종류 조회](api-reference/custom-object/custom-object-definitions.md)
