@@ -1,191 +1,144 @@
 ---
-description: 본 문서에서는 세일즈맵 MCP 연결 방법에 대해 다룹니다.
+description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법입니다.
 ---
 
-# 시작하기
+# 세일즈맵 연결하기
 
-### 1단계: 세일즈맵 API 토큰 준비
+아래는 ChatGPT(Codex)와 Claude 데스크톱 앱 기준입니다. 사용하는 앱의 탭을 선택하고 순서대로 진행하세요.
 
-1. [세일즈맵](https://salesmap.kr) 접속 → 좌측 하단 **설정**
-2. **개인 → 연동 → API** 메뉴로 이동
-3. **이미 토큰이 있다면 → 복사** / **토큰이 없다면 → 토큰 생성** 클릭 후 복사
-
-{% hint style="warning" %}
-**토큰은 절대 다른 사람과 공유하지 마세요.**\
-토큰을 재발급하면 기존 연동이 끊어질 수 있습니다. 이미 토큰이 있다면 새로 만들지 말고 복사해서 사용하세요.
-{% endhint %}
-
-***
-
-### 2단계: AI에 연결
+### 1. 앱에 세일즈맵 추가하기
 
 {% tabs %}
-{% tab title="Claude" %}
-{% hint style="info" %}
-요건: Claude 유료 플랜 (Pro/Max/Team/Enterprise)
-{% endhint %}
+{% tab title="ChatGPT(Codex) 앱" %}
+**플러그인 화면 열기**
 
-1. [claude.ai](https://claude.ai) / Claude Desktop 접속 → 좌측 하단 프로필 → 설정 → **커넥터**
-2.  추가 → **커스텀 커넥터 추가** 클릭<br>
+앱 맨 왼쪽 세로 메뉴에서 **플러그인** 아이콘을 누릅니다. 아이콘에 마우스를 올리면 이름을 확인할 수 있습니다.
 
-    <figure><img src="../.gitbook/assets/image (7) (1).png" alt="" width="563"><figcaption></figcaption></figure>
-3.  아래와 같이 입력합니다.
+<figure><img src="../.gitbook/assets/mcp-codex-open-plugins.png" alt="ChatGPT(Codex) 왼쪽 메뉴의 플러그인 아이콘을 빨간 동그라미로 표시. 대화 정보는 가림 처리"></figure>
 
-    * 이름: `세일즈맵`
-    * 원격 MCP 서버 URL: `https://mcp.ai.salesmap.kr/mcp`
-    * 인증, OAuth 클라이언트, 전송 방식 항목은 아래 기본값 그대로 둔 뒤 추가를 클릭합니다.\
-      인증: 지금 로그인\
-      OAuth 클라이언트: 자동으로 등록\
-      전송 방식: 스트리밍 HTTP
+상단의 **MCP** 탭을 선택합니다. 오른쪽 위 **추가**를 누르고 **MCP 서버 추가**를 선택합니다.
 
-    <figure><img src="../.gitbook/assets/image (8) (1).png" alt="" width="375"><figcaption></figcaption></figure>
-4. **연결** 클릭
-5.  복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭<br>
+<figure><img src="../.gitbook/assets/mcp-codex-add-menu.png" alt="ChatGPT(Codex)의 MCP 탭과 추가 메뉴. MCP 서버 추가 항목은 빨간 테두리로 표시하고 다른 서버 이름은 가림 처리"></figure>
 
-    <figure><img src="../.gitbook/assets/image (15).png" alt="" width="413"><figcaption></figcaption></figure>
+**서버 정보 입력하기**
+
+이름에 `salesmap`을 입력하고, 유형은 **스트리밍 가능한 HTTP**를 선택합니다. URL에는 아래 주소를 입력합니다.
+
+`https://mcp.salesmap.kr/mcp`
+
+나머지 입력란은 비워 두고 오른쪽 아래 **저장**을 누릅니다.
+
+<figure><img src="../.gitbook/assets/mcp-codex-server-settings.png" alt="ChatGPT(Codex) 서버 설정에서 1 이름, 2 스트리밍 가능한 HTTP, 3 URL, 4 저장 순서를 표시"></figure>
+
+**인증 시작하기**
+
+서버 목록에서 `salesmap`의 **인증** 버튼을 누릅니다.
+
+<figure><img src="../.gitbook/assets/mcp-codex-authenticate.png" alt="ChatGPT(Codex)의 MCP 서버 목록 전체 화면. 다른 서버 이름은 가렸으며 salesmap 행의 인증 버튼을 빨간 테두리로 표시"></figure>
+
+브라우저가 열리면 아래 **2. 세일즈맵에 로그인하기**로 이어서 진행하세요.
 {% endtab %}
+{% tab title="Claude 앱" %}
+**설정 열기**
 
-{% tab title="ChatGPT" %}
-{% hint style="info" %}
-요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
-{% endhint %}
+앱 왼쪽 아래의 계정 이름을 누르고 **설정**을 선택합니다.
 
-[chatGPT App 설정](https://docs.salesmap.kr/developers/mcp/getting-started#chatgpt-app)은 바로 오른쪽 탭에 있습니다.
+<figure><img src="../.gitbook/assets/mcp-claude-open-settings.png" alt="Claude 왼쪽 계정 메뉴의 설정 항목을 빨간 테두리로 표시. 계정과 대화 정보는 가림 처리"></figure>
 
-1. [chatgpt.com](https://chatgpt.com) → 프로필 → **설정**
-2. 플러그인 → 디렉토리 둘러보기
-3. 추가 버튼 -> 사용자 지정 mcp 서버 추가 클릭 후 입력
+왼쪽 메뉴에서 **커넥터**를 선택합니다. 오른쪽 위 **추가**를 누르고 **커스텀 커넥터 추가**를 선택합니다.
 
-* 이름: `세일즈맵`
-* 연결: `https://mcp.ai.salesmap.kr/mcp`
-* 인증: **OAuth**
+<figure><img src="../.gitbook/assets/mcp-claude-add-menu.png" alt="Claude 설정에서 1 커넥터, 2 추가, 3 커스텀 커넥터 추가 순서로 표시. 다른 연결 이름은 가림 처리"></figure>
 
-<figure><img src="../.gitbook/assets/image (18).png" alt="" width="345"><figcaption></figcaption></figure>
+**서버 정보 입력하기**
 
-4. 만들기 클릭 → **세일즈맵 계정으로 로그인**
-5. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
+첫 번째 입력란에 `salesmap`, 서버 주소에 아래 URL을 입력하고 **계속**을 누릅니다.
 
-<figure><img src="../.gitbook/assets/스크린샷 2026-10-16 오전 9.21.50.png" alt="" width="375"><figcaption></figcaption></figure>
-{% endtab %}
+`https://mcp.salesmap.kr/mcp`
 
-{% tab title="chatGPT App(codex App)" %}
-{% hint style="info" %}
-요건: ChatGPT 유료 플랜 (Plus/Pro/Business/Enterprise)
-{% endhint %}
+<figure><img src="../.gitbook/assets/mcp-claude-server-url.png" alt="Claude 커넥터 추가에서 1 이름, 2 URL, 3 계속 순서를 표시. 배경의 다른 연결 이름은 가림 처리"></figure>
 
-1.  chatGPT app -> 프로필 -> 설정
+다음 화면에서 인증은 **지금 로그인**, OAuth 클라이언트는 **자동으로 등록**을 선택합니다. 나머지는 변경하지 않고 맨 아래 오른쪽의 **추가**를 누릅니다.
 
-    \- chatGPT 앱은 chatGPT classic, chatGPT로 2가지의 버전이 있습니다. 이 중 classic 버전은 mcp를 지원하지 않으니 [chatGPT 버전](https://chatgpt.com/ko-KR/download/)을 사용해주세요)
+<figure><img src="../.gitbook/assets/mcp-claude-auth-settings.png" alt="Claude 인증 설정에서 1 지금 로그인, 2 자동으로 등록, 3 맨 아래 추가 버튼을 빨간 테두리로 표시"></figure>
 
-    * chatGPT classic
+**연결 시작하기**
 
-    <figure><img src="../.gitbook/assets/스크린샷 2026-10-15 오후 5.15.22.png" alt="" width="159"><figcaption></figcaption></figure>
+`salesmap: 아직 연결되지 않았습니다.` 안내 아래의 **연결**을 누릅니다.
 
-    * chatGPT
+<figure><img src="../.gitbook/assets/mcp-claude-connect.png" alt="Claude salesmap 커넥터 화면에서 연결 버튼을 빨간 테두리로 표시"></figure>
 
-    <figure><img src="../.gitbook/assets/스크린샷 2026-10-15 오후 5.15.27.png" alt="" width="109"><figcaption></figcaption></figure>
-2. 플러그인-> 추가 버튼 -> mcp 서버 추가 클릭 후 입력<br>
-
-* 이름: `세일즈맵`&#x20;
-* 유형: `스트리밍 가능한 HTTP`&#x20;
-* 연결: `https://mcp.ai.salesmap.kr/mcp`
-
-<figure><img src="../.gitbook/assets/image (5).png" alt="" width="563"><figcaption></figcaption></figure>
-
-3. 저장 클릭 후 인증 버튼 클릭
-
-<figure><img src="../.gitbook/assets/image (9).png" alt=""><figcaption></figcaption></figure>
-
-4. 복사해 둔 **API 토큰을 붙여넣고 \[연결 승인]** 클릭
-
-<figure><img src="../.gitbook/assets/스크린샷 2026-10-16 오전 9.20.43.png" alt="" width="375"><figcaption></figcaption></figure>
-{% endtab %}
-
-{% tab title="Gemini" %}
-{% hint style="warning" %}
-현재 Google 정책상 한국 계정에서는 MCP 연동을 지원하지 않습니다.
-{% endhint %}
-
-1. [gemini.google.com/apps](https://gemini.google.com/apps) 접속
-2. 앱 추가에 서버 URL 입력: https//mcp.ai.salesmap.kr/mcp
-3.  세일즈맵 연결 페이지가 열리면 **API 토큰을 붙여넣고 \[연결 승인]**<br>
-
-    <figure><img src="../.gitbook/assets/image (19).png" alt="" width="413"><figcaption></figcaption></figure>
-{% endtab %}
-
-{% tab title="Claude Code" %}
-터미널에서 한 줄:
-
-```bash
-claude mcp add --transport http salesmap https://mcp.ai.salesmap.kr/mcp \
-  --header "Authorization: Bearer <API_토큰>"
-```
-{% endtab %}
-
-{% tab title="Codex" %}
-터미널에서 두 줄:
-
-```bash
-# ~/.zshrc 또는 ~/.bashrc 에 추가 후 터미널 재시작 (토큰을 파일에 남기지 않는 방식)
-export SALESMAP_API_TOKEN="<API_토큰>"
-```
-
-{% code overflow="wrap" %}
-```bash
-codex mcp add salesmap --url https://mcp.ai.salesmap.kr/mcp --bearer-token-env-var SALESMAP_API_TOKEN
-```
-{% endcode %}
-{% endtab %}
-
-{% tab title="Antigravity" %}
-Antigravity 설정 → **Customizations 탭 → Open MCP Config** 클릭\
-(파일 위치: `~/.gemini/config/mcp_config.json`)
-
-```json
-{
-  "mcpServers": {
-    "salesmap": {
-      "serverUrl": "https://mcp.ai.salesmap.kr/mcp",
-      "headers": {
-        "Authorization": "Bearer <API_토큰>"
-      }
-    }
-  }
-}
-```
+브라우저가 열리면 아래 **2. 세일즈맵에 로그인하기**로 이어서 진행하세요.
 {% endtab %}
 {% endtabs %}
 
+### 2. 세일즈맵에 로그인하기
 
+**로그인하기**
 
+Google 계정으로 로그인하거나 이메일을 입력하고 **시작하기**를 누릅니다. 화면 안내에 따라 로그인을 마칩니다.
 
+<figure><img src="../.gitbook/assets/mcp-salesmap-login.png" alt="Google 계정 또는 이메일로 로그인하는 세일즈맵 화면"></figure>
 
+**워크스페이스 선택하기**
 
+연결할 워크스페이스를 고르고 **워크스페이스 선택**을 누릅니다. 화면 아래의 로그인 계정도 확인하세요.
 
-***
+다른 계정으로 로그인하려면 **다른 계정으로 연결**을 누릅니다. 이때 해당 브라우저의 세일즈맵에서 로그아웃됩니다.
 
-### 3단계: 연결 확인
+<figure><img src="../.gitbook/assets/mcp-workspace-select.png" alt="첫 번째 워크스페이스가 선택된 예시. 1 목록에서 하나 선택, 2 워크스페이스 선택 버튼 순서를 표시. 이름과 계정은 가림 처리"></figure>
 
-연결 후 AI에게 이렇게 요청해 보세요:
+**권한 선택하기**
 
-```
-세일즈맵에서 내 정보 조회해줘
-```
+워크스페이스를 다시 확인합니다. 다른 워크스페이스를 고르려면 옆의 **변경**을 누릅니다.
 
-사용자 정보가 나오면 연결 성공입니다.
+- **조회만**: 데이터를 찾아보고 싶을 때 선택합니다.
+- **조회 및 변경**: 데이터를 만들거나 수정·삭제할 때 선택합니다.
 
-***
+권한을 선택하고 **연결**을 누릅니다. ‘조회 및 변경’을 허용해도 세일즈맵에서 조회 권한만 있으면 조회만 할 수 있습니다.
 
-### 문제 해결
+<figure><img src="../.gitbook/assets/mcp-consent.png" alt="1 조회만과 조회 및 변경 중 하나를 선택하는 영역, 2 연결 버튼을 표시. 이름과 계정은 가림 처리"></figure>
 
-| 증상                 | 해결                                                  |
-| ------------------ | --------------------------------------------------- |
-| "토큰이 유효하지 않습니다"    | 세일즈맵에서 토큰 다시 복사해 넣습니다. 토큰 앞뒤 공백을 제거 후 재시도합니다.       |
-| ”npx를 찾을 수 없습니다”   | Node.js 설치를 확인합니다. (20버전 이상 필요)                     |
-| "허용되지 않은 IP"       | 워크스페이스에 IP 접근 제한이 있는 경우로, 관리자에게 IP 허용 목록 확인을 요청합니다. |
-| AI가 세일즈맵 도구를 찾지 못함 | AI 클라이언트를 재시작합니다. 설정 파일 문법에 문제 없는지 확인합니다.           |
-| 도구 호출 시 타임아웃       | 네트워크 연결 상태를 확인합니다.                                  |
+위 화면은 ChatGPT(Codex) 연결 예시로, 화면 상단에 ‘Codex 연결’이 표시되어 있습니다.
 
-***
+### 3. 앱으로 돌아가기
 
-문의: 세일즈맵 [채널톡](https://salesmap.channel.io/home)으로 연락해주세요.
+{% tabs %}
+{% tab title="ChatGPT(Codex) 앱" %}
+**Authentication complete. You may close this window.** 메시지가 나오면 브라우저 창을 닫고 ChatGPT(Codex) 앱으로 돌아갑니다.
+
+<figure><img src="../.gitbook/assets/mcp-codex-auth-complete.png" alt="Authentication complete. You may close this window. 인증 완료 메시지"></figure>
+{% endtab %}
+{% tab title="Claude 앱" %}
+**커넥터 연결을 완료하시겠습니까?** 화면이 나오면 본인이 시작한 연결인지 확인하고 **계속 연결**을 누릅니다.
+
+<figure><img src="../.gitbook/assets/mcp-claude-continue-connection.png" alt="Claude 연결 완료 확인 화면에서 계속 연결 버튼을 빨간 테두리로 표시"></figure>
+
+브라우저에서 **Claude을(를) 여시겠습니까?**라고 물으면 **Claude 열기**를 누릅니다.
+
+<figure><img src="../.gitbook/assets/mcp-claude-open-app.png" alt="브라우저의 앱 열기 확인창에서 Claude 열기 버튼을 빨간 테두리로 표시"></figure>
+{% endtab %}
+{% endtabs %}
+
+### 4. 연결 확인하기
+
+{% tabs %}
+{% tab title="ChatGPT(Codex) 앱" %}
+ChatGPT(Codex)의 대화 입력창에 아래 요청을 입력합니다.
+{% endtab %}
+{% tab title="Claude 앱" %}
+Claude 앱으로 돌아와 다음 순서로 확인합니다.
+
+1. 대화 입력창 왼쪽 아래의 **+** 버튼을 누릅니다.
+2. **커넥터**에 마우스를 올립니다.
+3. `salesmap` 오른쪽 스위치가 파란색으로 켜져 있는지 확인합니다. 꺼져 있으면 눌러 켭니다.
+4. 메뉴 바깥을 눌러 닫고 아래 요청을 입력합니다.
+
+<figure><img src="../.gitbook/assets/mcp-claude-conversation-connector.png" alt="Claude 대화 입력창에서 1 더하기, 2 커넥터, 3 salesmap 스위치를 순서대로 표시. 다른 연결 이름은 가림 처리"></figure>
+{% endtab %}
+{% endtabs %}
+
+> 지금 연결된 세일즈맵 계정과 워크스페이스를 알려줘.
+
+답변에 나온 계정과 워크스페이스가 맞는지 확인하세요.
+
+연결에 문제가 있으면 세일즈맵 [채널톡](https://salesmap.channel.io/home)으로 문의해 주세요.
