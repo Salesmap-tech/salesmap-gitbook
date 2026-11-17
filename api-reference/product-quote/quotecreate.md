@@ -18,7 +18,7 @@
 | `name` | string | 생성할 견적서의 이름. 공백이 아닌 문자열이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `dealId` | string | 견적서를 연결할 딜 ID. `leadId`와 동시에 입력할 수 없습니다. |
 | `leadId` | string | 견적서를 연결할 리드 ID. `dealId`와 동시에 입력할 수 없습니다. |
-| `memo` | string | 견적서 생성 시 함께 작성할 메모 |
+| `memo` | string | 견적서 생성 시 함께 작성할 메모 (평문 또는 HTML 문자열). [노트 입력·미리보기 처리](../memo/input.md) 참고 |
 | `fieldList` | array | 견적서의 데이터 필드 |
 | `isMainQuote` | boolean | 메인 견적으로 설정할지 여부 |
 | `quoteProductList` | array | 견적서의 상품 목록 |
