@@ -100,6 +100,5 @@
     * [웹훅 형태](webhook/sdr/payload.md)
     * [재전송 정책](webhook/sdr/retry.md)
 * [MCP](mcp/README.md)
-  * [시작하기](mcp/getting-started.md)
-  * [도구 목록](mcp/tools.md)
-  * [활용 가이드](mcp/use-cases.md)
+  * [세일즈맵 연결하기](mcp/getting-started.md)
+  * [사용하기](mcp/use-cases.md)
