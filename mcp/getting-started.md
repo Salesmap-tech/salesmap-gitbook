@@ -2,9 +2,9 @@
 description: 사용자 지정 MCP 서버를 추가하고 세일즈맵 계정으로 로그인해 연결하는 방법입니다.
 ---
 
-# 시작하기
+# 세일즈맵 연결하기
 
-현재 공개 디렉터리 등록 전이므로 **사용자 지정 MCP 연결**로 추가합니다. 세일즈맵 API 토큰을 만들거나 입력하지 않습니다.
+아래 안내에 따라 AI 앱에 세일즈맵 서버를 직접 추가하고 로그인하세요. API 토큰은 필요하지 않습니다.
 
 ### 1단계: 이용 조건 확인
 
@@ -23,7 +23,7 @@ description: 사용자 지정 MCP 서버를 추가하고 세일즈맵 계정으�
 
 {% tabs %}
 {% tab title="Codex 앱" %}
-아래는 Codex 앱에서 MCP 서버를 직접 추가하는 방법입니다. 별도의 플러그인 패키지를 만들 필요는 없습니다.
+Codex 앱에서 MCP 서버를 추가한 뒤 세일즈맵 계정으로 로그인합니다.
 
 **1. MCP 서버 추가 화면 열기**
 
@@ -48,7 +48,7 @@ Codex 앱을 열고 **맨 왼쪽 세로 메뉴에서 ‘플러그인’ 아이�
 | 헤더 | 비워 둡니다. |
 | 환경 변수의 헤더 | 비워 둡니다. |
 
-회색으로 보이는 `MCP_BEARER_TOKEN`은 입력 예시입니다. 이 칸에 토큰이나 환경 변수 이름을 입력하지 않습니다. 화면 아래 **저장**을 누릅니다.
+회색 `MCP_BEARER_TOKEN` 문구는 입력 예시입니다. 이 칸에 토큰이나 환경 변수 이름을 입력하지 않습니다. 화면 아래 **저장**을 누릅니다.
 
 <figure><img src="../.gitbook/assets/mcp-codex-server-settings.png" alt="salesmap 이름과 운영 MCP URL을 입력하고 스트리밍 가능한 HTTP를 선택한 설정 화면"><figcaption><p>URL 끝의 /mcp까지 입력하고, 토큰·헤더 관련 항목은 비워 둡니다.</p></figcaption></figure>
 
@@ -82,7 +82,7 @@ Claude 앱을 열고 **왼쪽 아래의 계정 이름**을 누릅니다. 펼쳐�
 
 설정 왼쪽 메뉴의 **커넥터**를 선택합니다. 오른쪽 위 **추가 → 커스텀 커넥터 추가**를 누릅니다.
 
-<figure><img src="../.gitbook/assets/mcp-claude-add-menu.png" alt="Claude 설정의 커넥터 메뉴와 오른쪽 위 커스텀 커넥터 추가 항목"><figcaption><p>이미 등록된 목록과 별개로 새 커넥터를 추가합니다.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/mcp-claude-add-menu.png" alt="Claude 설정의 커넥터 메뉴와 오른쪽 위 커스텀 커넥터 추가 항목"><figcaption><p>오른쪽 위 추가 메뉴를 누릅니다.</p></figcaption></figure>
 
 **3. 이름과 URL 입력하기**
 
@@ -92,7 +92,7 @@ Claude 앱을 열고 **왼쪽 아래의 계정 이름**을 누릅니다. 펼쳐�
 
 **4. 인증 설정 확인 후 추가하기**
 
-다음 화면에서 아래 설정을 확인합니다.
+다음 화면에서 설정을 확인합니다.
 
 | 항목 | 선택하거나 입력할 값 |
 | --- | --- |
@@ -107,7 +107,7 @@ Claude 앱을 열고 **왼쪽 아래의 계정 이름**을 누릅니다. 펼쳐�
 
 **5. 세일즈맵에 연결하기**
 
-커넥터 화면의 `https://mcp.salesmap.kr/mcp` 주소와 **salesmap: 아직 연결되지 않았습니다.** 안내를 확인합니다. 그 아래 **연결**을 누릅니다. 커넥터를 추가한 것과 세일즈맵 로그인을 마친 것은 별개입니다.
+커넥터 화면의 `https://mcp.salesmap.kr/mcp` 주소와 **salesmap: 아직 연결되지 않았습니다.** 안내를 확인합니다. 그 아래 **연결**을 누릅니다. 아직 세일즈맵에 로그인하기 전입니다.
 
 <figure><img src="../.gitbook/assets/mcp-claude-connect.png" alt="추가한 salesmap 커넥터의 아직 연결되지 않았습니다 안내와 연결 버튼"><figcaption><p>연결을 눌러 브라우저에서 세일즈맵 로그인을 시작합니다.</p></figcaption></figure>
 
@@ -117,7 +117,7 @@ Team·Enterprise 등 조직 계정에서는 관리자가 먼저 조직의 커넥
 {% endtab %}
 {% endtabs %}
 
-다른 MCP 클라이언트에서도 **원격 Streamable HTTP와 OAuth 로그인**을 지원하는지 확인하고 같은 서버 주소를 사용하세요. API 토큰을 Authorization 헤더에 넣는 이전 연결 설정은 새 서버의 연결 방식이 아닙니다.
+다른 MCP 앱에서는 원격 Streamable HTTP와 OAuth 로그인을 지원하는지 확인하고 같은 서버 주소를 입력하세요. Authorization 헤더에 API 토큰을 넣지 않습니다.
 
 ### 3단계: 세일즈맵 로그인과 권한 동의
 
@@ -125,7 +125,7 @@ Team·Enterprise 등 조직 계정에서는 관리자가 먼저 조직의 커넥
 
 브라우저에서 세일즈맵 로그인 화면이 열립니다. 평소 사용하는 Google 계정으로 로그인하거나 이메일을 입력하고 **시작하기**를 눌러 로그인을 마칩니다. 이미 로그인한 상태라면 다음 화면으로 바로 이동할 수 있습니다.
 
-<figure><img src="../.gitbook/assets/mcp-salesmap-login.png" alt="Google 계정 또는 이메일로 로그인하는 세일즈맵 화면"><figcaption><p>API 토큰이 아니라 세일즈맵 계정으로 로그인합니다.</p></figcaption></figure>
+<figure><img src="../.gitbook/assets/mcp-salesmap-login.png" alt="Google 계정 또는 이메일로 로그인하는 세일즈맵 화면"><figcaption><p>평소 사용하는 세일즈맵 계정으로 로그인합니다.</p></figcaption></figure>
 
 **2. 워크스페이스 선택하기**
 
@@ -170,7 +170,7 @@ Team·Enterprise 등 조직 계정에서는 관리자가 먼저 조직의 커넥
 
 ### 4단계: 연결 확인
 
-**Codex 앱**에서는 앱으로 돌아온 뒤 **새 채팅**을 열고 다음 요청을 입력합니다. 앞서 MCP 목록에서 `salesmap`의 스위치를 켰다면 별도의 플러그인 패키지를 만들거나 선택하는 절차는 필요하지 않습니다.
+**Codex 앱**에서는 앱으로 돌아온 뒤 **새 채팅**을 열고 다음 요청을 입력합니다. MCP 목록의 `salesmap` 스위치는 켜 둡니다.
 
 **Claude 앱**에서는 새 대화를 열고 아래 순서로 확인합니다.
 
@@ -189,9 +189,7 @@ Team·Enterprise 등 조직 계정에서는 관리자가 먼저 조직의 커넥
 
 > 내가 담당하는 딜의 이름과 금액, 세일즈맵 링크를 보여줘.
 
-{% content-ref url="use-cases.md" %}
-[use-cases.md](use-cases.md)
-{% endcontent-ref %}
+다른 요청 예시는 [사용하기](use-cases.md)에서 확인하세요.
 
 ### Claude 앱의 도구 실행 승인 설정
 
@@ -240,7 +238,7 @@ Team·Enterprise 등 조직 계정에서는 관리자가 먼저 조직의 커넥
 | AI가 세일즈맵 도구를 찾지 못함 | Codex는 **플러그인 → MCP**에서 `salesmap` 스위치를 확인하고 새 채팅에서 요청합니다. Claude 앱은 입력창의 **+ → 커넥터**에서 `salesmap` 스위치를 켭니다. ChatGPT는 해당 대화에서 세일즈맵 연결을 선택하거나 활성화합니다. |
 | 생성·수정 요청의 결과가 불명확함 | 자동으로 같은 작업을 반복하지 말고 반환 ID·작업 결과·세일즈맵 화면에서 실제 상태를 확인합니다. |
 
-ChatGPT·Claude에서 이미 연결한 계정·워크스페이스를 바꾸려면 해당 서비스에서 연결을 해제한 뒤 다시 로그인합니다. Codex에서 연결을 마친 뒤 계정·워크스페이스를 변경하는 메뉴 경로는 이 문서에서 아직 안내하지 않습니다. 스위치를 껐다 켜면 계정이 바뀐다고 가정하지 말고 [채널톡](https://salesmap.channel.io/home)으로 문의해 주세요.
+ChatGPT·Claude에서 이미 연결한 계정·워크스페이스를 바꾸려면 해당 서비스에서 연결을 해제한 뒤 다시 로그인합니다. Codex의 사용 스위치를 껐다 켜도 연결 계정이 바뀌지는 않습니다. 계정·워크스페이스를 바꾸는 메뉴를 찾지 못했다면 [채널톡](https://salesmap.channel.io/home)으로 문의해 주세요.
 
 문의: 세일즈맵 [채널톡](https://salesmap.channel.io/home)
 
