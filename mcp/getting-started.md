@@ -1,5 +1,5 @@
 ---
-description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법입니다.
+description: ChatGPT(Codex), Claude 앱과 Claude Code CLI에 세일즈맵을 연결하는 방법입니다.
 ---
 
 # 세일즈맵 연결하기
@@ -38,7 +38,7 @@ description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법
 
 브라우저가 열리면 아래 **2. 세일즈맵에 로그인하기**로 이어서 진행하세요.
 {% endtab %}
-{% tab title="Claude 앱" %}
+{% tab title="Claude 앱 · Claude Code CLI" %}
 [Salesmap 커넥터 바로가기](https://claude.ai/directory/salesmap)를 엽니다. Claude 로그인이 필요하면 연결에 사용할 Claude 계정으로 로그인하세요.
 
 **Claude에 연결**을 누릅니다.
@@ -46,6 +46,8 @@ description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법
 <figure><img src="../.gitbook/assets/mcp-claude-directory-connect.png" alt="Salesmap 공개 커넥터 화면에서 Claude에 연결 버튼을 빨간 테두리로 표시"></figure>
 
 세일즈맵 화면이 열리면 아래 **2. 세일즈맵에 로그인하기**로 이어서 진행하세요.
+
+같은 Claude 계정으로 로그인한 Claude Code CLI에서도 사용할 수 있습니다. `/mcp`를 입력해 Salesmap 연결을 확인하세요.
 {% endtab %}
 {% endtabs %}
 
@@ -86,8 +88,8 @@ description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법
 
 <figure><img src="../.gitbook/assets/mcp-codex-auth-complete.png" alt="Authentication complete. You may close this window. 인증 완료 메시지"></figure>
 {% endtab %}
-{% tab title="Claude 앱" %}
-연결을 마치면 Claude로 돌아갑니다.
+{% tab title="Claude 앱 · Claude Code CLI" %}
+연결을 마치면 사용하던 Claude 앱이나 Claude Code CLI로 돌아갑니다.
 {% endtab %}
 {% endtabs %}
 
@@ -97,8 +99,8 @@ description: ChatGPT(Codex)와 Claude 앱에 세일즈맵을 연결하는 방법
 {% tab title="ChatGPT(Codex) 앱" %}
 ChatGPT(Codex)의 대화 입력창에 아래 요청을 입력합니다.
 {% endtab %}
-{% tab title="Claude 앱" %}
-Claude의 대화 입력창에 아래 요청을 입력합니다.
+{% tab title="Claude 앱 · Claude Code CLI" %}
+Claude 앱이나 Claude Code CLI에 아래 요청을 입력합니다.
 {% endtab %}
 {% endtabs %}
 
