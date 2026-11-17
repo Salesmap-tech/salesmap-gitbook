@@ -24,7 +24,7 @@
 | `quoteProductList` | array | 견적서의 상품 목록 |
 | `quoteProductList[].name` | string | 견적서 상품의 이름<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `quoteProductList[].productId` | string | 견적서 상품의 ID<br><mark style="color:red;"><strong>Required</strong></mark> |
-| `quoteProductList[].price` | number | 견적서 상품의 가격. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
+| `quoteProductList[].price` | number | 견적서 상품의 가격. 음수도 허용하며, 음수 가격 상품에도 할인을 적용할 수 있습니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `quoteProductList[].amount` | number | 견적서 상품의 수량. 0 이상이어야 합니다.<br><mark style="color:red;"><strong>Required</strong></mark> |
 | `quoteProductList[].paymentCount` | integer | 1 이상의 결제 횟수. 구독형 상품에서는 `paymentStartAt`과 함께 필요하며 일반 상품에서는 사용하지 않습니다. |
 | `quoteProductList[].paymentStartAt` | string (date-time) | 시작 결제일. 구독형 상품에서는 `paymentCount`와 함께 필요하며 일반 상품에서는 사용하지 않습니다. |
