@@ -76,7 +76,13 @@ description: 연결한 AI에 영업 현황 조회, 노트 작성, 견적 생성 
 
 > 이 딜에 연결된 견적과 구성 상품을 보여줘.
 
-만든 견적의 합계와 메인 견적 여부도 확인할 수 있습니다.
+만든 견적의 합계와 메인 견적 여부도 확인할 수 있습니다. 상품·견적·견적 품목의 추가 필드도 이름이나 필드 ID로 선택해 조회할 수 있습니다.
+
+> 상품 목록에서 상품 코드와 원하는 추가 필드도 보여줘. 이 딜의 견적은 견적 본체의 추가 필드와 견적 품목의 추가 필드를 구분해서 보여줘.
+
+먼저 필드 안내에서 조회 가능한 항목(`readable: true`)을 확인하세요. 상품은 `salesmap-list-products`의 `fieldList`, 견적 본체는 `salesmap-get-quotes`의 `fieldList`, 견적 품목은 `productFieldList`로 각각 선택합니다. 견적 품목 필드는 원본 상품의 필드와 다릅니다. 민감 필드의 값은 가려집니다.
+
+필드 선택을 생략하면 기존 기본 필드가 반환됩니다. 빈 목록(`[]`)으로 지정하면 해당 일반 필드만 생략하고, 상품·견적의 식별 정보와 링크, 견적 품목의 ID·상품 참조는 유지합니다. 다음 페이지도 처음 요청한 필드 선택을 유지하세요. 필드가 개명되어도 처음 선택한 필드 ID를 기준으로 이어서 조회합니다.
 
 ### 변경 이력 확인
 
@@ -116,7 +122,7 @@ Claude의 `salesmap` 커넥터 설정에는 도구별 실행 승인 메뉴가 �
 | --- | --- |
 | `salesmap-get-user-details` | 연결한 계정·워크스페이스와 허용 권한 확인 |
 | `salesmap-list-objects` | 사용할 수 있는 딜·고객·회사 등의 종류와 지원 작업 확인 |
-| `salesmap-list-properties` | 딜·고객 등에 입력할 수 있는 항목과 필수 입력값 확인 |
+| `salesmap-list-properties` | 딜·고객 등의 항목과 필수 입력값 확인. 상품·견적·견적 품목의 조회 가능 필드와 기본 반환 필드도 확인 |
 | `salesmap-list-associations` | 딜·리드·고객·회사·커스텀 객체에 어떤 종류의 데이터를 연결할 수 있는지 확인 |
 | `salesmap-get-pipelines` | 파이프라인과 단계 목록 확인 |
 | `salesmap-list-users` | 워크스페이스의 사용자와 현재 상태 확인 |
@@ -131,8 +137,8 @@ Claude의 `salesmap` 커넥터 설정에는 도구별 실행 승인 메뉴가 �
 | `salesmap-aggregate-objects` | 딜·할 일·리드·고객·회사·커스텀 객체의 개수·숫자 합계·그룹별 현황 집계 |
 | `salesmap-get-my-overdue-todos` | 현재 사용자가 담당한 이전 7일의 미완료·비반복 할 일 조회. 한국 시간 오늘은 제외 |
 | `salesmap-get-stage-durations` | 딜·리드의 단계별 체류시간 조회. 종료된 방문의 누적 시간과 현재 방문에서 경과한 시간을 구분 |
-| `salesmap-list-products` | 상품 목록과 금액·상태 등 정보 조회 |
-| `salesmap-get-quotes` | 딜·리드에 연결된 견적과 구성 상품 조회 |
+| `salesmap-list-products` | 상품 목록과 금액·상태·선택한 추가 필드 등 정보 조회 |
+| `salesmap-get-quotes` | 딜·리드에 연결된 견적과 구성 상품 조회. 견적 본체·견적 품목의 추가 필드를 구분해 선택 |
 | `salesmap-list-sequences` | 시퀀스의 이름·설명·상태·담당자 등 조회. 대상 등록·자동화 실행은 하지 않음 |
 | `salesmap-list-webforms` | 웹폼 목록과 기본 정보 조회 |
 
