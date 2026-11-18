@@ -18,13 +18,21 @@ description: ChatGPT(Codex) 앱과 Codex CLI, Claude 앱과 Claude Code CLI에 �
 
 <figure><img src="../.gitbook/assets/mcp-codex-open-plugins.png" alt="ChatGPT(Codex) 왼쪽 메뉴의 플러그인 아이콘을 빨간 동그라미로 표시. 대화 정보는 가림 처리"></figure>
 
-**디렉터리 찾아보기** 버튼이 보이면 눌러서 디렉터리로 이동합니다. 이미 공개 플러그인 목록이 보인다면 바로 다음으로 진행하세요.
+**공개 플러그인 화면으로 이동하기**
 
-<figure><img src="../.gitbook/assets/mcp-codex-browse-directory.png" alt="플러그인 관리 화면의 디렉터리 찾아보기 버튼을 빨간 동그라미로 표시. 다른 연결 목록은 가림 처리"></figure>
+아래처럼 **공개**와 **개인용** 탭이 보이는지 확인하세요.
 
-디렉터리 오른쪽 위 **추가 → 사용자 지정 MCP 서버 추가**를 선택합니다.
+<figure><img src="../.gitbook/assets/mcp-codex-public-directory.png" alt="공개 플러그인 목록 전체를 보여주고, 화면을 구분할 수 있도록 공개·개인용 탭을 빨간 동그라미로 표시"></figure>
 
-<figure><img src="../.gitbook/assets/mcp-codex-directory-add-menu.png" alt="플러그인 디렉터리에서 1 추가, 2 사용자 지정 MCP 서버 추가를 빨간 동그라미로 표시. 다른 플러그인 목록은 가림 처리"></figure>
+다른 화면이 열렸다면 오른쪽 위 **디렉터리 찾아보기**를 누르세요. 이미 위 화면이라면 **사용자 지정 MCP 서버 추가하기**로 넘어가세요.
+
+<figure><img src="../.gitbook/assets/mcp-codex-browse-directory.png" alt="플러그인 관리 화면 전체에서 디렉터리 찾아보기 버튼을 빨간 동그라미로 표시"></figure>
+
+**사용자 지정 MCP 서버 추가하기**
+
+오른쪽 위 **추가**를 누른 뒤 **사용자 지정 MCP 서버 추가**를 선택하세요.
+
+<figure><img src="../.gitbook/assets/mcp-codex-directory-add-menu.png" alt="공개 플러그인 목록 전체를 보여주고, 1 추가와 2 사용자 지정 MCP 서버 추가를 빨간 동그라미로 표시"></figure>
 
 **서버 정보 입력하기**
 
