@@ -60,6 +60,15 @@ description: 연결한 AI에 영업 현황 조회, 노트 작성, 견적 생성 
 
 회사나 단계의 정확한 이름을 알려주세요. 같은 이름의 후보가 여러 개 나오면 원하는 대상을 골라주세요. 필수 입력 항목이 더 있다면 그 값도 알려주세요.
 
+생성에 필요한 필드를 모르면 먼저 `salesmap-list-properties`로 확인하세요. `required`는 워크스페이스에 저장된 필수 설정이며, 생성할 때 `fields`에 직접 채워야 하는지는 `createObjectRequirement`로 구분합니다.
+
+- `required`: 직접 입력해야 하는 필드입니다.
+- `requiredWhenStageRequiresReason`: 생성 화면에 노출된 필수 사유 필드입니다. 선택한 딜 단계의 `requiresFailureReason`이 `true`일 때 입력해야 합니다. 단계 설정은 `salesmap-get-pipelines`로 확인하세요.
+- `unsupportedRequired`: MCP로 입력할 수 없는 필수 필드가 있으므로 세일즈맵 화면에서 생성해야 합니다.
+- `null`: `fields`에 직접 채워야 하는 필수 항목이 아닙니다. 이름·단계·메인 연결 등 별도 입력의 필수 조건까지 없다는 뜻은 아닙니다.
+
+필수값을 임의로 채우지 말고 확인해 주세요. 담당자를 생략하면 연결 사용자가 지정됩니다. 딜의 실패 사유·실패 상세 사유는 해당 필드가 생성 화면에 노출되고 선택한 단계의 사유 작성 설정이 켜진 경우에만 입력할 수 있습니다.
+
 회사도 새로 만들어야 한다면 다음처럼 구분해서 요청합니다.
 
 > ABC 주식회사를 새로 만들고, 그 회사에 홍길동 고객을 만들어 연결해줘. 그 고객에게 서비스 계약 딜도 만들어줘. 딜 단계는 신규 영업 파이프라인의 제안, 금액은 3,000만원이야.
@@ -154,9 +163,9 @@ Claude의 `salesmap` 커넥터 설정에는 도구별 실행 승인 메뉴가 �
 | --- | --- |
 | `salesmap-get-user-details` | 연결한 계정·워크스페이스와 허용 권한 확인 |
 | `salesmap-list-objects` | 사용할 수 있는 딜·고객·회사 등의 종류와 지원 작업 확인 |
-| `salesmap-list-properties` | 딜·고객 등의 항목과 필수 입력값 확인. 조회 가능 필드와 검색 조건·정렬·집계 지원 여부를 구분하고, 상품 검색·목록 및 견적·견적 품목의 기본 반환 필드도 확인 |
+| `salesmap-list-properties` | 딜·고객 등의 항목과 생성 시 직접 채울 필드(`createObjectRequirement`) 확인. 조회 가능 필드와 검색 조건·정렬·집계 지원 여부를 구분하고, 상품 검색·목록 및 견적·견적 품목의 기본 반환 필드도 확인 |
 | `salesmap-list-associations` | 딜·리드·고객·회사·커스텀 객체에 어떤 종류의 데이터를 연결할 수 있는지 확인 |
-| `salesmap-get-pipelines` | 파이프라인과 단계 목록 확인 |
+| `salesmap-get-pipelines` | 파이프라인·단계 목록과 딜 단계의 사유 작성 설정(`requiresFailureReason`) 확인 |
 | `salesmap-list-users` | 워크스페이스의 사용자와 현재 상태 확인 |
 | `salesmap-list-teams` | 팀과 직접 소속된 멤버 조회. 하위 팀 멤버는 포함하지 않음 |
 
