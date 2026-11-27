@@ -56,6 +56,8 @@
 | 날짜 범위 | `DATE_BETWEEN` | 날짜·날짜시간 필드 | 유효한 날짜 또는 날짜시간 문자열 두 개를 담은 배열을 입력합니다. |
 | 상대 날짜 | `DATE_MORE_THAN_DAYS_AGO`, `DATE_LESS_THAN_DAYS_AGO`, `DATE_LESS_THAN_DAYS_LATER`, `DATE_MORE_THAN_DAYS_LATER`, `DATE_AGO`, `DATE_LATER` | 날짜·날짜시간 필드 | JSON number 또는 숫자로 해석 가능한 문자열을 입력합니다. |
 
+**고객·리드 그룹 필터:** 고객 검색의 `고객 그룹`과 리드 검색의 `리드 그룹`에는 레코드 ID가 아닌 **그룹의 UUID**를 사용하세요. `IN`·`NOT_IN`의 목록에 UUID 형식이 아닌 값이 섞여 있으면 해당 값은 그룹 비교에서 제외됩니다. `LIST_CONTAIN`·`LIST_NOT_CONTAIN`에는 그룹 UUID 하나를 입력하세요. 그룹 소속 여부만 확인하는 `EXISTS`·`NOT_EXISTS`에는 값이 필요하지 않습니다. 이 규칙은 다른 관계 필드의 레거시 ObjectId 지원에는 영향을 주지 않습니다.
+
 날짜시간은 `T` 또는 공백으로 날짜와 시간을 구분할 수 있고 타임존은 선택 사항입니다. 예를 들어 `2026-01-01T09:30:00`, `2026-01-01 09:30`을 사용할 수 있습니다.
 
 ### Request

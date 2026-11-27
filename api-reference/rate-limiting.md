@@ -17,4 +17,5 @@
 ### Rate limiting 피하기
 
 * API 요청시 rate limiting 범위를 초과하지 않도록 시간 간격을 설정합니다.
-* rate limiting 범위를 넘은 경우 10초 후 다시 API 를 요청합니다.
+* SeA SDR 프로필 데이터 조회 API는 `429` 응답의 `reason`에 안내된 시간만큼 기다린 뒤 재시도하세요. 자세한 내용은 [SeA 조회 API 호출 한도](sea/README.md#호출-한도)를 참고하세요.
+* 그 외 API는 호출 한도를 넘은 경우 10초 후 다시 요청하세요.
